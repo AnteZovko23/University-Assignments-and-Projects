@@ -7,12 +7,9 @@
  * 
  *
  */
-public class SearchingMain {
+public class SearchingAlgorithms {
 	
 	public static final int NOT_FOUND = -1;
-	
-		
-	/********** Search Functions *********/
 		
 		
 	/**
