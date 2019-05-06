@@ -1,0 +1,16 @@
+import string
+from random import *
+
+"""
+Random Password Generator
+
+Author: Ante Zovko
+Version: 5/6/2019
+
+"""
+
+characters = string.ascii_letters + string.punctuation + string.digits
+
+password = "".join(choice(characters) for x in range(randint(8,16)))
+
+print(password)
