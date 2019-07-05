@@ -68,7 +68,7 @@ func performReset(c *gin.Context) {
 
 		keys[key] = email
 
-		sendSimpleMessage("sandbox82c8c3c7479f4ee3bea44749c99a19c8.mailgun.org", "413af3e215ff6039cc2cb513767f470f-2b0eef4c-f5dea2f3", email, key)
+		sendSimpleMessage("<insert-domain>", "<insert-key>", email, key)
 
 		render(c, gin.H{
 			"title": "Success"}, "resetWithKey.html")
