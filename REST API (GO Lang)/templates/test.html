@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <title>Document</title>
+</head>
+<body>
+
+        <div class="spotify-embed-close text-center"><p class="close-text"><i class="fa fa-music"></i></p></div>
+        <div class="spotify-embed-block text-center" style="display: none;">
+        <iframe src="https://open.spotify.com/embed/playlist/1v7e1APKGthtD2AYl5hAWN" width="300" height="300" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+         </div>
+</body>
+
+<style>
+
+
+.spotify-embed-block{
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  position: fixed;
+  height: 250px;
+  width: 300px;
+  color: #fff;
+  background: #283c86;
+  background: -webkit-linear-gradient(to left, rgba(69,162,71,0.7), rgba(40,60,134,0.7));
+  background: linear-gradient(to left, rgba(69,162,71,0.7), rgba(40,60,134,0.7))
+  }
+  @media only screen and (max-width:  479px),only screen and (max-width:  768px){
+    .spotify-embed-block{
+      width: 100%;
+      height: 80px
+      }
+    .spotify-embed-block iframe{
+      width: 100%;
+      height: 80px
+      }
+  }
+.spotify-embed-block .spotify-embed-blurb{
+  padding: 4%
+  }
+.spotify-embed-close{
+  color: #fff;
+  width: 75px;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  position: fixed;
+  background: #283c86;
+  background: -webkit-linear-gradient(to left, rgba(69,162,71,0.7), rgba(40,60,134,0.7));
+  background: linear-gradient(to left, rgba(69,162,71,0.7), rgba(40,60,134,0.7))
+  }
+  @media only screen and (max-width:  479px),only screen and (max-width:  768px){
+    .spotify-embed-close{
+      bottom: 0
+      }
+  }
+  /* .spotify-embed-close: hover{
+    cursor: pointer
+  } */
+  .spotify-embed-close .close-text{
+    padding-bottom: 5px;
+    padding-top: 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0
+  }
+
+
+
+</style>
+
+<script>
+$('.spotify-embed-close').on('click', function() {
+	if($('.spotify-embed-block').is(':hidden') && $(window).width() > 768){
+		$('.spotify-embed-close').animate({
+			bottom: 250
+		}, 400);
+		var top_text = 'Hide <i class="fa fa-angle-down">'
+		$('.close-text').empty().append(top_text);
+	} else if($('.spotify-embed-block').is(':hidden') && $(window).width() <= 768){
+		$('.spotify-embed-close').animate({
+			bottom: 80
+		}, 400);
+		var top_text = 'Hide <i class="fa fa-angle-down">'
+		$('.close-text').empty().append(top_text);
+	}
+	else {
+		$('.spotify-embed-close').animate({
+			bottom: 0
+		}, 400);
+		var bottom_text = '<i class="fa fa-music">'
+		$('.close-text').empty().append(bottom_text);
+	}
+	$('.spotify-embed-block').slideToggle();
+});
+
+</script>
+
+</html>
