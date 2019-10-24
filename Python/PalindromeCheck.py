@@ -2,7 +2,7 @@
 Checks if a word is a palindrome
 
 Author: Ante Zovko
-Version: 5/6/2019
+Version: 5/9/2019
 """
 
 
