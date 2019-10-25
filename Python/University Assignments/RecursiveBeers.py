@@ -1,11 +1,13 @@
 ###########################################################################################
-# Name: 
-# Date: 
-# Description: 
+# Name: Ante Zovko
+# Date:  October 23, 2019
+# Description: Demonstrates the difference between iteration and recursion using
+#              the bottles of beer on the wall game
 ###########################################################################################
 
-# the algorithm implemented iteratively
-##def passSomeBeers(n):
+# The algorithm implemented iteratively
+
+#def passSomeBeers(n):
 #	while (n > 0):
 #		print "{} bottles of beer on the wall.".format(n)
 #		print "{} bottles of beer.".format(n)
@@ -14,6 +16,8 @@
 #		print "{} bottles of beer on the wall.".format(n)
 #		print
 
+
+# The algorithm implemented recursively
 def passSomeBeers(n):
 
     if(n < 1):
