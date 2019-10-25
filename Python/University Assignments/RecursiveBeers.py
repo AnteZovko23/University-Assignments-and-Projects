@@ -15,6 +15,11 @@
 #		print
 
 def passSomeBeers(n):
+
+    if(n < 1):
+        print("The parameter needs to be bigger than 0")
+        raise SystemExit(0)
+
     if(n == 1):
         print("{} bottle of beer on the wall.".format(n))
         print("{} bottle of beer.".format(n))
@@ -37,4 +42,4 @@ def passSomeBeers(n):
 ###############################################
 # MAIN PART OF THE PROGRAM
 ###############################################
-passSomeBeers(10)
+passSomeBeers(99)
