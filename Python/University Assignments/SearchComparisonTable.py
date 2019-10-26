@@ -18,11 +18,11 @@ def arrangeData(min, max, interval):
        
         seqValue = linearComparisions(n)
         binValue = binaryComparisons(n)
-        
-        if(n == 0):
+        print(n)
+        if(binValue == 0):
             performance = 0
         else:    
-            performance = int(round(((float(seqValue) / binValue))))
+            performance = int(round(float(seqValue) / binValue))
 
         values.append([n, seqValue, binValue, performance])
 
@@ -48,7 +48,7 @@ def displayTable(values):
 # -input: the list size
 # -output: the average number of comparisons
 def linearComparisions(size):
-    return int((size // 2))
+    return int(size // 2)
 
 
 # a function that calculates the maximum number of comparisons of a binary search on a list of size n
