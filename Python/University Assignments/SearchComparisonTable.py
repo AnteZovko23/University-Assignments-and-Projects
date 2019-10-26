@@ -1,27 +1,64 @@
-from tabulate import tabulate
 import math
 
 ##########################################################################################
 # Name: Ante Zovko
 # Date: October 25, 2019
-# Description: #TODO
+# Description: Given varous list sizes, compares the average number of comparisons
+#              between linear and binary sort and displays it in a table
 ##########################################################################################
 
+# Calculates data for the table
+def arrangeData(min, max, interval):
+    n = min
+    values = []
+   
+
+    while(n <= max):
+
+       
+        seqValue = linearComparisions(n)
+        binValue = binaryComparisons(n)
+        
+        if(n == 0):
+            performance = 0
+        else:    
+            performance = int(round(((float(seqValue) / binValue))))
+
+        values.append([n, seqValue, binValue, performance])
+
+        n += interval
+    
+    return values
+
+
+
 # a function that displays the table
-#TODO
+def displayTable(values):
+
+    dash = "-" * 26
+    headers = ["n", "Seq", "Bin", "Perf"]
+
+    print("{:<7}{:<7}{:<7}{:<7}".format(headers[0], headers[1], headers[2], headers[3]))
+    print(dash)
+
+    for i in range(len(values)):
+        print("{:<7}{:<7}{:<7}{:<7}".format(values[i][0], values[i][1], values[i][2], values[i][3]))
 
 # a function that calculates the average number of comparisons of a sequential search on a list of size n
 # -input: the list size
 # -output: the average number of comparisons
 def linearComparisions(size):
-    return int((size // 2) + 1)
+    return int((size // 2))
 
 
 # a function that calculates the maximum number of comparisons of a binary search on a list of size n
 # -input: the list size
 # -output: the average number of comparisons
 def binaryComparisons(size):
-    return round(math.log(size, 2))
+    if(size == 0):
+        return 0
+    else:
+        return int(math.ceil(math.log(size, 2)))
 
 
 ###############################################
@@ -73,5 +110,8 @@ while True:
         break
 
 # generate the table
-#TODO
-print(tabulate([["n","Seq", "Bin", "Perf"],["Alice",24,2,2],["Bob",19]], headers="firstrow"))
+displayTable(arrangeData(minNumber, maxNumber, interval))
+
+
+
+
