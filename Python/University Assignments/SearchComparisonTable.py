@@ -38,7 +38,7 @@ def displayTable(values):
     dash = "-" * 26
     headers = ["n", "Seq", "Bin", "Perf"]
 
-    print("{:<7}{:<7}{:<7}{:<7}".format(headers[0], headers[1], headers[2], headers[3]))
+    print("\n{:<7}{:<7}{:<7}{:<7}".format(headers[0], headers[1], headers[2], headers[3]))
     print(dash)
 
     for i in range(len(values)):

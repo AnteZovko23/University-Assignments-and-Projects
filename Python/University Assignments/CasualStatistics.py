@@ -1,6 +1,6 @@
 #####################################################################################################
 # Name: Ante Zovko
-# Date: October 18th, 2019
+# Date: October 17th, 2019
 # Description: Prompts the user to enter three integers
 #              Calculates various statistics(minimum, maximum, mean, median, mode, range) about them
 #####################################################################################################
