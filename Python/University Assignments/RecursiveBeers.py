@@ -31,6 +31,14 @@ def passSomeBeers(n):
         n -= 1
         print("{} bottles of beer on the wall.".format(n))
         print
+    elif(n == 2):
+        print("{} bottles of beer on the wall.".format(n))
+        print("{} bottles of beer.".format(n))
+        print("Take on down, pass it around.")
+        n -= 1
+        print("{} bottle of beer on the wall.".format(n))
+        print
+        passSomeBeers(n)
     else:
         print("{} bottles of beer on the wall.".format(n))
         print("{} bottles of beer.".format(n))
