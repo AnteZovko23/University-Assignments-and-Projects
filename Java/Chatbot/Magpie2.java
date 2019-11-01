@@ -1,3 +1,4 @@
+package Java.Chatbot;
 /**
  * A program to carry on conversations with a human user. This is the initial
  * version that:
@@ -239,5 +240,6 @@ public class Magpie2 {
 
 		return response;
 	}
+	
 
 }
