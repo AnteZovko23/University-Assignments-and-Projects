@@ -1,7 +1,8 @@
 ###########################################################################################
 # Name: Ante Zovko 
 # Date: November 6th, 2019
-# Description: 
+# Description: Fills a list with random integers based on a user-determined range and 
+#              displays various statistics about it
 ###########################################################################################
 
 import random
@@ -11,10 +12,21 @@ import random
 def fillList():
 
     listOfInts = []
+    try:
+        numOfInts = int(raw_input("How many random integers would you like to add to the list? "))
+        if(numOfInts < 1):
+            print("The number of integers must be bigger than 0!")
+            raise SystemExit(0)
 
-    numOfInts = int(raw_input("How many random integers would you like to add to the list? "))
-    minNum = int(raw_input("What would you like the minimum value to be? "))
-    maxNum = int(raw_input("What would you like the maximum value to be? "))
+        minNum = int(raw_input("What would you like the minimum value to be? "))
+        maxNum = int(raw_input("What would you like the maximum value to be? "))
+        if(minNum > maxNum):
+            print("The maximum must be bigger than the minimum!")
+            raise SystemExit(0)
+
+    except ValueError:
+        print("Please enter an integer!")
+        raise SystemExit(0)
 
     for num in range(0, numOfInts):
         listOfInts.append(random.randint(minNum, maxNum))
@@ -35,13 +47,12 @@ def meanOfList(nums):
 # function that receives the list as a parameter, and calculates and returns the median
 def medianOfList(nums):
     nums.sort()
-    print(nums)
     if(len(nums) % 2 != 0):
         medianIndex = (len(nums) + 1) / 2
         median = nums[medianIndex - 1]
     else:
         medianIndex = (len(nums) + 1) // 2
-        median = float(nums[medianIndex - 1] + nums[medianIndex ]) / 2
+        median = float(nums[medianIndex - 1] + nums[medianIndex]) / 2
 
     return median
 
@@ -56,8 +67,6 @@ def rangeOfList(nums):
 
 ###############################################
 # MAIN PART OF THE PROGRAM
-# implement the main part of your program below
-# comments have been added to assist you
 ###############################################
 # create the list
 nums = fillList()
