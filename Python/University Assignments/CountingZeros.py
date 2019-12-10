@@ -1,6 +1,6 @@
 ###########################################################################################
 # Name: Ante Zovko 
-# Date: December 6th, 2019
+# Date: December 7th, 2019
 # Description: Counts the number of 0s in each integer between 1 and user-determined number
 #              Provides the amount of time it took for the algorithm to execute
 # Version: Python 2.7
