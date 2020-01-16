@@ -118,19 +118,17 @@ f2 = Fraction(5, 8)
 f3 = Fraction(3, 4)
 f4 = Fraction(1, 0)
 
-# # display them
+# display them
 print "f1:", f1
 print "f2:", f2
 print "f3:", f3
 print "f4:", f4
-
 
 # play around
 f3.num = 5
 f3.den = 8
 f1 = f2 + f3
 f4.den = 88
-print(f1)
 f2 = f1 - f1
 f3 = f1 * f1
 f4 = f4 / f3
