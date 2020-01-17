@@ -1,7 +1,7 @@
 ######################################################################################################################
-# Name: 
-# Date: 
-# Description: 
+# Name: Ante Zovko
+# Date:  1/15/2020
+# Description: Implementation of Fractions using OOP
 ######################################################################################################################
 
 # the fraction class
@@ -13,7 +13,9 @@ class Fraction(object):
 
 ####### Class Methods #######
 
-
+    # Reduces the fraction
+    # Using a loop, searches for a common factor of the numerator
+    # and denominator and if it finds it, divides them both
     def fractionReduce(self):
         commonFactor = 1
         for i in range(2, abs(self.num * self.den)):
@@ -22,6 +24,12 @@ class Fraction(object):
                 self.num /= commonFactor
                 self.den /= commonFactor
 
+        # If the numerator is 0 then the denominator is 1 by default
+        if(self.num == 0):
+            self.den = 1
+    
+    # Divides the numerator and denominator
+    # Returns the decimal value
     def getDecimalValue(self):
         return (float(self.num))/float((self.den))
 
@@ -52,38 +60,37 @@ class Fraction(object):
 
 ########## Special Functions/Overloading #########
 
+    # Performs fraction addition and returns a new reduced fraction
     def __add__(self, other):
         den = self.den * other.den
-        num = (self.num * (den / self.den)) + (other.num * (den / other.den))
+        num = (self.num * other.den) + (other.num * self.den)
         
         addedFraction = Fraction(num, den)
-
         addedFraction.fractionReduce()
         
-
         return addedFraction
 
-    
+    # Performs fraction addition and returns a new reduced fraction
     def __sub__(self, other):
         den = self.den * other.den
-        num = (self.num * (den / self.den)) - (other.num * (den / other.den))
+        num = (self.num * other.den) - (other.num * self.den)
         
         subtractedFraction = Fraction(num, den)
-
         subtractedFraction.fractionReduce()
 
         return subtractedFraction
 
+    # Performs fraction addition and returns a new reduced fraction
     def __mul__(self, other):
         num = self.num * other.num
         den = self.den * other.den
 
         multipliedFraction = Fraction(num, den)
-
         multipliedFraction.fractionReduce()
 
         return multipliedFraction
 
+    # Performs fraction addition and returns a new reduced fraction
     def __div__(self, other):
         if(other.getDecimalValue() == 0):
             return ("ERROR! Cannot divide by 0")
@@ -97,21 +104,14 @@ class Fraction(object):
 
             return dividedFraction
     
-
+    # Returns the numerator, denominator and decimal value
     def __str__(self):
         return("{}/{} ({})".format(self.num, self.den, self.getDecimalValue()))
 
     
     
 #####################################
-                
-        
 
-    
-   
-            
-# ***DO NOT MODIFY OR REMOVE ANYTHING BELOW THIS POINT!***
-# the main part of the program
 # create some fractions
 f1 = Fraction()
 f2 = Fraction(5, 8)
