@@ -1,8 +1,10 @@
 ######################################################################
 # Name: Ante Zovko
-# Date:
-# Description: Finished building
-#              TODO: Documentation
+# Date: 1/21/2020
+# Description: Room escape game
+#              Implementation using OOP
+#              Goal is the earn points and escape the house by exploring
+#              and using items
 ######################################################################
 ######################################################################
 # the blueprint for a room
@@ -111,14 +113,15 @@ class Room(object):
     # the item is a string (e.g., table)
     # the desc is a string that describes the item (e.g., it is made
     # of wood)
+    # the state is a boolean that describes if it is unlocked
     def addItem(self, item, desc, state):
     # append the item and description to the appropriate lists
         self._items.append(item)
         self._itemDescriptions.append(desc)
         self._itemUnlocked.append(state)
     
+    # removes item
     def delItem(self, item):
-    # append the item and description to the appropriate lists
         del self._itemDescriptions[self._items.index(item)]
         del self._itemUnlocked[self._items.index(item)]
         self._items.remove(item)
@@ -154,16 +157,15 @@ class Room(object):
 
 # creates the rooms
 def createRooms():
-    # r1 through r4 are the four rooms in the mansion
+    # r1 through r8 are the eight rooms in the mansion
     # currentRoom is the room the player is currently in (which can
-    # be one of r1 through r4)
-    # since it needs to be changed in the main part of the program,
-    # it must be global
+    # be one of r1 through r8)
     global currentRoom
     global r7
     global r6
     global r0
-    # create the rooms and give them meaningful names
+
+    # create the rooms
     r0 = Room("Main Door", False)
     r1 = Room("Starting Room", True)
     r2 = Room("Living Room", True)
@@ -180,67 +182,88 @@ def createRooms():
     r1.addExit("east", r2) # -> to the east of room 1 is room 2
     r1.addExit("south", r3)
     r1.addExit("up", r8)
-    r1.addItem("main-door", "It is a heavy steel door. Your only hope is to find the master key.", False)
-    # add grabbables to room 1
-    r1.addGrabbable("key")
+    
     # add items to room 1
     r1.addItem("chair", "It is made of wicker and no one is sitting on it.", True)
     r1.addItem("table", "It is made of oak. A golden key rests on it.", True)
+    r1.addItem("main-door", "It is a heavy steel door. Your only hope is to find the master key.", False)
+    r1.addGrabbable("key")
+
+
     # add exits to room 2
     r2.addExit("west", r1)
     r2.addExit("south", r4)
     r2.addExit("east", r5)
     r2.addExit("down", r7)
+
     # add items to room 2
     r2.addItem("rug", "It is nice and Indian. It also needs to be vacuumed", True)
     r2.addItem("fireplace", "It is full of ashes. A dungeon-key is in the fire.", False)
-
     r2.addGrabbable("dungeon-key")
+
+
     # add exits to room 3
     r3.addExit("north", r1)
     r3.addExit("east", r4)
     r3.addExit("west", r6)
-    # add grabbables to room 3
-    r3.addGrabbable("book")
+
     # add items to room 3
     r3.addItem("bookshelves", "They are empty. Go figure.", True)
     r3.addItem("statue", "There is nothing special about it.", True)
     r3.addItem("desk", "The statue is resting on it. So is a book.", True)
+    r3.addGrabbable("book")
+
+
     # add exits to room 4
     r4.addExit("north", r2)
     r4.addExit("west", r3)
     r4.addExit("south", None) # DEATH!
-    # add grabbables to room 4
+
+    # add items to room 4
+    r4.addItem("brew_rig", "Gourd is brewing some sort of oatmeal stout on the brew rig. A 6-pack is resting beside it.", True)
     r4.addGrabbable("6-pack")
     r4.addItem("toolbox", "A toolbox with a wrench inside", False)
     r4.addGrabbable("wrench")
-    # add items to room 4
-    r4.addItem("brew_rig", "Gourd is brewing some sort of oatmeal stout on the brew rig. A 6-pack is resting beside it.", True)
-    # set room 1 as the current room at the beginning of the game
 
+    
+    # add exits to room 5
     r5.addExit("west", r2)
-    r5.addItem("fridge", "Old and rusty fridge. You see a knife and rotten milk", True)
-    r5.addGrabbable("knife")
-    r5.addItem("oven", "Old oven, looks broken. If only you had something to fix it.", True)
 
+    # add items to room 5
+    r5.addItem("fridge", "Old and rusty fridge. You see a knife and rotten milk", True)
+    r5.addItem("oven", "Old oven, looks broken. If only you had something to fix it.", True)
+    r5.addGrabbable("knife")
+
+
+    # add exits to room 6
     r6.addExit("east", r3)
 
+    # add items to room 6
     r6.addItem("mirror", "You look in the mirror. Being trapped has really worn you down", True)
     r6.addItem("toilet", "If you are thirsty enough, you can always use toilet-water", True)
 
+
+    # add exits to room 7
     r7.addExit("up", r2)
+
+    # add items to room 7
     r7.addItem("serial-killer", "The dead body of the serial killer. Better make sure he is really dead.", False)
-    r7.addItem("table", "The Serial-Killers work table. Pictures of his victims. There is a key labeled \"Master-Key\".", True)
+    r7.addItem("table", "The Serial-Killers work table. Pictures of his victims. There is a key labeled \"master-key\".", True)
     r7.addGrabbable("master-key")
 
+
+    # add exits to room 8
+    r8.addExit("down", r1)
+
+    # add items to room 8
     r8.addItem("desk", "You see fire-extinguisher", True)
     r8.addItem("broken-tv", "Broken TV, covered in dust", True)
     r8.addGrabbable("fire-extinguisher")
 
-    r8.addExit("down", r1)
-
+    
     currentRoom = r1
 
+# displays an appropriate "message" when the player wins
 def win():
     print("\n\n")
     print("  .-----------.")
@@ -294,6 +317,8 @@ inventory = [] # nothing in inventory...yet
 usables = []
 
 createRooms() # add the rooms to the game
+
+# Usable items and the items they can be used on
 usablePairs = {
     "wrench": "oven",
     "key": "toolbox",
@@ -305,7 +330,7 @@ usablePairs = {
 }
 
 
-# play forever (well, at least until the player dies or asks to quit)
+# play forever (well, at least until the player dies or asks to quit or wins)
 while (True):
     # set the status so the player has situational awareness
     # the status has room and inventory information
@@ -323,6 +348,8 @@ while (True):
     if (currentRoom == None):
         death()
         break
+    # if the current room is r0, exit the
+    # game and display win message
     if(currentRoom == r0):
         win()
         break
@@ -354,6 +381,8 @@ while (True):
             # set a default response
             response = "Invalid exit."
 
+            # If in the dungeon and the player didn't use the knife on the killer
+            # the player dies
             if(currentRoom == r7 and not(r7.itemUnlocked[0])):
                 currentRoom = None
                 print("\nSerial-Killer killed you.")
@@ -363,7 +392,7 @@ while (True):
 
             # check for valid exits in the current room
             for i in range(len(currentRoom.exits)):
-                # a valid exit is found
+                # a valid exit is found and it is unlocked
                 if (noun == currentRoom.exits[i] and currentRoom.exitLocations[i].unlocked):
                     # change the current room to the one that is
                     # associated with the specified exit
@@ -381,6 +410,7 @@ while (True):
             # set a default response
             response = "I don't see that item."
 
+            # If in the dungeon and the player looks at something, the killer kills him
             if(currentRoom == r7 and not(r7.itemUnlocked[0]) and noun in currentRoom.items):
                 print("\nYou looked at the {} while the serial-killer was killing you.\nNice last image".format(noun))
                 currentRoom = None
@@ -388,7 +418,7 @@ while (True):
 
             # check for valid items in the current room
             for i in range(len(currentRoom.items)):
-                # a valid item is found
+                # a valid item is found and unlocked
                 if (noun == currentRoom.items[i] and currentRoom.itemUnlocked[i]):
                 # set the response to the item's description
                     response = currentRoom.itemDescriptions[i]
@@ -405,6 +435,7 @@ while (True):
             # set a default response
             response = "I don't see that item or cannot get it yet."
 
+            # If in the dungeon and the player tries to take the master key without fighting the killer
             if(currentRoom == r7 and not(r7.itemUnlocked[0]) and noun in currentRoom.grabbables):
                 print("\nYou tried to take the {} while the serial-killer was killing you.\nDid you really think that would work?".format(noun))
                 currentRoom = None
@@ -419,12 +450,14 @@ while (True):
                     inventory.append(grabbable)
                     score += 1
 
-                    if(grabbable == "wrench" or grabbable == "key" or grabbable == "fire-extinguisher" or grabbable == "knife" or grabbable == "dungeon-key" or grabbable == "master-key"):
+                    # Special case where the grabbable item is also usable
+                    if(grabbable in usablePairs.keys()):
                         usables.append(grabbable)
 
                     # remove the grabbable item from the room
                     currentRoom.delGrabbable(grabbable)
-
+                    
+                    # Update item when grabbable is grabbed
                     currentRoom.delItem(currentRoom.itemGrabPairs[grabbable])
                     currentRoom.addItem(currentRoom.itemGrabPairs[grabbable], "{}, you have taken a {} from it.".format(currentRoom.itemGrabPairs[grabbable].capitalize(), grabbable), True)
 
@@ -436,27 +469,31 @@ while (True):
             # set a default response
             response = "Cannot use that item."
 
+            # Special death case if the player drinks toilet water
             if(noun == "toilet-water" and currentRoom == r6):
                     score = 0
                     print("\n\nYou drink toilet water and...\n\nYou die\nWhat a surprise that toilet water from an abandoned building\nis poisonus\nYou lose all points because you should know better!")
                     currentRoom = None
                     continue
-
+            
+            # If in the dungeon and the player tries to use something other than a knife, he dies
             if(currentRoom == r7 and not(r7.itemUnlocked[0]) and noun != "knife" and noun in usables):
                 currentRoom = None
                 print("\nYou used a {} to fight a serial-killer\nIt was not effective at all".format(noun))
                 continue
 
-            # check for valid grabbable items in the current room
+            # check for valid usable items to be used in the current room
             try:
                 if((usablePairs[noun] in currentRoom.items or usablePairs[noun] in currentRoom.exitLocations) and noun in usables):
 
                     response = "{} used on the {}\nThe {} is unlocked now".format(noun.capitalize(), usablePairs[noun], usablePairs[noun])
-
+                    
+                    # Special case for attacking the killer
                     if(usablePairs[noun] == "serial-killer"):
                         score += 4
                         currentRoom.itemUnlocked[currentRoom.items.index(usablePairs[noun])] = True
                         response = "{} used on the {}\nThe {} is dead now.".format(noun.capitalize(), usablePairs[noun], usablePairs[noun])
+                    # Usable used on either dungeon door or main door
                     elif(usablePairs[noun] in currentRoom.exitLocations):
                         if(noun == "dungeon-key"):
                             score += 3
@@ -466,6 +503,7 @@ while (True):
                             score += 5
                             r0.unlocked = True
                             response = "{} used on the {}\nThe {} is unlocked now".format(noun.capitalize(), "Main Door", "door")
+                    # usable used on regular items
                     elif(usablePairs[noun] in currentRoom.items):
                         score += 2
                         currentRoom.itemUnlocked[currentRoom.items.index(usablePairs[noun])] = True
@@ -474,7 +512,7 @@ while (True):
                     usables.remove(noun)
 
 
-
+                    # Special death case when the player tries to fix the oven
                     if(usablePairs[noun] == "oven"):
                         response = "While fixing the oven faulty wires cause a short-circuit and it explodes"
                         currentRoom = None
