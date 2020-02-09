@@ -2,7 +2,7 @@ from random import randint, choice
 
 ###########################################################################################
 # Name: Ante Zovko
-# Date: October 8th, 2019
+# Date: February 8th, 2020
 # Description: A game of heads and tails with two coins where Group A gets a point if 
 #              the result is two heads, Group B gets a point if the result is two tails
 #              and the Prof gets a point if it is heads/tails or tails/heads
