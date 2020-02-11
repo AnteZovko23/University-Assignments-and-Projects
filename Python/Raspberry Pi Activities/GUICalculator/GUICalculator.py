@@ -2,12 +2,10 @@ from Tkinter import *
 ###########################################################################################
 # Name: Ante Zovko
 # Date: February 8th, 2020
-# Description: Calculator using the Tkinter library
-# TODO: Integer Division
-#       Documentation
+# Description: Regular Calculator using the Tkinter library
 ###########################################################################################
 
-
+# Main Frame inherits from Frame
 class MainGUI(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="white")
@@ -17,6 +15,7 @@ class MainGUI(Frame):
         self.setupGUI()
 
     def setupGUI(self):
+        # Window for entering numbers
         self.display = Label(self, text="", anchor=E, bg="white", height=1, width=13, font=("Arial", 45))
         self.display.grid(row=0, column=0, columnspan=4, sticky=E+W+N+S)
 
@@ -25,6 +24,7 @@ class MainGUI(Frame):
         for col in range(4):
             Grid.columnconfigure(self, col, weight=1)
 
+        # All of the button image paths
         imgPaths = ["Images/lpr.gif", "Images/rpr.gif", "Images/clr.gif", "Images/bak.gif", "Images/7.gif",
          "Images/8.gif", "Images/9.gif", "Images/div.gif", "Images/4.gif", "Images/5.gif",
           "Images/6.gif", "Images/mul.gif", "Images/1.gif", "Images/2.gif", "Images/3.gif",
@@ -33,17 +33,19 @@ class MainGUI(Frame):
         
         commands = []
 
+        # Commands for the buttons are the names of the images
         for imgPath in imgPaths:
             commands.append(imgPath[7:])        
         
 
+        # Creates the buttons as a 6x4 grid
         counter = 0
         for i in range(1,7):
             for j in range(4):
                 self.buttonSetup(imgPaths[counter], i, j, commands[counter])
                 counter += 1
 
-
+        # Menu
         menu = Menu(self.master, bg="lightblue")
         self.master.config(menu=menu)
 
@@ -57,6 +59,8 @@ class MainGUI(Frame):
         self.pack(fill="both", expand=1)
         
 
+    # Creates the buttons
+    # Params: Path of the images, place in grid, and respective command
     def buttonSetup(self, imgPath, i, j, command):
         
         img = PhotoImage(file=imgPath)
@@ -75,11 +79,13 @@ class MainGUI(Frame):
             button.image = img
             button.grid(row=i, column=j, sticky=N+S+E+W)
 
-
+    # Terminates the program when called
     def clientExit(self):
         raise SystemExit(0)
 
-       
+    # Handles the function of each button   
+    # If exprIsResult is True, the next button click erases the display's contents
+    # Display limited to 14 chars for input, 11 for output
     def process(self, button):
         global exprIsResult
         if(len(self.display["text"]) < 14 or exprIsResult == 1):
@@ -106,7 +112,6 @@ class MainGUI(Frame):
             elif(button == "clr.gif"):
                 self.display["text"] = ""
             
-            # TODO
             elif(button == "bak.gif"):
                 self.display["text"] = self.display["text"][:(len(self.display["text"])-1)]
             
@@ -233,11 +238,20 @@ class MainGUI(Frame):
             elif(button == "eql-wide.gif"):
                 exprIsResult = 1
 
-                # Implementation in progress
                 expr = self.display["text"]
-                expr += ".0"
-                ##########################
-
+                
+                # Handles Python 2.7 integer divison
+                # Checks if there is a "/" in the expression
+                # Splits the string and evaluates the expression as two floats
+                if("/" in expr):
+                    try:    
+                        nums = expr.split("/")
+                        numerator = float(nums[0])
+                        denominator = float(nums[1])
+                        expr = ("{}/{}".format(numerator, denominator))
+                    except:
+                        self.display["text"] = "ERROR"
+    
                 try:
                     result = eval(expr)
 
@@ -246,8 +260,13 @@ class MainGUI(Frame):
                 
                 else:
                     result = str(result)
+                    # Cuts the ".0" off if necessary
+                    if(result.endswith(".0")):
+                        result = result[0:len(result) - 2]
                    
-
+                    # Limits output to 11 chars
+                    # If the result is longer, adds ...
+                    # The display remains 14
                     if(len(result) > 11):
                         result = result[:11]
                         result += "..."
@@ -273,19 +292,32 @@ class MainGUI(Frame):
             
             elif(button == ""):
                 pass
+        # If the user reaches the input limit(14), he can still erase, clear and evaluate
         else:
 
             if(button == "clr.gif"):
                 self.display["text"] = ""
             
-            # TODO
             elif(button == "bak.gif"):
                 self.display["text"] = self.display["text"][:(len(self.display["text"])-1)]
             
             elif(button == "eql-wide.gif"):
                 exprIsResult = 1
 
+                
+
                 expr = self.display["text"]
+
+                expr = self.display["text"]
+                if("/" in expr):
+
+                    try:    
+                        nums = expr.split("/")
+                        numerator = float(nums[0])
+                        denominator = float(nums[1])
+                        expr = ("{}/{}".format(numerator, denominator))
+                    except:
+                        self.display["text"] = "ERROR"
 
                 try:
                     result = eval(expr)
@@ -295,6 +327,8 @@ class MainGUI(Frame):
                 
                 else:
                     result = str(result)
+                    if(result.endswith(".0")):
+                        result = result[0:len(result) - 2]
 
                     if(len(result) > 11):
                         result = result[:11]
@@ -308,7 +342,7 @@ class MainGUI(Frame):
         
 
 
-
+# Centers the window based on screen dimensions
 def center_window(window, width, height):
     # get screen width and height
     screen_width = window.winfo_screenwidth()
@@ -324,7 +358,7 @@ def center_window(window, width, height):
 window = Tk()
 window.title("Calculator")
 center_window(window, 485,768)
-# window.geometry(newGeometry="485x768+600+200")
+
 exprIsResult = 0 
 
 
