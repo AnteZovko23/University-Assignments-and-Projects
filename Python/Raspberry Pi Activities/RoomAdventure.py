@@ -217,8 +217,7 @@ def createRooms():
     # add exits to room 4
     r4.addExit("north", r2)
     r4.addExit("west", r3)
-    r4.addExit("south", None) # DEATH!
-
+    
     # add items to room 4
     r4.addItem("brew_rig", "Gourd is brewing some sort of oatmeal stout on the brew rig. A 6-pack is resting beside it.", True)
     r4.addGrabbable("6-pack")
