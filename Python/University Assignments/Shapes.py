@@ -2,7 +2,7 @@
 # Name: Ante Zovko
 # Date: 4/20/2020
 # Description: Demonstration of Polymorphism by drawing different shapes
-#              in the console
+#              in the terminal
 ######################################################################################################################
 
 # The shape class has a height and width
@@ -93,7 +93,7 @@ class Parallelogram(Shape):
         
         return drawing
 
-        
+
 
 ##########################################################
 # create and display several shapes
