@@ -20,11 +20,11 @@ router.get('/odds', function(req, res){
         // Pair sourceMarketID and odds
         var sourceIDOddsPairs = helpers.oddsKeyChange(IDOddsPairs, IDSourceIDPairs)
 
-        var test = helpers.getSourceOutcomeOdds(data[3]);
+        var sourceIDsourceOutcomeIDPairs = helpers.getSourceOutcomeOdds(data[3]);
 
-
+     
         // Get market
-        market = helpers.getMarket(sourceIDOddsPairs)
+        market = helpers.getMarket(sourceIDOddsPairs, sourceIDsourceOutcomeIDPairs)
         
 
         res.json({

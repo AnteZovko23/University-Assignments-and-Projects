@@ -34,6 +34,7 @@ module.exports = {
             }
         })
 
+    
         /*************************************** */
 
 
@@ -48,7 +49,7 @@ module.exports = {
        idVals2 = idVals
        oddsVals = [].concat.apply([], oddsVals)
        idVals = [].concat.apply([], idVals)
-
+       
 
        // Create object with matching marketID and odds
         var i;
@@ -81,19 +82,25 @@ module.exports = {
 
 
 
-    getMarket :   function(idOdds){
+    getMarket :   function(idOdds, outcomeID){
     
         // Create array of outcomes for each market
         oddObj = {}
         outcome = []
         market = []
         outcomeObj = {}
-        console.log(idOdds)
+        // console.log(idOdds)
         for(var i in idOdds) {
-            
-            for(var j = 0; j < idOdds[i].length; j++){
-                // oddObj["id"] = j+1
-                oddObj["odds"] = idOdds[i][j]
+        
+        
+        
+            while(idOdds[i].length != 0){
+
+           
+        
+            for(var j = 0; j < outcomeID[i].length; j++){
+                oddObj["id"] = outcomeID[i][j]
+                oddObj["odds"] = idOdds[i].shift()
                 outcome.push(oddObj)
                 oddObj = {}
             }
@@ -102,8 +109,11 @@ module.exports = {
             market.push(outcomeObj)
             outcome = []
             outcomeObj = {}
-
+         
         }
+        }
+        
+        
 
 
         return market
@@ -115,6 +125,17 @@ module.exports = {
             sourceOutcomeOdds.push(JSON.parse(Object.values(data[i])))
         }
         sourceOutcomeOdds = [].concat.apply([], sourceOutcomeOdds)
-        // console.log(sourceOutcomeOdds)
+
+        sourceOutcomeIDPair = {}
+        for(var i = 0; i < sourceOutcomeOdds.length; i++){
+            var fields = sourceOutcomeOdds[i].sourceMarketOutcomeId.split('/')
+            if(!(fields[0] in sourceOutcomeIDPair)){
+                sourceOutcomeIDPair[fields[0]] = new Array()
+            }
+           
+            sourceOutcomeIDPair[fields[0]].push(fields[1])
+        }
+        
+        return sourceOutcomeIDPair
     }
 }
