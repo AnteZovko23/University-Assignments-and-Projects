@@ -3,16 +3,24 @@
 // Keeps routes.js clean
 
 module.exports = {
-    getIDSourceIDPairs: function(data) {
+
+    // Given two params, creates object with specific keys and values
+    getIDSourceIDPairs: function(key, value, data) {
         var sMarketId = []
-        for(var i = 0; i < data.length; i++){
+        if(key === "marketId" && value === "sourceMarketId"){
+            for(var i = 0; i < data.length; i++){
             sMarketId.push(JSON.parse(Object.values(data[i])))
         }
         sMarketId = [].concat.apply([], sMarketId)
+        }
+        else{
+            sMarketId = data
+        }
+        
 
         idSourceId = {}
         for(var i = 0; i < sMarketId.length; i++){
-            idSourceId[sMarketId[i].marketId] = sMarketId[i].sourceMarketId
+            idSourceId[sMarketId[i][key]] = sMarketId[i][value]
         }
         return idSourceId;
     },
@@ -82,14 +90,13 @@ module.exports = {
 
 
 
-    getMarket :   function(idOdds, outcomeID){
+    getMarket :   function(idOdds, outcomeID, specifiers, specialValues){
     
         // Create array of outcomes for each market
         oddObj = {}
         outcome = []
         market = []
         outcomeObj = {}
-        // console.log(idOdds)
         for(var i in idOdds) {
         
         
@@ -106,6 +113,8 @@ module.exports = {
             }
             outcomeObj["outcome"] = outcome
             outcomeObj["id"] = i
+            if(specifiers[i] !== undefined)
+            outcomeObj["specifiers"] = specifiers[i]+"="+specialValues[i].shift()
             market.push(outcomeObj)
             outcome = []
             outcomeObj = {}
@@ -137,5 +146,28 @@ module.exports = {
         }
         
         return sourceOutcomeIDPair
+    },
+
+
+    getMarketIDSpecialValuePairs: function(data){
+
+        vals = []
+        obj = {}
+        for(var i = 0; i < data.length; i++){
+            vals.push(Object.values(data[i]))
+        }
+
+        for(var i = 0; i < vals.length; i++){
+            if(!(vals[i][0] in obj)){
+                obj[vals[i][0]] = new Array()
+            }
+
+            obj[vals[i][0]].push(vals[i][1])
+
+        }
+
+
+        return obj;
+
     }
 }
