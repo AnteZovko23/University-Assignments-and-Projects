@@ -100,16 +100,24 @@ function getDataOrdered($mainArr){
 
     $mainArr2 = array();
                         // PROBLEM?
-     for($i = 0; $i < count($mainArr[0][0]); $i++){
-
+    //  for($i = 0; $i < count($mainArr[0][0]); $i++){
+    $counter = 0;
+    while(TRUE){
+    
+    
        
         foreach($mainArr as $key => $val){
             $temp = array();
                
 
                 foreach($val as $key => $value){
-
-                    array_push($temp, $value[$i]);
+                    if(array_key_exists($counter, $value)){
+                        array_push($temp, $value[$counter]);
+                    }
+                    else{
+                        break 3;
+                    }
+                    
                 }
                 array_push($mainArr2, $temp);
                 $temp = [];
@@ -118,14 +126,28 @@ function getDataOrdered($mainArr){
             }  
                 
             
-            
+        $counter++;   
+        }
     
-    
-    }
+    // }
     
    
     return $mainArr2;
 
+
+}
+
+function mergeArrays(&$mainArr, ...$givenArrays){
+
+    $counter = 0;
+    foreach($mainArr as $key => $val){
+        foreach($givenArrays as $givenKey => $givenValue){
+            array_push($mainArr[$key], $givenValue[$counter][0]);
+        }
+        $counter++;
+    }
+
+    
 
 }
 
