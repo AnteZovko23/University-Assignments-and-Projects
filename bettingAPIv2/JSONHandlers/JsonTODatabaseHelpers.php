@@ -80,7 +80,10 @@ $test = array();
 
 
 foreach ($jsonFiles as $key => $value) {
+    array_push($test, findValue($value, "id", [], 0, $temp));
+    $temp = [];
     foreach ($keywords as $key => $keyword) {
+
         
         array_push($test, findValue($value, $keyword, $specifier, $userDepth, $temp));
         $temp = [];        
@@ -101,34 +104,34 @@ function getDataOrdered($mainArr){
     $mainArr2 = array();
                         // PROBLEM?
     //  for($i = 0; $i < count($mainArr[0][0]); $i++){
-    $counter = 0;
-    while(TRUE){
+    // $counter = 0;
+    // while(TRUE){
     
     
        
         foreach($mainArr as $key => $val){
             $temp = array();
-               
-
-                foreach($val as $key => $value){
-                    if(array_key_exists($counter, $value)){
-                        array_push($temp, $value[$counter]);
-                    }
-                    else{
-                        break 3;
-                    }
+               for($i = 0; $i < count($val[1]); $i++){
+                array_push($temp, $val[0][0]);
+                foreach(array_slice($val, 1) as $key => $value){
+                    // if(array_key_exists($counter, $value)){
+                        array_push($temp, $value[$i]);
+                    // }
+                    // else{
+                    //     // break 3;
+                    // }
                     
                 }
                 array_push($mainArr2, $temp);
                 $temp = [];
                    
          
-            }  
+            // }  
                 
-            
-        $counter++;   
+               }
+        // $counter++;   
         }
-    
+        
     // }
     
    
@@ -142,7 +145,7 @@ function mergeArrays(&$mainArr, ...$givenArrays){
     $counter = 0;
     foreach($mainArr as $key => $val){
         foreach($givenArrays as $givenKey => $givenValue){
-            array_push($mainArr[$key], $givenValue[$counter][0]);
+            array_push($mainArr[$key], $givenValue[$counter][1]);
         }
         $counter++;
     }

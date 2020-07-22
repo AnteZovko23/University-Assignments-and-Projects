@@ -807,8 +807,8 @@
 
          ]
       },
-      "775":{
-         "id":775,
+      "6969":{
+         "id":6969,
          "name":"Handicap 1X2",
          "sourceId":1,
          "eventType":1,
@@ -816,7 +816,7 @@
          "marketOutcomes":{
             "1597":{
                "id":1597,
-               "marketId":775,
+               "marketId":6969,
                "sourceId":1,
                "name":"1",
                "active":1,
@@ -834,7 +834,7 @@
             },
             "1600":{
                "id":1600,
-               "marketId":775,
+               "marketId":6969,
                "sourceId":1,
                "name":"X",
                "active":1,
@@ -852,7 +852,7 @@
             },
             "1603":{
                "id":1603,
-               "marketId":775,
+               "marketId":6969,
                "sourceId":1,
                "name":"2",
                "active":1,
@@ -872,7 +872,7 @@
          "marketSpecialValues":{
             "373":{
                "id":373,
-               "marketId":775,
+               "marketId":6969,
                "specialTypeId":2,
                "name":"",
                "deleted":0
@@ -881,7 +881,7 @@
          "marketSourceMaps":[
             {
                "id":427,
-               "marketId":775,
+               "marketId":6969,
                "sourceId":2,
                "sourceMarketId":"14",
                "marketSourceMapSpecials":[
@@ -3769,7 +3769,7 @@
       },
       "1186":{
          "id":1186,
-         "name":"1st half - Away team total",
+         "name":"1st half - Away team total2",
          "sourceId":1,
          "eventType":1,
          "isCompetitor":0,
@@ -5389,7 +5389,7 @@
       {
          "id":18480415,
          "eventId":1000252,
-         "marketId":775,
+         "marketId":6969,
          "favourite":0,
          "status":0,
          "active":1,
@@ -5432,7 +5432,7 @@
       {
          "id":18480418,
          "eventId":1000252,
-         "marketId":775,
+         "marketId":6969,
          "favourite":0,
          "status":0,
          "active":1,
@@ -5475,7 +5475,7 @@
       {
          "id":18480421,
          "eventId":1000252,
-         "marketId":775,
+         "marketId":6969,
          "favourite":0,
          "status":0,
          "active":1,
@@ -5518,7 +5518,7 @@
       {
          "id":18480424,
          "eventId":1000252,
-         "marketId":775,
+         "marketId":6969,
          "favourite":0,
          "status":0,
          "active":1,
