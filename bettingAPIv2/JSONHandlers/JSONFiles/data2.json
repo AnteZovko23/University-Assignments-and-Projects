@@ -2362,23 +2362,7 @@
                "deleted":0
             }
          },
-         "marketSourceMaps":[
-            {
-               "id":625,
-               "marketId":1129,
-               "sourceId":2,
-               "sourceMarketId":"18",
-               "marketSourceMapSpecials":[
-                  {
-                     "id":187,
-                     "marketSourceMapId":625,
-                     "specialTypeId":1,
-                     "specialValue":"",
-                     "betradarSpecialType":"total"
-                  }
-               ]
-            }
-         ],
+       
          "marketCompetitors":[
 
          ]

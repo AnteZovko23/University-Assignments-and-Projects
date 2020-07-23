@@ -154,12 +154,14 @@ function mergeArrays(&$mainArr, ...$givenArrays){
 
 }
 
-function array_merge_callback($array1, $array2, $predicate) {
+function array_merge_callback($array1, $array2, $firstIndex, $secondIndex, $predicate, $thirdIndex = "-1") {
     $result = array();
 
     foreach ($array1 as $item1) {
         foreach ($array2 as $item2) {
             if ($predicate($item1, $item2)) {
+                // $item2 = array_diff($item2, [$item2[$firstIndex], $item2[$secondIndex]]);
+                $item2 = array_diff_key($item2, [$firstIndex => "a", $secondIndex => "a", $thirdIndex => "a"]);
                 $result[] = array_merge($item1, $item2);
             }
         }
@@ -167,6 +169,32 @@ function array_merge_callback($array1, $array2, $predicate) {
 
     return $result;
 }
+
+function array_merge_callbackKeep(&$array1, $array2, $firstIndex, $secondIndex, $predicate) {
+
+    $length = count(array_diff_key($array2[0], [$firstIndex => "a", $secondIndex => "a"]));
+    // print_r([$array2[0][$firstIndex], $array2[0][$secondIndex]]);
+    foreach ($array1 as $key => $item1) {
+        
+
+        for($i = 0; $i < $length; $i++){
+            
+            array_push($array1[$key], null);
+        }
+        
+        foreach ($array2 as $item2) {
+            if ($predicate($item1, $item2)) {
+                // $item2 = array_diff($item2, [$item2[$firstIndex], $item2[$secondIndex]]);
+                $item2 = array_diff_key($item2, [$firstIndex => "a", $secondIndex => "a"]);
+                // $length = count($item2);
+                $array1[$key] = array_merge($item1, $item2);
+            }
+            $length = count(array_diff_key($item2, [$firstIndex => "a", $secondIndex => "a"]));
+        }
+    }
+
+}
+
 
 
 function CloseCon($conn)
