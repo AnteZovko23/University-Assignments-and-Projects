@@ -3,11 +3,10 @@
 include "JsonTODatabaseHelpers.php";
 
 $conn = OpenCon();
-
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 $jsonFiles = array();
 $jsonFiles = getJSONFilesArray($jsonFiles);
-// array_pop($jsonFiles);
 
 
 /************************** */
@@ -20,7 +19,6 @@ $userDepth = 0;
 
 $mainArr = getArrayForInsert($jsonFiles, $keywords, $specifier, $userDepth);
 $mainArr = getDataOrdered($mainArr);
-// print_r($mainArr);
 
 
 insertQuery($conn, $mainArr, "Events");

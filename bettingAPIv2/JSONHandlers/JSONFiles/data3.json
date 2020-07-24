@@ -783,21 +783,21 @@
                 "eventMarketId":12364509,
                 "marketOutcomeId":531,
                 "status":1,
-                "odd":"2.010000"
+                "odd":"7.010000"
              },
              {
                 "id":28138184,
                 "eventMarketId":12364509,
                 "marketOutcomeId":532,
                 "status":1,
-                "odd":"1.370000"
+                "odd":"6.370000"
              },
              {
                 "id":28138185,
                 "eventMarketId":12364509,
                 "marketOutcomeId":533,
                 "status":1,
-                "odd":"1.270000"
+                "odd":"2.230000"
              }
           ],
           "eventMarketCompetitors":[

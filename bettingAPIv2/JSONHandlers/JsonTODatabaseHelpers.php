@@ -53,9 +53,23 @@ function OpenCon()
  }
 
 function insertQuery($conn, $mainArr, $tableName){
-
     foreach($mainArr as $key => $value){
-        $sql = "INSERT INTO ".$tableName." VALUES ('".implode("','", $value)."');";
+        // if($tableName !== "Odds"){
+
+            $sql = "INSERT INTO ".$tableName." VALUES ('".implode("','", $value)."');";
+           
+
+            // print_r($sql. "\n");
+            // if(!empty($conn -> error)){
+            //     echo $conn -> error;
+            //     echo $value[4]. "\n\n";
+            // }
+           
+        // }
+        // else{
+            // $sql = "INSERT INTO ".$tableName." VALUES ('".implode("','", $value)."') ON DUPLICATE KEY UPDATE odd = ". end($value).";";
+            // 
+        // }
         $conn -> query($sql);
 
     }
