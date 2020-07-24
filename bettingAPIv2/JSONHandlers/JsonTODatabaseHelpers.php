@@ -54,23 +54,29 @@ function OpenCon()
 
 function insertQuery($conn, $mainArr, $tableName){
     foreach($mainArr as $key => $value){
-        // if($tableName !== "Odds"){
+        
+            if($tableName === "Events"){
 
-            $sql = "INSERT INTO ".$tableName." VALUES ('".implode("','", $value)."');";
-           
+            
+            $duplicateUpdate = getTableColumns($conn, "Events");
+            $duplicateUpdate = array_diff_key($duplicateUpdate, [0 => "a"]);
 
-            // print_r($sql. "\n");
-            // if(!empty($conn -> error)){
-            //     echo $conn -> error;
-            //     echo $value[4]. "\n\n";
-            // }
+            foreach($duplicateUpdate as $key => $val){
+                $duplicateUpdate[$key] = $val. " = '". $value[$key]."'";
+            }
+
+            $sql = "INSERT INTO ".$tableName." VALUES ('".implode("','", $value)."') ON DUPLICATE KEY UPDATE ".implode("," , $duplicateUpdate).";";
+
+            // print_r($sql. "\n\n");
            
-        // }
-        // else{
-            // $sql = "INSERT INTO ".$tableName." VALUES ('".implode("','", $value)."') ON DUPLICATE KEY UPDATE odd = ". end($value).";";
-            // 
-        // }
+            } else {
+    
+                $sql = "INSERT INTO ".$tableName." VALUES ('".implode("','", $value)."');";
+    
+                }
+        
         $conn -> query($sql);
+        echo $conn -> error;
 
     }
 }
@@ -116,39 +122,24 @@ return $mainArr;
 function getDataOrdered($mainArr){
 
     $mainArr2 = array();
-                        // PROBLEM?
-    //  for($i = 0; $i < count($mainArr[0][0]); $i++){
-    // $counter = 0;
-    // while(TRUE){
-    
-    
        
         foreach($mainArr as $key => $val){
             $temp = array();
                for($i = 0; $i < count($val[1]); $i++){
                 array_push($temp, $val[0][0]);
                 foreach(array_slice($val, 1) as $key => $value){
-                    // if(array_key_exists($counter, $value)){
-                        array_push($temp, $value[$i]);
-                    // }
-                    // else{
-                    //     // break 3;
-                    // }
-                    
+                
+                        array_push($temp, $value[$i]); 
                 }
                 array_push($mainArr2, $temp);
                 $temp = [];
                    
          
-            // }  
+              
                 
                }
-        // $counter++;   
+         
         }
-        
-    // }
-    
-   
     return $mainArr2;
 
 
@@ -174,7 +165,6 @@ function array_merge_callback($array1, $array2, $firstIndex, $secondIndex, $pred
     foreach ($array1 as $item1) {
         foreach ($array2 as $item2) {
             if ($predicate($item1, $item2)) {
-                // $item2 = array_diff($item2, [$item2[$firstIndex], $item2[$secondIndex]]);
                 $item2 = array_diff_key($item2, [$firstIndex => "a", $secondIndex => "a", $thirdIndex => "a"]);
                 $result[] = array_merge($item1, $item2);
             }
@@ -187,7 +177,6 @@ function array_merge_callback($array1, $array2, $firstIndex, $secondIndex, $pred
 function array_merge_callbackKeep(&$array1, $array2, $firstIndex, $secondIndex, $predicate) {
 
     $length = count(array_diff_key($array2[0], [$firstIndex => "a", $secondIndex => "a"]));
-    // print_r([$array2[0][$firstIndex], $array2[0][$secondIndex]]);
     foreach ($array1 as $key => $item1) {
         
 
@@ -198,9 +187,7 @@ function array_merge_callbackKeep(&$array1, $array2, $firstIndex, $secondIndex, 
         
         foreach ($array2 as $item2) {
             if ($predicate($item1, $item2)) {
-                // $item2 = array_diff($item2, [$item2[$firstIndex], $item2[$secondIndex]]);
                 $item2 = array_diff_key($item2, [$firstIndex => "a", $secondIndex => "a"]);
-                // $length = count($item2);
                 $array1[$key] = array_merge($item1, $item2);
             }
             $length = count(array_diff_key($item2, [$firstIndex => "a", $secondIndex => "a"]));

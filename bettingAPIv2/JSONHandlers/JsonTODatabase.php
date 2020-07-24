@@ -19,6 +19,7 @@ $userDepth = 0;
 
 $mainArr = getArrayForInsert($jsonFiles, $keywords, $specifier, $userDepth);
 $mainArr = getDataOrdered($mainArr);
+// print_r($mainArr);
 
 
 insertQuery($conn, $mainArr, "Events");
@@ -65,9 +66,9 @@ $abc = array_unique($idName, SORT_REGULAR);
 
 insertQuery($conn, $abc, "Markets");
 
-/********************************************** */
+// /********************************************** */
 
-// Get EventMarket Table
+// // Get EventMarket Table
 
 
 $keywords = ["id","marketId", "name", "active"];
@@ -126,9 +127,9 @@ $mainArr = array_merge_callback($mainArr, $mainArr2, 0, 2, function ($item1, $it
 
 insertQuery($conn, array_unique($mainArr, SORT_REGULAR), "MarketOutcomes");
 
-/**************************************************** */
+// /**************************************************** */
 
-// Odds Table
+// // Odds Table
 
 $keywords = ["marketId", "id"];
 $userDepth = 4;
