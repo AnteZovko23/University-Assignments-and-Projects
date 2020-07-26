@@ -15,16 +15,17 @@ router.get('/odds', function(req, res){
         // Get id and sourceID pairs object
         var IDSourceIDPairs = helpers.getIDSourceIDPairs("marketId", "sourceMarketId", data[0])
         
+
         // Pair marketID and odds
         var IDOddsPairs = helpers.getIDOddsPairs(data[1], data[2])
-
+        
         // Pair sourceMarketID and odds
         var sourceIDOddsPairs = helpers.oddsKeyChange(IDOddsPairs, IDSourceIDPairs)
-        // console.log(IDOddsPairs)
         // console.log(IDSourceIDPairs)
 
         // Pair SourceMarketID and SourceOutcomeID
         var sourceIDsourceOutcomeIDPairs = helpers.getSourceOutcomeOdds(data[3]);
+        console.log(sourceIDsourceOutcomeIDPairs)
 
         // Special type Specifier
         var specialType = helpers.getIDSourceIDPairs("id", "type", data[4])
