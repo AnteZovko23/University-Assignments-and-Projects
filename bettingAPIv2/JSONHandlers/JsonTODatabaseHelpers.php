@@ -6,10 +6,12 @@ function findValue($json, $keyword, $specifier, $userDepth, &$arr){
     static $path = array();  
     foreach($json as $key => $value){
         if((string)$key === end($specifier) && is_array($value) && count($value) === 0){
+       
             
             array_push($arr, null);
                
         }
+       
         else if(is_array($value)){
             $depth++; 
             array_push($path, (string) $key);
@@ -21,6 +23,13 @@ function findValue($json, $keyword, $specifier, $userDepth, &$arr){
             
             array_push($arr, $value);
         }
+        else if($depth === $userDepth && (empty(array_diff($specifier, $path)) || count($specifier)== 0) && !in_array($keyword, array_keys($json))){
+            array_push($arr, null);
+            break;
+        }
+      
+        
+       
         
     }
 

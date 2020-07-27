@@ -91,7 +91,7 @@ module.exports = {
 
 
     getMarket :   function(idOdds, outcomeID, specifiers, specialValues){
-    
+        console.log(outcomeID);
         // Create array of outcomes for each market
         oddObj = {}
         outcome = []
