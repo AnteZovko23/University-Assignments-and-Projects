@@ -10,9 +10,9 @@
    "categoryName":"Austria Amateur",
    "tournamentId":1365,
    "tournamentName":"Regionalliga East",
-   "name":"SC ABC - SC EFG",
+   "name":"SC Test1 - SC Test2",
    "startAt":"2018-10-22 13:00:00",
-   "active":2,
+   "active":1,
    "deleted":0,
    "markets":{
       "14":{
@@ -3818,10 +3818,10 @@
       {
          "id":1987300,
          "eventId":1000253,
-         "teamId":17175,
+         "teamId":123,
          "playerId":0,
          "type":1,
-         "name":"SC Parndorf",
+         "name":"SC Test1",
          "players":[
 
          ]
@@ -3829,10 +3829,10 @@
       {
          "id":1987303,
          "eventId":1000253,
-         "teamId":17181,
+         "teamId":124,
          "playerId":0,
          "type":2,
-         "name":"SC Neusiedl",
+         "name":"SC Test2",
          "players":[
 
          ]

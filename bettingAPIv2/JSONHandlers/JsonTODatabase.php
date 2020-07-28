@@ -28,6 +28,25 @@ insertQuery($conn, $mainArr, "Events");
 
 // // /********************************************** */
 
+
+/************************** */
+// Get Competitors Table
+$keywords = ["id", "name", "teamId", "type"];
+$specifier = ["eventCompetitors"];
+$userDepth = 2;
+
+
+$mainArr = getArrayForInsert($jsonFiles, $keywords, $specifier, $userDepth);
+$mainArr = getDataOrdered($mainArr);
+
+
+
+insertQuery($conn, $mainArr, "Competitors");
+
+
+
+// // /********************************************** */
+
 // // // Get Market Table
 
 $keywords = ["id", "name"];

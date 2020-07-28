@@ -1,6 +1,10 @@
 /****************** */
 // Helper Functions
 // Keeps routes.js clean
+
+var underscore = require("underscore");
+
+
 var eventMarketStatuses = {
     "2":"suspended",
     "3":"deactivated",
@@ -8,17 +12,78 @@ var eventMarketStatuses = {
 
 }
 
+var eventStatuses = {
+    "2":"live",
+    "3":"suspended",
+    "4":"ended",
+    "5":"abandoned",
+    "6":"deactivated",
+    "7":"cancelled",
+    "8":"delayed",
+ 
+}
+
 module.exports = {
 
-    getMarket : function(eventData, eventMarketsData){
+    handleAllOddsData : function(allEvents) {
+
+        var specificEvent = underscore.groupBy(allEvents, function(value){
+            return value.eventID + '#' + value.feedEventID;
+        });
+
+        var specificEventData = underscore.map(specificEvent, function(group){
+            return {
+                eventID: group[0].eventID,
+                feedEventID: group[0].feedEventID,
+                sportID: group[0].sportID,
+                sportName: group[0].sportName,
+                startTime: group[0].startTime,
+                status: group[0].eventStatus,
+                active: group[0].active,
+                deleted: group[0].deleted,
+            }
+        });
+
+        
+
+    
+    var specificEventMarkets = underscore.groupBy(allEvents, function(value){
+        return value.eventID + '#' + value.feedEventID + "#" + value.marketsSourceID + "#" + value.oddID;
+    });
+
+    var specificEventMarketsData = underscore.map(specificEventMarkets, function(group){
+        return {
+            marketSourceID: group[0].marketsSourceID,
+            marketOutcomeActive: underscore.pluck(group, 'marketActive'),
+            specialType: group[0].marketsSpecialType,
+            sourceOutcomeID: underscore.pluck(group, 'sourceOutcomeID'),
+            specialOutcomeType: group[0].specialOutcomeType,
+            specialOutcomeValue: group[0].specialOutcomeValue,
+            specialStatus: group[0].specialStatus,
+            specialActive: group[0].specialActive,
+            specialDeleted: group[0].specialDeleted,
+            specialValue: group[0].specialValue,
+            oddStatus: underscore.pluck(group, 'oddStatus'),
+            odds: underscore.pluck(group, 'odds')
+        }
+    });
+
+    return this.getAllOdds(specificEventData, specificEventMarketsData)
+        
+    },
+
+    getAllOdds : function(eventData, eventMarketsData){
         // Create array of outcomes for each market
-        console.log(eventMarketsData);
         oddObj = {}
         outcome = []
         market = []
         outcomeObj = {}
         marketObj = {}
         oddsObj = {}
+
+        if((eventData[0].status === "0" || eventData[0].status === "1") && eventData[0].active === "1" && eventData[0].deleted === "0"){
+
+
         eventMarketsData.forEach(element => {
             
         
@@ -53,7 +118,7 @@ module.exports = {
 
             outcomeObj["id"] = element["marketSourceID"];
             outcomeObj["status"] = eventMarketStatuses[element["specialStatus"]]
-            if(outcomeObj["status"] === undefined){
+            if(eventMarketStatuses[element["specialStatus"]] === undefined && element["specialActive"] === "0"){
                 outcomeObj["active"] = "false" 
             }
 
@@ -69,11 +134,135 @@ module.exports = {
         
         oddObj["odds"] = marketObj;
         oddObj["event_id"] = eventData[0].feedEventID
-        
-        
+        oddObj["timestamp"] = Date.parse(eventData[0].startTime).toString();
 
 
+    }
+    else {
+
+        oddObj["event_id"] = eventData[0].feedEventID
+        oddObj["timestamp"] = Date.parse(eventData[0].startTime).toString();
+        oddObj["status"] = eventStatuses[eventData[0].status]
+            if(eventStatuses[eventData[0].status] === undefined && eventData[0].active === "0"){
+                oddObj["active"] = "false" 
+            }
+
+    }
+        
         return oddObj
+    },
+
+
+    handleAllSportsData : function(data){
+        var sports = [];
+    
+        var allTeams = underscore.groupBy(data, function(value){
+            return value.eventID + '#' + value.feedEventId;
+        });
+
+
+        var specificTeamData = underscore.map(allTeams, function(group){
+            return {
+                eventID: group[0].eventID,
+                feedEventId: group[0].feedEventId,
+                status: group[0].status,
+                active: group[0].active,
+                deleted: group[0].deleted,
+                sportId: group[0].sportId,
+                sportName: group[0].sportName,
+                categoryId: group[0].categoryId,
+                categoryName: group[0].categoryName,
+                eventID: group[0].eventID,
+                tournamentId: group[0].tournamentId,
+                tournamentName: group[0].tournamentName,
+                startAt: group[0].startAt,
+                teamNames: underscore.pluck(group, 'teamName'),
+                teamID: underscore.pluck(group, 'teamId'),
+                type: underscore.pluck(group, 'type'),
+                
+                
+            }
+        })
+
+        specificTeamData.forEach(element => {
+            sports.push(this.getAllSports(element));
+        });
+        
+
+        return sports;
+    },
+
+
+    getAllSports : function(element){
+        competitorsObj = {}
+        competitors = []
+        market = []
+        match = {}
+        sports = {}
+
+        if((element.status === "0" || element.status === "1") && element.active === "1" && element.deleted === "0"){
+        
+        sports["sport"] = {
+            "sportName": element.sportName,
+            "sportId": element.sportId
+        }
+
+        sports["category"] = {
+            "categoryName": element.categoryName,
+            "categoryId": element.categoryId
+        }
+
+        sports["tournament"] = {
+            "tournamentName": element.tournamentName,
+            "tournamentId": element.tournamentId
+        }
+
+                for(var i = 0; i < element["teamNames"].length; i++){
+                
+                competitorsObj["name"] = element["teamNames"][i];
+                competitorsObj["id"] = element["teamID"][i];
+                competitorsObj["type"] = element["type"][i];
+                
+                competitors.push(competitorsObj);
+                competitorsObj = {};
+                }
+                match["competitors"] = competitors
+                // CONCEPT: match["matchOdds"] = odds
+
+
+        sports["match"] = match
+
+        sports["event_Id"] = element.feedEventId;
+        
+        sports["timestamp"] = Date.parse(element.startAt).toString();
+
+            
+            
+
+    
+
+        
+
+
+    }
+    else {
+
+        sports["event_Id"] = element.feedEventId;
+        sports["timestamp"] = Date.parse(element.startAt).toString();
+        sports["status"] = eventStatuses[element.status]
+            if(eventStatuses[element.status] === undefined && element.active === "0"){
+                sports["active"] = "false" 
+            }
+
+    }
+        
+
+        return sports
+
+
+
+
+
     }
 
 
