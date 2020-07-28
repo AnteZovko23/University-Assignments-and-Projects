@@ -1,0 +1,67 @@
+{
+		"Sports": [
+        {
+			"Sport": {
+				"SportName": "Soccer",
+				"SportId": 21
+			},
+			"Category": {
+				"CategoryName": "England",
+				"CategoryId": 221
+			},
+		    "Tournament":{
+				"TournamentName": "FA Cup",
+				"TournamentId": 2221
+			},
+			"Match": {
+					"Competitors": [
+					                {
+									"name":"ARSENAL FC",
+									"_ID": "14746",
+									"_Type": "1"
+									},
+									{
+									 "name":"CHELSEA FC",
+									"_ID": "14748",
+									"_Type": "2"
+									}
+									],
+					"MatchOdds": "..."
+					},
+			"eventID": "sr:match:1234",
+			"timestamp": "1234"
+		},
+		{
+			"Sport": {
+				"SportName": "Soccer",
+				"SportId": 21
+			},
+			"Category": {
+				"CategoryName": "England",
+				"CategoryId": 221
+			},
+		    "Tournament":{
+				"TournamentName": "FA Cup",
+				"TournamentId": 2221
+			},
+			"Match": {
+					"Competitors": [
+					                {
+									"name":"ARSENAL FC",
+									"_ID": "14746",
+									"_Type": "1"
+									},
+									{
+									 "name":"CHELSEA FC",
+									"_ID": "14748",
+									"_Type": "2"
+									}
+									],
+					"MatchOdds": "..."
+					},
+			"eventID": "sr:match:1234",
+			"timestamp": "1234"
+		}
+		
+	]
+}
