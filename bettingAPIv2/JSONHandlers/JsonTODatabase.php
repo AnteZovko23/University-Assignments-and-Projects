@@ -19,6 +19,7 @@ $userDepth = 0;
 
 $mainArr = getArrayForInsert($jsonFiles, $keywords, $specifier, $userDepth);
 $mainArr = getDataOrdered($mainArr);
+
 foreach ($mainArr as $key => $value) {
     $mainArr[$key][12] = strtotime($value[12]) * 1000;
 };
