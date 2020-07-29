@@ -102,4 +102,3 @@ deleted
 FROM Events) as events
 
 ON oddsNoEventInfo.eventID = events.id;
-

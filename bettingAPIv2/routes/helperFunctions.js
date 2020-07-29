@@ -25,6 +25,41 @@ var eventStatuses = {
 
 module.exports = {
 
+
+    allOddsQuery : function(db, sql, res){
+        var dataScope = this;
+
+        db.query(sql, function (err, data, fields) {
+            if(err) throw err;
+            var resultArray = Object.values(JSON.parse(JSON.stringify(data)))
+    
+          
+              var allEvents = underscore.groupBy(resultArray, function(value){
+                  return value.eventID + '#' + value.feedEventID;
+              });
+            var odds_change = []
+           
+           
+            for(let key in allEvents){
+    
+                odds_change.push(dataScope.handleAllOddsData(allEvents[key]))
+         
+         
+             }
+
+             res.json({
+    
+                odds_change
+
+            
+            })   
+            
+    })
+
+
+
+    },
+
     handleAllOddsData : function(allEvents) {
 
         var specificEvent = underscore.groupBy(allEvents, function(value){
@@ -134,14 +169,14 @@ module.exports = {
         
         oddObj["odds"] = marketObj;
         oddObj["event_id"] = eventData[0].feedEventID
-        oddObj["timestamp"] = Date.parse(eventData[0].startTime).toString();
+        oddObj["timestamp"] = eventData[0].startTime;
 
 
     }
     else {
 
         oddObj["event_id"] = eventData[0].feedEventID
-        oddObj["timestamp"] = Date.parse(eventData[0].startTime).toString();
+        oddObj["timestamp"] = eventData[0].startTime;
         oddObj["status"] = eventStatuses[eventData[0].status]
             if(eventStatuses[eventData[0].status] === undefined && eventData[0].active === "0"){
                 oddObj["active"] = "false" 
@@ -227,14 +262,13 @@ module.exports = {
                 competitorsObj = {};
                 }
                 match["competitors"] = competitors
-                // CONCEPT: match["matchOdds"] = odds
 
 
         sports["match"] = match
 
         sports["event_Id"] = element.feedEventId;
         
-        sports["timestamp"] = Date.parse(element.startAt).toString();
+        sports["timestamp"] = element.startAt;
 
             
             
@@ -248,7 +282,7 @@ module.exports = {
     else {
 
         sports["event_Id"] = element.feedEventId;
-        sports["timestamp"] = Date.parse(element.startAt).toString();
+        sports["timestamp"] = element.startAt;
         sports["status"] = eventStatuses[element.status]
             if(eventStatuses[element.status] === undefined && element.active === "0"){
                 sports["active"] = "false" 
