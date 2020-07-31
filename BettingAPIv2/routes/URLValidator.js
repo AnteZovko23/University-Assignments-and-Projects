@@ -1,7 +1,18 @@
+/**
+ * Validates URL so the server doesn't crash
+ * 
+ * 
+ */
+
+
+ // Overhead
 const {check, validationResult} = require('express-validator')
 var moment = require("moment");
+/********************* */
 
 
+
+// Validates time range
 const timeParamValidation = (parameter) => {
 
     return [check(parameter).custom(since => {
@@ -19,6 +30,7 @@ const timeParamValidation = (parameter) => {
 
 }
 
+// Validates id
 const idParamValidation = (parameter) => {
 
     return [check(parameter).isNumeric()]
@@ -26,6 +38,8 @@ const idParamValidation = (parameter) => {
 
 }
 
+
+// Error Message
 const errorResponse = (req, res, next) => {
   const errors = validationResult(req)
   if (errors.isEmpty()) {
@@ -38,6 +52,8 @@ const errorResponse = (req, res, next) => {
     errors: extractedErrors,
   })
 }
+
+
 
 module.exports = {
   timeParamValidation,

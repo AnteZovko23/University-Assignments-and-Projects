@@ -1,6 +1,12 @@
 <?php
 
+/**
+ * Useful functions to keep the main JsonToDatabase clean and readable
+ * 
+ * 
+ */
 
+// Recursively navigates through multidimensional arrays looking for a specific key
 function findValue($json, $keyword, $specifier, $userDepth, &$arr){
     static $depth = 0;
     static $path = array();  
@@ -37,17 +43,8 @@ function findValue($json, $keyword, $specifier, $userDepth, &$arr){
        
 }
 
-function getJSONFilesArray($jsonFiles){
 
-    
-            
-//         }
-//     }
-
-//     return $jsonFiles;
-}
-
-
+// Opens database Connection
 function OpenCon()
  {
  $dbhost = "localhost";
@@ -59,6 +56,9 @@ function OpenCon()
  return $conn;
  }
 
+
+
+ // Dynamically inserts data into tables
 function insertQuery($conn, $mainArr, $tableName){
     foreach($mainArr as $key => $value){
         
@@ -74,8 +74,6 @@ function insertQuery($conn, $mainArr, $tableName){
 
             $sql = "INSERT INTO ".$tableName." VALUES ('".implode("','", $value)."') ON DUPLICATE KEY UPDATE ".implode("," , $duplicateUpdate).";";
 
-            // print_r($sql. "\n\n");
-           
             } else {
     
                 $sql = "INSERT INTO ".$tableName." VALUES ('".implode("','", $value)."');";
@@ -88,44 +86,44 @@ function insertQuery($conn, $mainArr, $tableName){
     }
 }
 
-
+// Gets all columns for a given table
 function getTableColumns($conn, $tableName){
     $columns = array();
-    $test = $conn -> query("Describe ".$tableName.";");
-    while($row = $test->fetch_assoc()) {
+    $tableColumns = $conn -> query("Describe ".$tableName.";");
+    while($row = $tableColumns->fetch_assoc()) {
         array_push($columns, $row['Field']);
     }
 
     return $columns;
 }
 
-
+// Organizes data retrieved from FindValue()
 function getArrayForInsert($jsonFiles, $keywords, $specifier, $userDepth){
 $mainArr = array();
 $temp = array();
-$test = array();
+$temp2 = array();
 
 
 foreach ($jsonFiles as $key => $value) {
-    array_push($test, findValue($value, "id", [], 0, $temp));
+    array_push($temp2, findValue($value, "id", [], 0, $temp));
     $temp = [];
     foreach ($keywords as $key => $keyword) {
 
         
-        array_push($test, findValue($value, $keyword, $specifier, $userDepth, $temp));
+        array_push($temp2, findValue($value, $keyword, $specifier, $userDepth, $temp));
         $temp = [];        
     
     }
     
-    array_push($mainArr, $test);
-    $test = [];
+    array_push($mainArr, $temp2);
+    $temp2 = [];
 }
 
 return $mainArr;
 
 }
 
-
+// Merges all arrays retrieved in GetArrayForInsert()
 function getDataOrdered($mainArr){
 
     $mainArr2 = array();
@@ -152,6 +150,7 @@ function getDataOrdered($mainArr){
 
 }
 
+// Merges arrays
 function mergeArrays(&$mainArr, ...$givenArrays){
 
     $counter = 0;
@@ -166,6 +165,7 @@ function mergeArrays(&$mainArr, ...$givenArrays){
 
 }
 
+// Merges arrays based on specific values
 function array_merge_callback($array1, $array2, $firstIndex, $secondIndex, $predicate, $thirdIndex = "-1") {
     $result = array();
 
@@ -181,6 +181,7 @@ function array_merge_callback($array1, $array2, $firstIndex, $secondIndex, $pred
     return $result;
 }
 
+// Merges arrays based on specific values and keeps duplicates
 function array_merge_callbackKeep(&$array1, $array2, $firstIndex, $secondIndex, $predicate) {
 
     $length = count(array_diff_key($array2[0], [$firstIndex => "a", $secondIndex => "a"]));
@@ -204,7 +205,7 @@ function array_merge_callbackKeep(&$array1, $array2, $firstIndex, $secondIndex, 
 }
 
 
-
+// Closes Connection
 function CloseCon($conn)
  {
  $conn -> close();

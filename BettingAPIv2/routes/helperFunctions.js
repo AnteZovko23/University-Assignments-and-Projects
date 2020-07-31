@@ -1,18 +1,20 @@
 /****************** */
-// Helper Functions
-// Keeps routes.js clean
+/**
+ * Useful functions that retrieve, handle, display data
+ * Keeps routes.js clean
+ * 
+ */
 
+
+// Overhead
 var underscore = require("underscore");
 var moment = require("moment");
-
-
 var eventMarketStatuses = {
     "2":"suspended",
     "3":"deactivated",
     "4":"cancelled"
 
 }
-
 var eventStatuses = {
     "2":"live",
     "3":"suspended",
@@ -23,10 +25,13 @@ var eventStatuses = {
     "8":"delayed",
  
 }
+/**************** */ 
 
 module.exports = {
 
 
+
+    // Gets all odds from all events and sends them as a JSON Response
     allOddsQuery : function(db, sql, res){
         var dataScope = this;
 
@@ -61,6 +66,7 @@ module.exports = {
 
     },
 
+    // Maps arrays based on different keys and values
     handleAllOddsData : function(allEvents) {
 
         var specificEvent = underscore.groupBy(allEvents, function(value){
@@ -108,8 +114,8 @@ module.exports = {
         
     },
 
+    // Shapes JSON response
     getAllOdds : function(eventData, eventMarketsData){
-        // Create array of outcomes for each market
         oddObj = {}
         outcome = []
         market = []
@@ -188,7 +194,24 @@ module.exports = {
         return oddObj
     },
 
+    // Gets all sports and event info and sends them as a JSON Response
+    allSportsQuery : function(db, sql, res){
+        var dataScope = this;
 
+        db.query(sql, function(err, data, fields){
+            if(err) throw err;
+            var resultArray = Object.values(JSON.parse(JSON.stringify(data)))
+            var sports = dataScope.handleAllSportsData(resultArray);
+
+            res.json({
+                sports
+            })
+    
+        })
+
+    },
+
+    // Maps arrays based on different keys and values
     handleAllSportsData : function(data){
         var sports = [];
     
@@ -228,7 +251,8 @@ module.exports = {
         return sports;
     },
 
-
+  
+    // Shapes JSON response
     getAllSports : function(element){
         competitorsObj = {}
         competitors = []
@@ -292,7 +316,7 @@ module.exports = {
 
     },
 
-
+    // Gets timestamp of specific number of days before and after the function is called
     getTimeRange : function(){
         var afterDateAllowed = Date.parse(moment().add(25, "days").calendar())
         var beforeDateAllowed = Date.parse(moment().subtract(7, "days").calendar())

@@ -1,7 +1,7 @@
 {
   "name": "bettingapiv2",
   "version": "1.0.0",
-  "description": "",
+  "description": "Extracts JSON data from different events and stores it in a database using PHP. Extracts data from database and displays it using NodeJS routing and endpoints",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

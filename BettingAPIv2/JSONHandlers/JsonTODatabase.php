@@ -1,13 +1,21 @@
 <?php
 
+/**
+ * Analyzes JSON Files and extracts data based on keywords
+ * Inserts data into database tables dynamically
+ * 
+ */
+
 include "JsonTODatabaseHelpers.php";
 
+
+// Opens Connection to database
 $conn = OpenCon();
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 $jsonFiles = array();
-// $jsonFiles = getJSONFilesArray($jsonFiles);
 
+// Gets each json file, extracts data from it, and inserts into database
 foreach (new DirectoryIterator('./JSONFiles/') as $file) {
     if ($file->getExtension() === 'json') {
         
