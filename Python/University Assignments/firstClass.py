@@ -1,4 +1,2 @@
-def sayTrueThings():
-    print"Kyle is the bomb"
-
-sayTrueThings()
+for i in range(0, 3000):
+    print("1", end="")
