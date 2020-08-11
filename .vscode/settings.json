@@ -15,5 +15,6 @@
             "username": "root"
         }
     ],
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "maven.view": "hierarchical"
 }
