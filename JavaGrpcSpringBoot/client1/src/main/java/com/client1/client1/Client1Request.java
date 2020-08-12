@@ -1,13 +1,13 @@
 package com.client1.client1;
 
 import com.grpcservice.proto.lib.*;
-import com.grpcservice.proto.lib.MyServiceGrpc.MyServiceBlockingStub;
+
 
 import org.springframework.stereotype.Service;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import net.devh.boot.grpc.client.inject.GrpcClient;
+
 
 @Service
 public class Client1Request {
