@@ -13,7 +13,7 @@ public class Server extends MyServiceImplBase {
     @Override
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
         HelloReply reply = HelloReply.newBuilder()
-                .setMessage("Hello ==> " + request.getName())
+                .setMessage("Hello, al ovo radi stvarno: " + request.getName())
                 .build();
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
