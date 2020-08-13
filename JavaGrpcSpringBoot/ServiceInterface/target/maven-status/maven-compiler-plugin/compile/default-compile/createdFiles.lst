@@ -19,4 +19,5 @@ com/grpcservice/proto/lib/HelloRequest.class
 com/grpcservice/proto/lib/HelloRequestOrBuilder.class
 com/grpcservice/proto/lib/MyServiceGrpc$MyServiceImplBase.class
 com/grpcservice/proto/lib/MyServiceGrpc$MyServiceBaseDescriptorSupplier.class
+com/grpcproject/Client1Request.class
 com/grpcservice/proto/lib/HelloRequest$1.class
