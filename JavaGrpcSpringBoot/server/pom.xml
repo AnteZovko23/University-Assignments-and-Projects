@@ -18,9 +18,15 @@
 		<java.version>11</java.version>
 	</properties>
 
-
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
+		
 
 		<dependency>
 			<groupId>net.devh</groupId>
@@ -29,12 +35,16 @@
 		</dependency>
 
 
-
 		<dependency>
+			<groupId>com.github.AnteZovko23</groupId>
+			<artifactId>ServerInterface</artifactId>
+			<version>b05d11d364e3e4d168eab5b2a4b76d6d829651b3</version>
+		</dependency>
+		<!-- <dependency>
 			<groupId>com.grpcproject</groupId>
   			<artifactId>ServiceInterface</artifactId>
   			<version>1.0</version>
-		</dependency>
+		</dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

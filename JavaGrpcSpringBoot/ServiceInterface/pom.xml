@@ -16,7 +16,7 @@
 </properties>
   <groupId>com.grpcproject</groupId>
   <artifactId>ServiceInterface</artifactId>
-  <version>1.0</version>
+  <version>1.0.1</version>
   <name>ServiceInterface</name>
   <url>http://maven.apache.org</url>
 
@@ -24,7 +24,7 @@
     <repository>
       <id>github</id>
       <name>ServerInterface</name>
-      <url>https://github.com/AnteZovko23/ServerInterface</url>
+      <url>https://maven.pkg.github.com/antezovko23/serverinterface</url>
     </repository>
  </distributionManagement>
 
