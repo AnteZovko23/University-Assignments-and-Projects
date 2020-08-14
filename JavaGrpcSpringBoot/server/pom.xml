@@ -18,7 +18,7 @@
 		<java.version>11</java.version>
 	</properties>
 
-	<repositories>
+	<!-- <repositories>
 		<repository>
 		  <id>sonatypeSnapshots</id>
 		  <name>Sonatype Snapshots</name>
@@ -30,7 +30,7 @@
 		  </snapshots>
 		  <url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
-	  </repositories>
+	  </repositories> -->
 
 	<!-- <repositories>
 		<repository>
