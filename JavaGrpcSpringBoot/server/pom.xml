@@ -23,7 +23,7 @@
 		  <id>sonatypeSnapshots</id>
 		  <name>Sonatype Snapshots</name>
 		  <releases>
-			<enabled>false</enabled>
+			<enabled>true</enabled>
 		  </releases>
 		  <snapshots>
 			<enabled>true</enabled>
