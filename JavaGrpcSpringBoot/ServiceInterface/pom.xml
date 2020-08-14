@@ -11,8 +11,7 @@
   </parent>
   <properties>
     <java.version>11</java.version>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+
 </properties>
   <groupId>com.grpcproject</groupId>
   <artifactId>ServiceInterface</artifactId>
