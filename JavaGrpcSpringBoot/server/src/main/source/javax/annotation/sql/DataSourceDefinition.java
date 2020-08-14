@@ -1,17 +1,41 @@
 /*
- * Copyright (c) 2009, 2018 Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v. 2.0, which is available at
- * http://www.eclipse.org/legal/epl-2.0.
+ * Copyright (c) 2009-2018 Oracle and/or its affiliates. All rights reserved.
  *
- * This Source Code may also be made available under the following Secondary
- * Licenses when the conditions for such availability set forth in the
- * Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
- * version 2 with the GNU Classpath Exception, which is available at
- * https://www.gnu.org/software/classpath/license.html.
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
  *
- * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
 
 package javax.annotation.sql;
@@ -32,7 +56,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * The data source will be registered under the name specified in the
  * <code>name</code> element. It may be defined to be in any valid
- * Jakarta EE namespace, which will determine the accessibility of
+ * Java EE namespace, which will determine the accessibility of
  * the data source from other components.
  * <p>
  * A JDBC driver implementation class of the appropriate type, either
@@ -58,13 +82,13 @@ import java.lang.annotation.RetentionPolicy;
  * </pre>
  * <p>
  * In the above example, the <code>databaseName</code>, <code>user</code>
- * and <code>serverName</code> properties were specified as part of the
+ * and <code>serverName</code> properties were specified as part of the 
  * <code>url</code> property and using the corresponding
  * annotation elements. This should be avoided.
  * <p>
- * If the <code>properties</code> annotation element is used and contains a
- * DataSource property that was also specified using the corresponding
- * annotation element, the annotation element value takes precedence.
+ * If the <code>properties</code> annotation element is used and contains a 
+ * DataSource property that was also specified using the corresponding 
+ * annotation element, the annotation element value takes precedence.  
  * For example:
  * <p>
  * <pre>
@@ -112,7 +136,7 @@ import java.lang.annotation.RetentionPolicy;
  *      user="lance",
  *      password="secret"
  *   )
- *
+ * 
  * </pre>
  * <p>
  * Using a <code>URL</code>:
@@ -167,9 +191,9 @@ public @interface DataSourceDefinition {
     String description() default "";
 
     /**
-     * A JDBC URL.  If the <code>url</code>  annotation element contains a
-     * DataSource property that was also specified using the corresponding
-     * annotation element, the precedence order is undefined and
+     * A JDBC URL.  If the <code>url</code>  annotation element contains a 
+     * DataSource property that was also specified using the corresponding 
+     * annotation element, the precedence order is undefined and 
      * implementation specific.
      * @since 1.1
      */
@@ -206,7 +230,7 @@ public @interface DataSourceDefinition {
     String serverName() default "localhost";
 
     /**
-     * Isolation level for connections. The Isolation level
+     * Isolation level for connections. The Isolation level 
      * must be one of the following:
      * <p>
      * <ul>

@@ -48,12 +48,12 @@
 			<version>2.9.0.RELEASE</version>
 		</dependency> -->
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.github.antezovko23</groupId>
 			<artifactId> library </artifactId>
 			<version> 1.0.4-SNAPSHOT </version>
 			
-		</dependency>
+		</dependency> -->
 
 
 		<!-- <dependency>
@@ -73,7 +73,7 @@
 			<version>1.0.4</version>
 		  </dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
@@ -100,8 +100,8 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-	</dependencies>
+		</dependency> -->
+	</dependencies> 
 
 	<build>
 		<plugins>
