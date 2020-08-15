@@ -33,6 +33,7 @@
 	
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -48,7 +49,7 @@
 		<dependency>
 			<groupId>com.github.antezovko23</groupId>
 			<artifactId>library</artifactId>
-			<version>1.0.0.2-SNAPSHOT</version>
+			<version>1.1</version>
 		</dependency>
 
 		<dependency>
