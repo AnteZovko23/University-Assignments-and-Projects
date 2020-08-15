@@ -7,6 +7,8 @@ Web Development Course from Udemy.com mostly in HTML, CSS, JS.
 
 Lab Exercises from the university mostly in Java and Python.
 
+Internship Projects - gRPC-Java-SpringBoot, BettingAPIv2
+
 Miscellaneous things I am interested in.
 
 More Projects are coming...
