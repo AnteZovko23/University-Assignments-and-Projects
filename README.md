@@ -33,7 +33,20 @@
 - Offering <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) 
 
 <br>
-## Skills:  
+
+## Skills: 💻
+- Java/Go 
+- Python/PHP/JavaScript
+- Node.js/Spring Framework/Maven 
+- HTML/CSS/Bootstrap
+- REST API/gRPC API 
+- JSON/Protocol Buffers
+- Linux 
+- Raspberry PI/Microelectronics
+- Relational Databases/MySQL 
+- Version Control/Git
+- Algorithm implementation
+- Data Structures
 
 
 <br>
