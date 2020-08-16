@@ -100,13 +100,13 @@ Sunday       65 commits     █████████████░░░░�
 ⌚︎ Time zone: Europe/Sarajevo
 
 💬 Programming Languages: 
-No Activity Tracked This Week
+Java, Python, PHP, JavaScript, Go
 
 🔥 Code Editors: 
-No Activity Tracked This Week
+VS Code
 
 💻 Operating System: 
-No Activity Tracked This Week
+Ubuntu Linux
 
 ```
 
