@@ -23,7 +23,7 @@
 <br>
 <br>
 
-<h1 align="center">Background:</h1>
+<h1 align="center">About me:</h1>
 
 <br>
 
