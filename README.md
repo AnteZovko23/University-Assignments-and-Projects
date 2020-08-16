@@ -1,4 +1,4 @@
-### Hello there, my name is Ante Zovko 👋
+# Hello there, my name is Ante Zovko 👋
 
 <br>
 <br>
@@ -9,8 +9,17 @@
 [![Instagram](https://img.shields.io/badge/Instagram-Follow-E1306C?style=for-the-badge&logo=Instagram&logoColor=white)](https://www.instagram.com/zovkoante23/)
 [![Facebook](https://img.shields.io/badge/Facebook-Add%20Friend-darkblue?style=for-the-badge&logo=Facebook&logoColor=white)](https://www.facebook.com/ZovkoAntee/)
 
+<br>
+
 ## I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University.
 
-## Interested in Backend Software Engineering.
+- Interested in Backend Software Engineering.
 
-## Background in data processing, REST API/RPC development, and backend application design. 
+- Background in data processing, REST API/RPC development, and backend application design. 
+
+- Open to <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) to anyone interested.
+
+
+
+### Spotify Playing 🎧
+[<iframe src="https://open.spotify.com/embed/playlist/3Mo6ZdjhTCgj5o8CHs9q2I" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>]
