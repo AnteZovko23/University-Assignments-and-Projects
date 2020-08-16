@@ -30,7 +30,7 @@
 ## I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University
 - Interested in Backend Software Engineering</h4>
 - Background in data processing, REST API/RPC development, and backend application design
-- Open to <b>Pro Bono (Free of Charge)<b> tutoring (online or in-person) to anyone interested 
+- Offering <b>Pro Bono (Free of Charge)<b> tutoring (online or in-person) 
 
 <br>
 
