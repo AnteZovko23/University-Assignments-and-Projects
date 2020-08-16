@@ -74,16 +74,6 @@
 
 **🐱 My Github Data** 
 
-> 🏆 156 Contributions in the year 2020
- > 
-> 📦 50.3 kB Used in Github's Storage 
- > 
-> 💼 Opted to Hire
- > 
-> 📜 6 Public repositories
- > 
-> 🔑 1 Private repository 
- > 
 **I'm an Early 🐤** 
 
 ```text
@@ -123,7 +113,7 @@ No Activity Tracked This Week
 
 ```
 
-**I Mostly Code in Java** 
+
 
 ```text
 Java                     2 repos             █████████████████████████   100.0%
