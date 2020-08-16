@@ -1,9 +1,14 @@
-# Welcome!
+
+<h1 align="center"> Welcome!</h1>
 <br>
 
-## My name is Ante Zovko 👋
+<h2 align="center">My name is Ante Zovko👋</h2> 
 
-[![Gmail](https://img.shields.io/badge/Email-Contact-darkred?style=for-the-badge&logo=gmail&labelColor=grey&logoColor=white)](https://mail.google.com/mail/u/0/?view=cm&fs=1&to=antezovko.az@gmail.com&tf=1)
+<p align= "center">
+  <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=antezovko.az@gmail.com&tf=1">
+      <img alt="GMAIL" src="https://img.shields.io/badge/Email-Contact-darkred?style=for-the-badge&logo=gmail&labelColor=grey&logoColor=white" />
+    </a>
+  </p>
 [![LinkedIn Follow](https://img.shields.io/badge/LinkedIn-Connect-Blue?style=for-the-badge&logo=LinkedIn)](https://www.linkedin.com/in/antezovko/)
 [![Instagram](https://img.shields.io/badge/Instagram-Follow-E1306C?style=for-the-badge&logo=Instagram&logoColor=white)](https://www.instagram.com/zovkoante23/)
 [![Facebook](https://img.shields.io/badge/Facebook-Add%20Friend-darkblue?style=for-the-badge&logo=Facebook&logoColor=white)](https://www.facebook.com/ZovkoAntee/)
