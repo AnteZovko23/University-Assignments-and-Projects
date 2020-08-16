@@ -24,9 +24,9 @@
 <br>
 <div align = "center">
 <h2 align="center">I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University</h2>
-<p> Interested in Backend Software Engineering
-<p>  Background in data processing, REST API/RPC development, and backend application design
-<p>  Open to <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) to anyone interested
+<h4> Interested in Backend Software Engineering</h4>
+<h4> Background in data processing, REST API/RPC development, and backend application design</h4>
+<h4>  Open to <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) to anyone interested </h4>
 </ul>
 </div>
 <br>
