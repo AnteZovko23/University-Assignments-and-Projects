@@ -9,4 +9,8 @@
 [![Instagram](https://img.shields.io/badge/Instagram-Follow-E1306C?style=for-the-badge&logo=Instagram&logoColor=white)](https://www.instagram.com/zovkoante23/)
 [![Facebook](https://img.shields.io/badge/Facebook-Add%20Friend-darkblue?style=for-the-badge&logo=Facebook&logoColor=white)](https://www.facebook.com/ZovkoAntee/)
 
-## I'm a Student
+## I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University.
+
+## Interested in Backend Software Engineering.
+
+## Background in data processing, REST API/RPC development, and backend application design. 
