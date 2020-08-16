@@ -1,5 +1,5 @@
 # Welcome!
-# My name is Ante Zovko 👋
+# My name is Ante Zovko
 
 <br>
 <br>
