@@ -65,6 +65,8 @@
 - Languages (English, German, Spanish, Croatian)
 
 <br>
+<br>
+<br>
 
 <h1 align="center">About the Repository:</h1>
 
@@ -77,6 +79,10 @@
 - Courses from Udemy.com (Web Development)
 
 - <b>Disclaimer: This repository should under no circumstances be used for cheating on assignments.</b>
+
+<br>
+<br>
+<br>
 
 <h1 align="center">About the Account:</h1>
 
