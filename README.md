@@ -22,4 +22,4 @@
 
 
 ### Spotify Playing 🎧
-[<iframe src="https://open.spotify.com/embed/playlist/3Mo6ZdjhTCgj5o8CHs9q2I" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>]
+[<img src="novatorem-git-master.antezovko23.vercel.app/api/spotify-playing" alt="Spotify Now Playing" width="350" />](https://open.spotify.com/user/swyqyimdc12jajde4vpwd2x1b)
