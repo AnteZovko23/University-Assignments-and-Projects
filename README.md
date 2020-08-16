@@ -64,6 +64,19 @@
 - Sports (Football, Soccer, Basketball, College Sports)
 - Languages (English, German, Spanish, Croatian)
 
+<br>
+
+<h1 align="center">About the Repository:</h1>
+
+- University Assignments (Java, Python)
+
+- Internship Projects (BettingAPIv2, gRPC-Java-SpringBoot)
+
+- Carpe Noctem Project under "Releases" Tab (Download .jar file and use this command: "java -jar \<name-of-the-jar-file>\")
+  
+- Courses from Udemy.com (Web Development)
+
+- <b>Disclaimer: This repository should under no circumstances be used for cheating on assignments.</b>
 
 <h1 align="center">About the Account:</h1>
 
