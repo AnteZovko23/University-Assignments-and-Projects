@@ -36,3 +36,9 @@
 
 ### I am currently listening to: 🎧
 [<img src="https://novatorem-teal.vercel.app/api/spotify-playing" alt="Spotify Now Playing" width="500"/>](https://open.spotify.com/playlist/3Mo6ZdjhTCgj5o8CHs9q2I?si=xs8bzdcrSY2ld5fqCLj04Q)
+
+### Hobbies: ⚡ 
+- Latin Dances (Salsa, Bachata, Tango)
+- Musical Instruments (Piano, Guitar)
+- Sports (Football, Soccer, Basketball, College Sports)
+- Languages (English, German, Spanish, Croatian)
