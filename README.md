@@ -33,9 +33,16 @@
 - Offering <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) 
 
 <br>
+## Skills:  
+
+
+<br>
 
 ## I am currently listening to: 🎧
 [<img src="https://novatorem-teal.vercel.app/api/spotify-playing" alt="Spotify Now Playing" width="500"/>](https://open.spotify.com/playlist/3Mo6ZdjhTCgj5o8CHs9q2I?si=xs8bzdcrSY2ld5fqCLj04Q)
+
+<br>
+
 
 ## Hobbies: ⚡ 
 - Latin Dances (Salsa, Bachata, Tango)
