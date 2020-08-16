@@ -2,7 +2,7 @@
 <h1 align="center"> Welcome!</h1>
 <br>
 
-<h2 align="center">My name is Ante Zovko and I am Backend Software Engineer</h2> 
+<h2 align="center">My name is Ante Zovko and I am a Backend Software Engineer</h2> 
 
 <p align= "center">
   <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=antezovko.az@gmail.com&tf=1">
