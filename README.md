@@ -23,11 +23,15 @@
 <br>
 <br>
 
-<h2 >I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University</h2>
-<h4> Interested in Backend Software Engineering</h4>
-<h4> Background in data processing, REST API/RPC development, and backend application design</h4>
-<h4>  Open to Pro Bono (Free of Charge) tutoring (online or in-person) to anyone interested </h4>
-</div>
+<h1 align="center">Background:</h1>
+
+<br>
+
+## I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University
+- Interested in Backend Software Engineering</h4>
+- Background in data processing, REST API/RPC development, and backend application design
+- Open to Pro Bono (Free of Charge) tutoring (online or in-person) to anyone interested 
+
 <br>
 
 ### I am currently listening to: 🎧
