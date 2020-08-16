@@ -111,17 +111,5 @@ No Activity Tracked This Week
 ```
 
 
-
-```text
-Java                     2 repos             █████████████████████████   100.0%
-
-```
-
-
-**Timeline**
-
-![Chart not found](https://github.com/AnteZovko23/AnteZovko23/blob/master/charts/bar_graph.png) 
-
-
 <!--END_SECTION:waka-->
 
