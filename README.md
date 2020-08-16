@@ -1,17 +1,4 @@
-# Coding-Projects
-All of my Coding Projects
+### Hi there, my name is Ante Zovko 👋
 
-Main Project is under the "RELEASES" tab.
-
-Lab Exercises from the university mostly in Java and Python.
-
-Internship Projects - gRPC-Java-SpringBoot, BettingAPIv2
-
-Web Development Course from Udemy.com mostly in HTML, CSS, JS.
-
-Miscellaneous things I am interested in.
-
-More Projects are coming...
-
-Disclaimer: This repository should under no circumstances
-            be used for cheating on assignments.
+[![Website](https://img.shields.io/website?label=codeSTACKr.com&style=for-the-badge&url=https%3A%2F%2Fcodestackr.com)](https://codestackr.com)
+[![LinkedIn Follow](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=LinkedIn)](https://www.linkedin.com/in/antezovko/)
