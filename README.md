@@ -22,4 +22,4 @@
 
 
 ### Spotify Playing 🎧
-[<img src="novatorem-git-master.antezovko23.vercel.app/api/spotify-playing" alt="Spotify Now Playing" width="350" />](https://open.spotify.com/user/swyqyimdc12jajde4vpwd2x1b)
+[<img src="novatorem-git-master.antezovko23.vercel.app/api/spotify-playing" alt="antezovko23 Spotify Playing" width="350" />](https://open.spotify.com/user/swyqyimdc12jajde4vpwd2x1b)
