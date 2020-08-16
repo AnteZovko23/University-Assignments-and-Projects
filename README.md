@@ -2,7 +2,7 @@
 <h1 align="center"> Welcome!</h1>
 <br>
 
-<h2 align="center">My name is Ante Zovko and I am the owner of this repository.</h2> 
+<h2 align="center">My name is Ante Zovko and I am the owner of this repository</h2> 
 
 <p align= "center">
   <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=antezovko.az@gmail.com&tf=1">
@@ -23,11 +23,10 @@
 <br>
 <br>
 <div align = "center">
-<h2 align="center">I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University.</h2>
-<ul>
-  <li>Interested in Backend Software Engineering</li>
-  <li>Background in data processing, REST API/RPC development, and backend application design</li>
-  <li>Open to <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) to anyone interested</li>
+<h2 align="center">I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University</h2>
+<p> Interested in Backend Software Engineering
+<p>  Background in data processing, REST API/RPC development, and backend application design
+<p>  Open to <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) to anyone interested
 </ul>
 </div>
 <br>
