@@ -22,7 +22,7 @@
 
 <br>
 <br>
-<div align = "center">
+
 <h2 >I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University</h2>
 <h4> Interested in Backend Software Engineering</h4>
 <h4> Background in data processing, REST API/RPC development, and backend application design</h4>
