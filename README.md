@@ -70,6 +70,7 @@
 
 <h1 align="center">About the Repository:</h1>
 
+## Content Info: 
 - University Assignments (Java, Python)
 
 - Internship Projects (BettingAPIv2, gRPC-Java-SpringBoot)
@@ -80,7 +81,22 @@
 
 - <b>Disclaimer: This repository should under no circumstances be used for cheating on assignments.</b>
 
+
+<br>
+
+## Stats: 
+<a href="https://github.com/AnteZovko23">
+  <img align="center" src="https://github-readme-stats.vercel.app/api?username=AnteZovko23&show_icons=true&line_height=27&count_private=true&title_color=ffffff&text_color=c9cacc&icon_color=2bbc8a&bg_color=1d1f21" alt="Ante's GitHub Stats" />
+</a>
+
+<br>
+
+## Top Languages:
 <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=AnteZovko23&title_color=ffffff&text_color=c9cacc&icon_color=2bbc8a&bg_color=1d1f21" />
+
+
+
+
 
 
 <br>
@@ -91,10 +107,7 @@
 
 <!--START_SECTION:waka-->
 
-**🐱 My Github Data** 
-
-**I'm an Early 🐤** 
-
+## I get the most work done during the:
 ```text
 🌞 Morning    12 commits     ██░░░░░░░░░░░░░░░░░░░░░░░   10.17% 
 🌆 Daytime    62 commits     █████████████░░░░░░░░░░░░   52.54% 
@@ -102,6 +115,8 @@
 🌙 Night      6 commits      █░░░░░░░░░░░░░░░░░░░░░░░░   5.08%
 
 ```
+## I get the most work done on:
+
 📅 **I'm Most Productive on Sunday** 
 
 ```text
@@ -116,7 +131,7 @@ Sunday       65 commits     █████████████░░░░�
 ```
 
 
-📊 **This Week I Spend My Time On** 
+## This Week I Spend My Time On: 
 
 ```text
 ⌚︎ Time zone: Europe/Sarajevo
