@@ -67,8 +67,7 @@
 
 <h1 align="center">About the Repository:</h1>
 
-START_SECTION:waka
+<!--START_SECTION:waka-->
 
-END_SECTION:waka
-
+<!--END_SECTION:waka-->
 
