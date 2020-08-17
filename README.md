@@ -132,7 +132,7 @@ Sunday       65 commits     █████████████░░░░�
 ```
 
 
-## This Week I Spend My Time On: 
+## Technologies I use:
 
 ```text
 ⌚︎ Time zone: Europe/Sarajevo
