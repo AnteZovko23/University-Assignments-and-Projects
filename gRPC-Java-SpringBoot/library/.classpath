@@ -43,7 +43,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/classes" path=".protop/path/AdditionService">
+	<classpathentry excluding="**" kind="src" output="target/classes" path=".protop/path/AdditionServiceV2">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>

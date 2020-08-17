@@ -1,10 +1,8 @@
 package com.client.client1;
 
+import com.github.antezovko23.GRPCContinuousIncrementRequest;
+import com.github.antezovko23.ServerConnection;
 
-
-
-
-import com.github.antezovko23.ClientRequest;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,29 +10,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
 @RestController
 public class Controller {
 
 
+    // Dependency injections 
     @Autowired
-    private ClientRequest incrementGrpcRequest;
+    private ServerConnection serverConnection;
+    @Autowired
+    private GRPCContinuousIncrementRequest incrementCall;
 
+
+    // Increments a number by a given value
     @RequestMapping("/increment")
-    public int incrementRequest(@RequestParam(defaultValue = "2") Integer counter){
+    public String incrementRequest(@RequestParam(defaultValue = "0") Integer counter,
+            @RequestParam(defaultValue = "1") Integer step) {
+
+       
+            System.out.println(serverConnection.sendIncrementRequest(counter, step));
+            return "Done";
+
+        }
+    
+
+    // Constantly increments number by a given value
+    @RequestMapping("/continuousIncrement")
+    public void continuousIncrementRequest(@RequestParam(defaultValue = "0") Integer counter,
+            @RequestParam(defaultValue = "1") Integer step) {
+
+        try {
+            incrementCall.GRPCCall(counter, step);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         
-        while(true){
-            System.out.println(incrementGrpcRequest.sendIncrementRequest(counter));
-            counter++;
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
+        
 
         }
     }
 
     
-}

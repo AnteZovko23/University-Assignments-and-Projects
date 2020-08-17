@@ -18,6 +18,18 @@
 		<java.version>11</java.version>
 	</properties>
 
+
+	<repositories>
+		<repository>
+			<id>oss-sonatype</id>
+			<name>oss-sonatype</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -33,8 +45,7 @@
 		<dependency>
 			<groupId>com.github.antezovko23</groupId>
 			<artifactId> library </artifactId>
-			<version> 1.0.0.2-SNAPSHOT </version>
-			<scope>provided</scope>
+			<version>1.2</version>
 		</dependency>
 
 		<dependency>

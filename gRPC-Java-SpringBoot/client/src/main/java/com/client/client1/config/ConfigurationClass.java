@@ -1,23 +1,32 @@
 package com.client.client1.config;
 
-import com.client.client1.GRPCTestCall;
-import com.github.antezovko23.ClientRequest;
+
+import com.github.antezovko23.GRPCContinuousIncrementRequest;
+import com.github.antezovko23.ServerConnection;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
+/**
+ * Configuration Class 
+ * 
+ * 
+ */
 @Configuration
 public class ConfigurationClass {
 
     @Bean
-    public ClientRequest getRequest(){
-        return new ClientRequest();
+    public ServerConnection getRequest(){
+        return new ServerConnection();
     }
 
     @Bean
-    public GRPCTestCall getGRPCTestCall(){
-        return new GRPCTestCall();
+    public GRPCContinuousIncrementRequest GRPCContinuousIncrementRequest() {
+        return new GRPCContinuousIncrementRequest();
     }
-    
+
+
     
 }
