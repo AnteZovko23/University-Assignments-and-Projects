@@ -40,6 +40,10 @@
 
 ## Course Content Description
 <ul>
+  
+ <br>
+ <br>
+ 
   <li><b>Java</b>
     
    <br>
@@ -81,4 +85,27 @@
   <li>
     Additional coverage of algorithm analysis and development, object-oriented programming, data structures, computer architecture, and problem solving; applications of computing
   </li>
-  </ul
+  </ul>
+  
+   <br>
+ <br>
+ 
+<li><b>Packet Tracer</b>
+    
+   <br>
+   <br>
+   
+ <ul>
+  <li>
+   Computer networks based on the OSI model of a layered network architecture. The TCP/IP protocol suite is used to illustrate network protocols. It also includes    an overview of local area networks, routing algorithms, and network applications.
+  </li> 
+ &zwnj;
+  </ul>
+
+
+
+
+ </ul>
+
+  
+ 
