@@ -38,20 +38,27 @@
 
 <br>
 
-## Course Content Descriptions
+## Course Content Description
 <ul>
   <li><b>Java</b>
     
    <br>
    <br>
- 
-  - Object-oriented design approach to building applications, which emphasizes the creation and utilization of reusable software tools. Students are introduced     to data structures that are commonly encountered in building software applications and to the analysis of the efficiency of algorithms used to solve problems.
-   <br>
-       
-  - Several modern approaches to practical software development at both a high and low level of abstraction. Client-Server and Event-Driven models of software         design, with elementary design patterns such as Adapter and Model-View-Controller that support these models and with techniques such as test-driven design and     refactoring that aid in the implementation of these ideas
-  
-  - Command-time, batch, and event-driven models of user interaction as well as presentation styles, models of communication and cognitive processes, and the          social implications of user interface design.
+ <ul>
+  <li>
+  Object-oriented design approach to building applications, which emphasizes the creation and utilization of reusable software tools. Students are introduced     to data structures that are commonly encountered in building software applications and to the analysis of the efficiency of algorithms used to solve problems.
+  </li> 
+ &zwnj;
+    <li>  
+   Several modern approaches to practical software development at both a high and low level of abstraction. Client-Server and Event-Driven models of software         design, with elementary design patterns such as Adapter and Model-View-Controller that support these models and with techniques such as test-driven design and     refactoring that aid in the implementation of these ideas
+  </li>
    
+   <br>
+   
+  <li>
+  Command-time, batch, and event-driven models of user interaction as well as presentation styles, models of communication and cognitive processes, and the          social implications of user interface design.
+   </li>
+   </ul>
   </li>
   <li><b>Python: Science of Computing:</b>
   <br>
