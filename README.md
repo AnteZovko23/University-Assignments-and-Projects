@@ -25,24 +25,40 @@
 <br>
 
 # Update:
-## <b>Offering Pro Bono (Free of Charge) tutoring (online or in-person)</b> 
+- ## <b>Offering Pro Bono (Free of Charge) tutoring (online or in-person)</b> 
 
-
+<br>
+<br>
 <br>
 
 <h1 align="center">About the Repository:</h1>
 
 <br>
-<h1>Python Bootcamp</h1>
+<h1>Courses</h1>
 
 <br>
 
-## Topics Covered 
+## Course Content Descriptions
 <ul>
-<li>Objects and Data Structures</li>
-<li>Methods and Functions</li>
+  <li><b>Java</b>
+    
+   <br>
+   <br>
+ 
+  - Object-oriented design approach to building applications, which emphasizes the creation and utilization of reusable software tools. Students are introduced     to data structures that are commonly encountered in building software applications and to the analysis of the efficiency of algorithms used to solve problems.
+   <br>
+       
+  - Several modern approaches to practical software development at both a high and low level of abstraction. Client-Server and Event-Driven models of software         design, with elementary design patterns such as Adapter and Model-View-Controller that support these models and with techniques such as test-driven design and     refactoring that aid in the implementation of these ideas
+  
+  - Command-time, batch, and event-driven models of user interaction as well as presentation styles, models of communication and cognitive processes, and the          social implications of user interface design.
+   
+  </li>
+  <li><b>Python: Science of Computing:</b>
+  <br>
+  <p>Intermediate algorithm analysis and development, object-oriented programming, high level data structures, computer architecture, and problem solving.
+  </li>
 <li>OOP</li>
-<li>Modules and Packages</li>
+<li>Packages</li>
 <li>Error Handling</li>
 <li>Link: <a href="https://www.udemy.com/course/complete-python-bootcamp/">The Python Bootcamp</a></li>
 </ul>
