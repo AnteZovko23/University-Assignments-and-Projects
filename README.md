@@ -60,37 +60,25 @@
    </li>
    </ul>
   </li>
-  <li><b>Python: Science of Computing:</b>
-  <br>
-  <p>Intermediate algorithm analysis and development, object-oriented programming, high level data structures, computer architecture, and problem solving.
+   
+ <br>
+ <br>
+ 
+<li><b>Python</b>
+    
+   <br>
+   <br>
+   
+ <ul>
+  <li>
+  An introduction to computing algorithm analysis and development, computer programming, data structures, computer architecture, and problem solving.
+  </li> 
+ &zwnj;
+    <li>  
+   Intermediate algorithm analysis and development, object-oriented programming, high level data structures, computer architecture, and problem solving
   </li>
-<li>OOP</li>
-<li>Packages</li>
-<li>Error Handling</li>
-<li>Link: <a href="https://www.udemy.com/course/complete-python-bootcamp/">The Python Bootcamp</a></li>
-</ul>
-
-<br>
-
-## Certificate: 
-<img witdh="350" height="350" src = "https://github.com/AnteZovko23/Projects-Online-Courses/blob/master/Python%20Bootcamp%20/Screenshots/Certificate.jpg">
-
-<br>
-<br>
-<br>
-
-<h1>Web Developer Bootcamp</h1>
-<br>
-
-## Topics Covered (So far)
-
-<ul>
-<li>HTML/CSS/JavaScript</li>
-<li>jQuery</li>
-<li>BootStrap</li>
-<li>Link: <a href="https://www.udemy.com/course/the-web-developer-bootcamp/">The Web Developer Bootcamp</a></li>
-</ul>
-
-
-
-<br>
+  <br>
+  <li>
+    Additional coverage of algorithm analysis and development, object-oriented programming, data structures, computer architecture, and problem solving; applications of computing
+  </li>
+  </ul
