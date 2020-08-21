@@ -1,2 +1,0 @@
-# ServiceLibrary
-Java Service Library
