@@ -24,7 +24,8 @@
 <br>
 <br>
 
-# Offering <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) 
+# Update:
+## <b>Offering Pro Bono (Free of Charge) tutoring (online or in-person)</b> 
 
 
 <br>
