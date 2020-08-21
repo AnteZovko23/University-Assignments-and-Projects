@@ -34,19 +34,19 @@
 <h1 align="center">About the Repository:</h1>
 
 <br>
-<h1>Courses</h1>
+<h1> Course Content Description</h1>
 
 <br>
 
-## Course Content Description
 <ul>
   
  <br>
  <br>
  
-  <li><b>Java</b>
+  <li>
+  
+  ## Java
     
-   <br>
    <br>
  <ul>
   <li>
@@ -68,9 +68,10 @@
  <br>
  <br>
  
-<li><b>Python</b>
-    
-   <br>
+<li>
+  
+  ## Python
+  
    <br>
    
  <ul>
@@ -90,10 +91,13 @@
    <br>
  <br>
  
-<li><b>Packet Tracer</b>
+<li> 
+  
+  
+  ## Packet Tracer
     
    <br>
-   <br>
+
    
  <ul>
   <li>
@@ -101,11 +105,86 @@
   </li> 
  &zwnj;
   </ul>
-
-
-
-
+  <!-- Tech Here -->
+  
  </ul>
+ 
+<br>
+
+<h1>Projects</h1>
+
+<ul>
+
+<br>
+
+## Carpe Noctem
+
+   <br>
+   
+ <ul>
+  
+  ## Project Features
+  - Combination of three CS131 laboratory exercises connected with a Graphical User Interface
+  - Features Centroid, Sierpinski Triangle Coordinate Manipulation and Dot Racing
+  - Project was featured at the St. Bonaventure University Arts and Sciences Expo
+  - Java and Java Swing package used
+  - Release Notes and Features: https://github.com/AnteZovko23/University-Assignments-and-Projects/releases
+   &zwnj;
+ </li>
+  
+  <br>
+  
+## Installation Steps
+
+<ul>
+  <li><a href="https://github.com/AnteZovko23/University-Assignments-and-Projects/releases/download/v1.0/Carpe.Noctem.v1.0.0.jar">Download the .jar file</a></li>
+  <li>Open terminal (command prompt)</li>
+  <li>Go to the directory where the file was downloaded, </li>
+  <li>Enter this command (You need to have <a href="https://jdk.java.net/14/"> Java Development Kit</a>) </li>
+  <br>
+  
+  ```bash
+  
+  
+  java -jar Carpe.Noctem.v1.0.0.jar 
+      
+  ```  
+  
+ </ul>
+</li>
+
 
   
- 
+<li>  
+  
+  <br>
+  
+## Project Screenshots
+
+<ul>
+  <br>
+
+### Database Structure
+
+<img height="400" src="https://github.com/AnteZovko23/RestAPI-Node.js-PHP-MySQL/blob/master/screenshots/Database.png">
+
+<br>
+
+### Get all sports request
+
+<img height="400" src="https://github.com/AnteZovko23/RestAPI-Node.js-PHP-MySQL/blob/master/screenshots/GetAllSports.png">
+
+<br>
+
+### Get all odds request
+
+<img height="400" src="https://github.com/AnteZovko23/RestAPI-Node.js-PHP-MySQL/blob/master/screenshots/RequestAllOdds.png">
+
+<br>
+  
+ </ul>
+</li>
+                               
+</ul>
+
+        
