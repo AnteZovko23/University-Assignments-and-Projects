@@ -24,130 +24,49 @@
 <br>
 <br>
 
-<h1 align="center">About me:</h1>
-
-<br>
-
-## I am a Computer Science major (3.92 GPA) currently attending Louisiana Tech University
-- Interested in Backend Software Engineering</h4>
-- Background in data processing, REST API/RPC development, and backend application design
-- Offering <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) 
-
-<br>
-
-## Skills: 💻
-- Java/Go 
-- Python/PHP/JavaScript
-- Node.js/Spring Framework/Maven 
-- HTML/CSS/Bootstrap
-- REST API/gRPC API 
-- JSON/Protocol Buffers
-- Linux 
-- Raspberry PI/Microelectronics
-- Relational Databases/MySQL 
-- Version Control/Git
-- Algorithm implementation
-- Data Structures
+# Offering <b>Pro Bono (Free of Charge)</b> tutoring (online or in-person) 
 
 
-<br>
-
-## I am currently listening to: 🎧
-[<img src="https://novatorem-teal.vercel.app/api/spotify-playing" alt="Spotify Now Playing" width="500"/>](https://open.spotify.com/playlist/3Mo6ZdjhTCgj5o8CHs9q2I?si=xs8bzdcrSY2ld5fqCLj04Q)
-
-<br>
-
-
-## Hobbies: ⚡ 
-- Latin Dances (Salsa, Bachata, Tango)
-- Musical Instruments (Piano, Guitar)
-- Sports (Football, Soccer, Basketball, College Sports)
-- Languages (English, German, Spanish, Croatian)
-
-<br>
-<br>
 <br>
 
 <h1 align="center">About the Repository:</h1>
 
-## Content Info: 
-- University Assignments (Java, Python)
-
-- Internship Projects (BettingAPIv2, gRPC-Java-SpringBoot)
-
-- Carpe Noctem Project under "Releases" Tab (Download .jar file and use this command: "java -jar \<name-of-the-jar-file>\")
-  
-- Courses from Udemy.com (Web Development)
-
-- <b>Disclaimer: This repository should under no circumstances be used for cheating on assignments.</b>
-
+<br>
+<h1>Python Bootcamp</h1>
 
 <br>
 
-## Stats: 
-<a href="https://github.com/AnteZovko23">
-  <img align="center" src="https://github-readme-stats.antezovko23.vercel.app/api?username=AnteZovko23&show_icons=true&line_height=27&count_private=true&title_color=ffffff&text_color=c9cacc&icon_color=2bbc8a&bg_color=1d1f21" alt="Ante's GitHub Stats" />
-</a>
-
+## Topics Covered 
+<ul>
+<li>Objects and Data Structures</li>
+<li>Methods and Functions</li>
+<li>OOP</li>
+<li>Modules and Packages</li>
+<li>Error Handling</li>
+<li>Link: <a href="https://www.udemy.com/course/complete-python-bootcamp/">The Python Bootcamp</a></li>
+</ul>
 
 <br>
 
-## Top Languages:
-<img align="center" src="https://github-readme-stats.antezovko23.vercel.app/api/top-langs/?username=AnteZovko23&title_color=ffffff&text_color=c9cacc&icon_color=2bbc8a&bg_color=1d1f21" />
-
-
-
-
-
+## Certificate: 
+<img witdh="350" height="350" src = "https://github.com/AnteZovko23/Projects-Online-Courses/blob/master/Python%20Bootcamp%20/Screenshots/Certificate.jpg">
 
 <br>
 <br>
 <br>
 
-<h1 align="center">About the Account:</h1>
+<h1>Web Developer Bootcamp</h1>
+<br>
 
-<!--START_SECTION:waka-->
+## Topics Covered (So far)
 
-## I get the most work done during the:
-```text
-🌞 Morning    12 commits     ██░░░░░░░░░░░░░░░░░░░░░░░   10.17% 
-🌆 Daytime    62 commits     █████████████░░░░░░░░░░░░   52.54% 
-🌃 Evening    38 commits     ████████░░░░░░░░░░░░░░░░░   32.2% 
-🌙 Night      6 commits      █░░░░░░░░░░░░░░░░░░░░░░░░   5.08%
-
-```
-## I get the most work done on:
-
-📅 **I'm Most Productive on Sunday** 
-
-```text
-Monday       1 commits      ░░░░░░░░░░░░░░░░░░░░░░░░░   0.85% 
-Tuesday      6 commits      █░░░░░░░░░░░░░░░░░░░░░░░░   5.08% 
-Wednesday    10 commits     ██░░░░░░░░░░░░░░░░░░░░░░░   8.47% 
-Thursday     9 commits      ██░░░░░░░░░░░░░░░░░░░░░░░   7.63% 
-Friday       24 commits     █████░░░░░░░░░░░░░░░░░░░░   20.34% 
-Saturday     3 commits      ░░░░░░░░░░░░░░░░░░░░░░░░░   2.54% 
-Sunday       65 commits     █████████████░░░░░░░░░░░░   55.08%
-
-```
+<ul>
+<li>HTML/CSS/JavaScript</li>
+<li>jQuery</li>
+<li>BootStrap</li>
+<li>Link: <a href="https://www.udemy.com/course/the-web-developer-bootcamp/">The Web Developer Bootcamp</a></li>
+</ul>
 
 
-## Technologies I use:
 
-```text
-⌚︎ Time zone: Europe/Sarajevo
-
-💬 Programming Languages: 
-Java, Python, PHP, JavaScript, Go
-
-🔥 Code Editors: 
-VS Code
-
-💻 Operating System: 
-Ubuntu Linux
-
-```
-
-
-<!--END_SECTION:waka-->
-
+<br>
