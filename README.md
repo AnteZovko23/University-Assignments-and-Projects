@@ -35,7 +35,6 @@
 
 <br>
 
-<br>
 
 <ul>
   
@@ -160,10 +159,16 @@
 
 <ul>
   <br>
+ <br>
 
+  
 ### Centroid
 
+ 
+
 <img height="400" src="https://github.com/AnteZovko23/University-Assignments-and-Projects/blob/master/Java/St.%20Bonaventure%20University/Independent%20Projects/Carpe%20Noctem/screenshots/Centroid.png">
+
+ <br>
 
 <br>
 
@@ -171,12 +176,17 @@
 
 <img height="400" src="https://github.com/AnteZovko23/University-Assignments-and-Projects/blob/master/Java/St.%20Bonaventure%20University/Independent%20Projects/Carpe%20Noctem/screenshots/Sierpinski.png">
 
+ <br>
+
 <br>
 
 ### Dots
 
 
 <img height="400" src="https://github.com/AnteZovko23/University-Assignments-and-Projects/blob/master/Java/St.%20Bonaventure%20University/Independent%20Projects/Carpe%20Noctem/screenshots/Dots.png">
+ <br>
+ <br>
+
 
 ### Dots Racing
 <img height="400" src="https://github.com/AnteZovko23/University-Assignments-and-Projects/blob/master/Java/St.%20Bonaventure%20University/Independent%20Projects/Carpe%20Noctem/screenshots/Dots%20Racing.png">
