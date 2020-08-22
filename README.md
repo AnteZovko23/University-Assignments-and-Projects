@@ -34,14 +34,11 @@
 <h1 align="center">About the Repository:</h1>
 
 <br>
-<h1> Course Content Description</h1>
 
 <br>
 
 <ul>
   
- <br>
- <br>
  
   <li>
   
@@ -155,7 +152,7 @@
 
 
   
-<li>  
+
   
   <br>
   
@@ -164,21 +161,25 @@
 <ul>
   <br>
 
-### Database Structure
+### Centroid
 
-<img height="400" src="https://github.com/AnteZovko23/RestAPI-Node.js-PHP-MySQL/blob/master/screenshots/Database.png">
-
-<br>
-
-### Get all sports request
-
-<img height="400" src="https://github.com/AnteZovko23/RestAPI-Node.js-PHP-MySQL/blob/master/screenshots/GetAllSports.png">
+<img height="400" src="https://github.com/AnteZovko23/University-Assignments-and-Projects/blob/master/Java/St.%20Bonaventure%20University/Independent%20Projects/Carpe%20Noctem/screenshots/Centroid.png">
 
 <br>
 
-### Get all odds request
+### Sierpinski Triangle
 
-<img height="400" src="https://github.com/AnteZovko23/RestAPI-Node.js-PHP-MySQL/blob/master/screenshots/RequestAllOdds.png">
+<img height="400" src="https://github.com/AnteZovko23/University-Assignments-and-Projects/blob/master/Java/St.%20Bonaventure%20University/Independent%20Projects/Carpe%20Noctem/screenshots/Sierpinski.png">
+
+<br>
+
+### Dots
+
+
+<img height="400" src="https://github.com/AnteZovko23/University-Assignments-and-Projects/blob/master/Java/St.%20Bonaventure%20University/Independent%20Projects/Carpe%20Noctem/screenshots/Dots.png">
+
+### Dots Racing
+<img height="400" src="https://github.com/AnteZovko23/University-Assignments-and-Projects/blob/master/Java/St.%20Bonaventure%20University/Independent%20Projects/Carpe%20Noctem/screenshots/Dots%20Racing.png">
 
 <br>
   
