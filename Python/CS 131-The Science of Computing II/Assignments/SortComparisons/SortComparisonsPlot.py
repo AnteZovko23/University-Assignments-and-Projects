@@ -12,7 +12,10 @@ from plot import plot
 
 # creates the list
 def getList():
-	 return [100, 5, 63, 29, 69, 74, 96, 80, 82, 12]
+    # return [0,1 , 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15]
+    return [15,14 ,13, 12, 11, 10, 9, 8,7,6,5,4,3,2,1,0]
+
+	#  return [100, 5, 63, 29, 69, 74, 96, 80, 82, 12]
 	# return [82, 65, 93, 0, 60, 31, 99, 90, 31, 70]
     # return [63, 16, 78, 69, 36, 36, 3, 66, 75, 100]
 	# return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -148,4 +151,4 @@ insertionList = [comparisons, swaps]
 
 
 # Plots the comparisons and swaps for each sort
-plot(bubbleList, optimizedBubbleList, selectionList, insertionList)
+# plot(bubbleList, optimizedBubbleList, selectionList, insertionList)
