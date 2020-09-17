@@ -1,7 +1,5 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,7 +7,8 @@ import javax.swing.JOptionPane;
 
 /**
  * 
- * Author: Ante Zovko Version: September 14th, 2020
+ * Author: Ante Zovko 
+ * Version: September 14th, 2020
  * 
  * User Input, If/Else, Dialog Boxes, File Input/Output
  * 
