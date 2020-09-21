@@ -1,3 +1,5 @@
+
+@SuppressWarnings("all")
 /**
  * Author: Ante Zovko
  * Version: September 13th, 2020
