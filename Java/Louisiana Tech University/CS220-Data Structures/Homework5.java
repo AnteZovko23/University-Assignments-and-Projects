@@ -160,16 +160,47 @@ public class Homework5 {
 
 
 
-        // Incomplete..
 
         /* Computes and returns the reference to a 2x2 boolean
         array that ORs all the corresponding entries of
         each input 2x2 boolean array */
 
-        // boolean[][] bool1 = {{false, false}, {true, true}};
-        // boolean[][] bool2 = {{false},{true}, {true, false}};
-        // join(bool1, bool2);
+        boolean[][] bool1 = {{false, false}, {true, true}};
+        boolean[][] bool2 = {{false, true}, {true, false}};
+        boolean[][] joined = join(bool1, bool2);
 
+        for(int i = 0; i < joined.length; i++) {
+
+            for(int j = 0; j < joined[0].length; j++) {
+
+                System.out.print(joined[i][j] + " ");
+            }
+        }
+        System.out.println();
+
+
+        // Output: 
+        // false, true, true, true
+
+
+
+        /* Computes and returns the reference to a 2x2 boolean
+        array that ANDs all the corresponding entries of
+        each input 2x2 boolean array */
+
+        boolean[][] meet = meet(bool1, bool2);
+
+        for(int i = 0; i < meet.length; i++) {
+
+            for(int j = 0; j < meet[0].length; j++) {
+
+                System.out.print(meet[i][j] + " ");
+            }
+        }
+        System.out.println();
+
+        // Output: 
+        // false false true false
 
     }
 
@@ -423,5 +454,61 @@ public class Homework5 {
         
         return reversedArray;
     }
+
+
+    /**
+     * 
+     * ORs each entry of given arrays
+     * 
+     * @param A given 2D array
+     * @param B given 2D array
+     * 
+     * @return joined array values
+     * 
+     */
+    private static boolean[][] join(boolean[][] A, boolean[][] B) {
+
+        boolean[][] joined = new boolean[2][2];
+
+        for(int i = 0; i < joined.length; i++) {
+
+            for(int j = 0; j < joined[0].length; j++) {
+
+                joined[i][j] = (A[i][j] || B[i][j]);
+
+            }
+
+        }
+
+        return joined;
+
+    }
+
+    /**
+     * ANDs each entry of given arrays
+     * 
+     * @param A given array
+     * @param B given array
+     * 
+     * @return AND array
+     */
+    private static boolean[][] meet(boolean[][] A, boolean[][] B) {
+
+        boolean[][] meet = new boolean[2][2];
+
+        for(int i = 0; i < meet.length; i++) {
+
+            for(int j = 0; j < meet[0].length; j++) {
+
+                meet[i][j] = (A[i][j] && B[i][j]);
+
+            }
+
+        }
+
+        return meet;
+
+    }
+
 
 }
