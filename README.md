@@ -58,8 +58,16 @@
   <li>
   Command-time, batch, and event-driven models of user interaction as well as presentation styles, models of communication and cognitive processes, and the          social implications of user interface design.
    </li>
+   
+   <br>
+   
+  <li>
+  The definition, representation, and manipulation of basic data structures such as arrays, stacks, queues, trees, and graphs. 
+   </li>
+   
    </ul>
   </li>
+  
    
  <br>
  <br>
