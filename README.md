@@ -95,6 +95,23 @@
    <br>
  <br>
  
+<li>
+  
+  ## C
+  
+   <br>
+   
+ <ul>
+  <li>
+ An introduction to systems programming within the context of C/C++ and Linux; topics include linking, writing scripts, performing system calls, managing memory, and using concurrency.
+  </li> 
+ &zwnj;
+    <li>  
+  </ul>
+  
+   <br>
+ <br>
+ 
 <li> 
   
   
