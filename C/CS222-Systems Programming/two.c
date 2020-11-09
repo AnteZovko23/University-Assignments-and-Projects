@@ -26,8 +26,14 @@ int main(int argc, char *argv[]){
 
     
     srand(time(0));
+    if(argc == 1){
 
-    pid_t pid = fork();
+        printf("Usage: %s <executables>\n", argv[0]);
+        printf("e.g., %s ./one\n", argv[0]);
+
+    }
+    else {
+        pid_t pid = fork();
 
     if(pid == 0){
 
@@ -44,7 +50,6 @@ int main(int argc, char *argv[]){
         for(int i = 1; i < argNumber + 1; i++){
 
             int ranNumber =  getRandoms(0,10);
-            // itoa(ranNumber, buffer, 10);
             sprintf(buffer, "%d", ranNumber);
     
             args[i] = strdup(buffer);
@@ -65,6 +70,8 @@ int main(int argc, char *argv[]){
         wait(NULL);
 
     }
+    }
+    
 
     return 0;
 }
