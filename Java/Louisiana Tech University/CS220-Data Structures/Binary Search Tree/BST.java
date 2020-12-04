@@ -125,9 +125,7 @@ public class BST {
        root of the adjusted tree. */
 	public static TreeNode insert(TreeNode root, int x) {
 			
-			if(isEmpty(root))
-				return null;
-
+		
 			if (x < root.getData()) {
 				if (root.getLLink() != null) {
 					insert(root.getLLink(), x);
