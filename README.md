@@ -90,7 +90,12 @@
   <li>
     Additional coverage of algorithm analysis and development, object-oriented programming, data structures, computer architecture, and problem solving; applications of computing
   </li>
-  </ul>
+ <br>
+  <li>
+     Specialized trees, graphs, sets and tables, advanced searching and sorting, complexity analysis, and algorithm design techniques.
+  </li>
+ </ul>
+ 
   
    <br>
  <br>
