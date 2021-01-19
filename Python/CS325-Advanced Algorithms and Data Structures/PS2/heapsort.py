@@ -41,11 +41,11 @@ def heapSort(givenArray):
       maxHeapify(givenArray, i, 0)
 
 
-    
-data = [2, 5, 16, 4, 10,23, 39, 18,26 ,15]
+if __name__ == "__main__":
+    data = [2, 5, 16, 4, 10,23, 39, 18,26 ,15]
 
 
-heapSort(data)
+    heapSort(data)
 
-for i in data:
-    print(i, end=" ")
+    for i in data:
+        print(i, end=" ")    
