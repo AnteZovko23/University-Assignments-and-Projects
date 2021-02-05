@@ -24,3 +24,4 @@ from COURSE c
 where EXISTS (select * 
                   from   PreReq p 
                   where  p.coursenum = c.coursenum);
+
