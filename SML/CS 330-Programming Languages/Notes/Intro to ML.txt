@@ -1,0 +1,37 @@
+Day 1 - Intro to ML
+
+ML Expressions end with semicolons
+val means value
+it is the name of the variables in the environment that contains the last expression
+
+comments (* *)
+
+TYPES OF ML
+
+- Integers: int
+
+REALS: real
+
+A number consists of a tilde, a string of digits, decimal point, letter e
+3E(tilde)10
+
+BOOLEANS: true and false: bool
+
+STRINGS: string
+
+
+CHARACTERS: char
+#"j";
+
+
+OPERATORS
+INTEGER +, -, *, div, mod
+
+
+REAL +, -, *, /
+
+STRING ^
+^ concatination
+
+COMPARISON =, <, >, <=, >=, <>
+Cannot use the = and <> on reals
