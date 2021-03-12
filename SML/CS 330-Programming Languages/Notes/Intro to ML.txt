@@ -35,3 +35,99 @@ STRING ^
 
 COMPARISON =, <, >, <=, >=, <>
 Cannot use the = and <> on reals
+
+Chars are compared lexicographically 
+
+Strings same
+First unequal char
+
+
+LOGICAL OPERATORS
+true andalso true = true
+true orelse false = true
+
+Unitary operators have higher precedence
+
+
+IF-THEN-ELSE
+if <boolexpr> then <exp1> else exp2
+
+if 3>4 then #"c" else #"d";
+
+
+CASTING 
+real(4) - 4.0
+ord(#"a") - 97
+chr(98) - b
+str(#"d") - "d"
+
+
+###################
+LESSON 2 - VARIABLES, TUPLES AND LISTS
+####################
+
+
+IDENTIFIERS
+
+1. Start with uppercase lowercase or '
+2. Followed by 0 or more chars from (1) including _
+
+Dont use ' until more advanced
+
+
+VALUE DECLARATIONS
+
+val <identifier> = value;
+
+Load sml file into interpreter
+
+use(filename)
+
+TYPE unit: ()
+Represents void
+
+
+TUPLES
+
+val x = (4, 5.0, "ante");
+
+
+Operations on tuples
+
+Evaluates to the value in the position represented by the integer 
+
+#2(4, 5.0, "ante"); -> 5.0
+
+
+
+LISTS
+val y = [1, 2, 3, 4, 5];
+
+list operators
+
+hd(list) - returns front
+tl(list) - Return to all but the head
+
+List concat - @
+["a", "b"]@["cd", "efg"];
+
+List push - ::
+Appends a list element to the front of a list
+1::[1, 2, 3];
+Precedence below + above <>
+
+List Explode - String to char list
+
+List Implode - Backwards
+
+List concat from string list to string 
+
+NOTE: We represent empty lists with [] or  nil
+
+
+
+
+
+
+
+
