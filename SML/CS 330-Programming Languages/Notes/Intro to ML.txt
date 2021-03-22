@@ -126,8 +126,190 @@ NOTE: We represent empty lists with [] or  nil
 
 
 
+ML Type System
+Bases: int, real, bool, char and string
+Inductive Cases: 
+1. If T1, T2, ..., Tn are types, then T1 * T2 * .... Tn is a product type
+2. If T is a type, then T list is a type 
+
+Example:
+([1,2,3], "s", #"s"); -> int list * string * char
+[[1,2,3]]; -> int list list
+[(1,2), (3, 4)]; -> (int * int) list
+(1, [2,3]) -> int * int list
+[[[1,2],[3,4]]] -> int list list list
 
 
 
 
+ML Functions
+Syntax: 
 
+    fun (identifier) ((parameter/tuple)) = (expression);
+
+Response:
+    val identifier = fn : <domain type> -> (range type)
+
+Function that inputs an integer and returns that integer plus 1
+fun plusone (x) = x + 1;
+
+New arrow type
+
+Function that takes lowercase and returns uppercase
+fun toUpper (givenWord) = chr(ord(givenWord) - 32); 
+
+Square a real
+fun myRealSquare (x:real) = x * x;
+
+Function application has higher precedence than arithmetic
+
+
+Write a function that inputs 3 integers and returns largest value
+fun mymax (x,y,z) = if x>y then
+                        if x > z then x else z
+                        else
+                           if y>z then y else z;
+
+
+
+
+SCOPE
+val x = 4;
+fun myfun(a) = x+a;
+val x = 20;
+myfun(3);
+
+
+RECURSION
+
+Built in function 
+length -> 'a list to int
+input list and output length of list
+
+Ex. List len using recursion
+fun myLength (L) = if L = nil then 0
+                   else 1 + myLength (tl(L));
+
+Built in function null 'a list to boolean that returns true if the input is an empty list
+fun myLength (L) = if null(L) then 0
+                   else 1 + myLength (tl(L));
+Same effect
+
+
+PATTERN MATCHING: ML Style of going through lists recursively
+
+fun (identifier) (pattern) = (expression)
+     (identifier) (pattern2) = (expression2)
+     ....
+     (identifier) (pattern-n) = (expression-n)
+
+
+Allowed patterns are constants/literals or expressions with ::
+
+fun myLength2 ([]) = 0
+    | myLength2 (x::xs) = 1 + myLength2(xs);
+
+
+Custom to use a variable for the head and followed by s for the tail 
+
+
+Wildcards in patterns are written with underscores when the entry value does not matter 
+fun myLength2 ([]) = 0
+    | myLength2 (_::xs) = 1 + myLength2(xs);
+
+
+
+Write a recursive ML function that returns the sum of all integers
+fun mySum (nil) = 0
+| mySum(x::xs) = x + mySum(xs);
+
+
+Write a recursive ML function that inputs a 2 tuple of non-negative integers and returns their choose
+fun choose(n,k) = if k>n then 0
+                  else if (n = 0 orelse k = 0) then 1
+                       else choose(n-1,k) + choose(n-1, k-1);|
+
+
+MUTUAL RECURSION
+Keyword and
+Two functions defined simultaneously
+Write 2 Mutually rec function named odd and even that input a non-negative int and return a bool for its parity
+fun even(0) = true | even(n) = odd(n-1)
+and
+    odd (0) = false or odd(n) = even(n-1);
+
+
+Keyword as allows us to use an identifier in Expressions
+
+fun sortedMerge (A, nil) = A | sortedMerge(nil, B) = B | sortedMerge(A as x::xs, B as y::ys) = 
+                                                        if(x<y) then x::sortedMerge(xs, B)
+                                                        else y::sortedMerge(A, ys);
+
+
+New keywords: let, in, end
+Temporary declarations
+
+ex. Write a function that inputs a real and returns the real to the power of 50
+fun pow50(x:real) = 
+    let 
+        val y = x*x*x*X*x
+        val z = y*y*y*y*y
+    in
+        z*z
+    end;
+
+
+Ex. Function that performs a linsearch on 2-tuples consisting of an int list and int
+If not found returns length of the list plus 1
+
+- linsearch([7,3,9,1], 9)
+- val it = 3 : int
+- linsearch([7,3,9,1], 34)
+- val it = 5 : int
+
+fun linsearch (nil, _) = 1 | linsearch(x::xs, y) = if x = y then 1 else linsearch(xs, y) + 1;
+
+Ex. Same recursive function named linsearch2, that will instead return -1 if the value is not found
+
+
+Write a helper function that saves the length of the list at the end of the process by having an extra argument
+
+fun linHelp(nil, _, n) =  ∼n - 1 -> undoes the length 
+| linHelp (x::xs, y, n) = if x = y then 1 else (1 + linHelp(xs, y, n));
+
+fun linsearch2 (L, y) = linHelp(L, y, length(L));
+
+
+Ex. Rec function that inputs a list of reals and returns their average 
+
+fun avg(L) = 
+    let
+        val n = real(length(L))
+        fun sum([]) = 0.0 | sum((x:real)::xs) = x + sum(xs)
+    in
+        sum(L) / n;
+    end;
+
+
+LESSON 1.5 Option Types
+New Type 'a option
+Has two values -> NONE SOME x(where x is of type 'a )
+
+Recursive function that inputs a list of ml functions and returns sum of the integers while ignoring any instances of none
+
+ - myOs([NONE, NONE, SOME 2, SOME 3, NONE, SOME 5])
+  val it = 10 : int
+
+  fun myOs([]) = 0 
+  | myOs((SOME x)::xs) = x + myOs(xs) 
+  | myOs(NONE :: xs) = myOs(xs);
+
+  New Keyword: case
+    Plays the role a switch statement and has the form 
+        case expression of match 
+        match has the form of pattern1 => expression1 | pattern2 => expression2 | ... | pattern-n => expression-n
+
+Repeat the last example using the case construct
+
+fun myOs2(L) = case L of 
+        []  => 0 | (SOME x)::xs => x + myOs2(xs) | NONE::xs => myOs2(xs);
