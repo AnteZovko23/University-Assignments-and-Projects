@@ -313,3 +313,117 @@ Repeat the last example using the case construct
 
 fun myOs2(L) = case L of 
         []  => 0 | (SOME x)::xs => x + myOs2(xs) | NONE::xs => myOs2(xs);
+
+
+
+Lesson 1.6 - ML Input/Output
+
+New Built in Function
+    print: string -> unit
+
+    Inputs a string, prints the string to the terminal window (side effect)
+    and returns unit(void)
+
+
+print("Hello World");
+
+Write a function that inputs a character and prints to the terminal window
+
+fun printChar(c) = print(str(c)^"\n");
+
+STRUCTURES
+Classes that contain functions for us that we can use in the ML env
+
+    Int.toString : int -> bool
+
+
+Keyword: open
+Loads all structure's functions into the env
+
+Bool.toString : bool -> string
+
+
+NEW CONSTRUCT
+Evaluate several statements
+
+(<expression1>;exp2;exp3; .. exp n)
+
+ex. Write a recursive ml function that inputs a list of bool, prints each, and returns unit
+
+
+fun printBool(nil) = () 
+| printBool(x::xs) = ( 
+    print(Bool.toString(x));
+    print("\n);
+    printBool(xs)
+);
+
+
+
+FILE READING
+New structure: TextIO
+New Type: instream
+Represented by a token that we cannot see that represent files for reading
+
+
+TextIO.openIn : string -> instream
+
+val inFile = TextIO.openIn("input.txt);
+Opens a file for reading
+Returns instream to access files
+
+
+TextIO.endOfStream : instream -> bool
+
+Checks if we are at the end of the file
+
+TextIO.inputN : instream * int -> vector(string)
+
+Reads the next int number of chars from the input stream and returns them as a string
+The file is unchanged and the chars are consumed
+
+TextIO.inputN(infile, 3)
+
+TextIO.closeIn(infile);
+closes a file
+
+TextIO.input : instream : vector
+    Returns entire contents of the file as a string
+    The file is unchanged and contents are consumed
+
+val inFile2 = TextIO.openIn("input.txt);
+TextIO.input(inFile2);
+val it = "12\na b"
+
+TextIO.endOfStream(inFile2);
+true
+TextIO.closeIn(inFile2);
+
+TextIO.inputLine : instream -> string option
+Returns a string of the line
+
+TextIO.input1 : instream -> elem(char) options
+TextIO.lookahead : instream -> char option
+Reads next char but does not consume it
+
+
+FILE WRITING
+New type outstream 
+
+TextIO.openOut : string -> outstream
+Opens for writing
+
+TextIO.closeOut : outstream -> unit
+
+TextIO.openAppend : string -> outstream
+Opens for writing without overwrite
+
+TextIO.output : outstream * vector -> unit
+Writes a string to the output stream
+
+TextIO.stdIn : instream
+TextIO.stdOut : outstream
+
+
+
+
