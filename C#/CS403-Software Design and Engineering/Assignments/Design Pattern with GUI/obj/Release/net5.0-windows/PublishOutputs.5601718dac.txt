@@ -1,0 +1,5 @@
+C:\Users\antez\Desktop\MVCDemo.exe
+C:\Users\antez\Desktop\MVCDemo.dll
+C:\Users\antez\Desktop\MVCDemo.deps.json
+C:\Users\antez\Desktop\MVCDemo.runtimeconfig.json
+C:\Users\antez\Desktop\MVCDemo.pdb

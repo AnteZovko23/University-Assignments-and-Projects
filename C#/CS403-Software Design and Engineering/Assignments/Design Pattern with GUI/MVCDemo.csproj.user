@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\antez\Desktop\software misc\C#\MVCDemo\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Controller.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ViewerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OptionalViewerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Source Code\Viewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
