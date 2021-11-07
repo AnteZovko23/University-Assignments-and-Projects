@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+<!--
+
+    Name: Ante Zovko
+    Date: November 3rd
+    Course Number: 499 001
+    Quarter: Fall
+
+    Assignment 10
+
+-->
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="a10.css">
+    <title>Assignment 10</title>
+</head>
+<body>
+
+    <form>
+    <div id="form-div">
+            
+        <input required class="input" id="username" name="username" type="text" placeholder="Username">
+        
+        <br>
+        <br>
+        
+        <input required class="input" id="password" name="password" type="password" placeholder="Password" title="Must contain at least one number, one uppercase and lowercase letter and 8 characters">
+
+        <br>
+        <br>
+
+        <div id="buttons">
+            <button class="buttons" type="submit" id="submit_btn" value="Submit" >Submit</button>
+        </div>
+    </div>
+
+    </form>
+
+    <div id="message">
+
+        <h3>Password must contain:</h3>
+
+        <p id="letter" class="invalid"> <b>lowercase</b> letter</p>
+        <p id="capital" class="invalid"> <b>uppercase</b> letter</p>
+        <p id="number" class="invalid">A <b>number</b></p>
+        <p id="length" class="invalid"> <b>8 characters</b></p>
+        
+        
+        </div>
+
+    
+        <script src="a10.js"></script>
+
+</body>
+</html>

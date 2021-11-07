@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<!--
+    Name: Ante Zovko
+    Date: Oct 12, 2021
+    Course Number: 499
+    Quarter: Fall 2021
+    Assignment 6
+
+
+-->
+
+<html>
+
+<head>
+
+    <meta name="description" content="Assignment 6">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" href="a6.css">
+
+</head>
+
+
+<body>
+    <div id="form_div">
+        <h3>Name</h3>
+
+        <input type="text" placeholder="Enter Here" id="textbox" >
+        
+        <hr>
+        <h3>Gender</h3>
+        
+        <input checked type="radio" class="radio_input" id="Male" name="gender_radio" value="Male">
+        <label for='Male'>Male</label>
+
+        <input type="radio" class="radio_input" id="Female" name="gender_radio" value="Female">
+        <label for='Female'>Female</label>
+
+        <input type="radio" class="radio_input" id="Non-Binary" name="gender_radio" value="Non-Binary">
+        <label for='Non-Binary'>Non-Binary</label>
+
+        <input type="radio" class="radio_input" id="Other" name="gender_radio" value="Other">
+        <label for='Other'>Other</label>
+
+        <hr>
+        <h3>Education</h3>
+
+        <select name="Education" id="education_dropdown">
+
+            <option value="High School">High School</option>
+            <option value="Bachelor's Degree">Bachelor's Degree</option>
+            <option value="Other">Other</option>
+
+        </select>
+        <br>
+        <hr>
+        <button type="submit" id="submit_btn" value="Submit" onclick="submit_form()">Submit</button>
+    </div>
+
+
+    <hr>
+
+    <h1 class="text">My name is: </h1>
+    <h1 class="text">My Gender is: </h1>
+    <h1 class="text">My Education Level is: </h1>
+
+    <script src="a6.js"></script>
+</body>
+
+
+</html>

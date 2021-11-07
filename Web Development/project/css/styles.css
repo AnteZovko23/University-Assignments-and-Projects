@@ -1,0 +1,159 @@
+html, body {
+
+ 
+    height: 100%;
+    font-size: 18px;
+    font-family: "Montserrat", sans-serif;
+    background-color:black;
+}
+
+
+.gradient {
+
+    background: rgb(0,3,36);
+    background: linear-gradient(90deg, rgba(0,3,36,1) 0%, rgba(121,9,9,1) 73%); 
+
+}
+
+.page-header {
+
+
+    margin-top: 3.5rem;
+    font-size: 1.25rem;
+    color: #fff;
+
+}
+
+.neonText {
+    text-align: center;
+    margin-bottom: 80px;
+    margin-top: 0;
+    line-height: 1;
+    text-decoration: none;
+    color: #fff;
+    animation: neon1 1.5s ease-in-out infinite alternate;
+  }
+/* Additional styling */
+
+
+@keyframes neon1 {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff1177,
+        0 0 70px #ff1177, 0 0 80px #ff1177, 0 0 100px #ff1177, 0 0 150px #ff1177;
+    }
+}
+
+@keyframes neon2 {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px darkgreen,
+        0 0 70px darkgreen, 0 0 80px darkgreen, 0 0 100px darkgreen, 0 0 150px darkgreen;
+    }
+}
+
+
+h1, h2 {
+text-align: center;
+text-transform: uppercase;
+font-weight: 400;
+}
+
+h1 {
+font-size: 10rem;
+}
+
+h2 {
+font-size: 4rem;
+}
+
+#balance {
+
+  
+    animation: neon2 1.5s ease-in-out infinite alternate;
+  }
+
+.label {
+
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  margin-top: 0span;
+  margin-bottom: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+  text-decoration: none;
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+
+/* Make footer stick to the bottom of the page */
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;}
+
+#blackjack-container {
+
+    background-color: #016D29 ;
+    margin-top: 10em;
+    border: thick solid #660;
+
+
+
+  }
+
+
+
+.blackjack-row {
+
+  height: 350px;
+
+}
+
+.col {
+
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+}
+/* center card */
+
+
+.card {
+  width: 70%;
+  height: 200px;
+  background-color: #fff;
+  border-radius: 10px;}
+
+
+  .btn {
+
+    width: 100%;
+    height: 70px;
+    font-size: 30px;
+
+  }
+
+  /* img appears animation */
+  .card-animate{
+    animation: card-img-animation 1s ease-in-out 0.4 normal;
+  }
+  
+  /* animation top to bottom */
+  @keyframes card-img-animation {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+

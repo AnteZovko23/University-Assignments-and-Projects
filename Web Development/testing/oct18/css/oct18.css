@@ -1,0 +1,30 @@
+body {
+  min-width: 400px;
+}
+
+#input-field {
+  width: 100%;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 1px solid green;
+}
+
+#input-btn {
+  background: green;
+  color: white;
+  padding: 10px;
+}
+
+#delete-btn {
+  background: red;
+  color: white;
+  padding: 10px;
+}
+
+#save-btn {
+  background: blue;
+  color: white;
+  padding: 10px;
+}
+/*# sourceMappingURL=oct18.css.map */

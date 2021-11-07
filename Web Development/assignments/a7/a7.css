@@ -1,0 +1,48 @@
+body {
+
+    background-color:blanchedalmond;
+
+}
+
+#form-div {
+
+    background-color: white;
+    border: 1px solid black;
+    display: table;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+#buttons {
+
+    background-color: black;
+    width: 234px;
+
+    display: table;
+    margin: 0 auto;
+
+}
+
+.buttons {
+    width: 234px;
+    height: 45px;
+    display: table;
+    margin: 0 auto;
+    
+
+}
+
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #000000;
+    text-align: left;
+    padding: 8px;
+  }
+  
+ 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../CSS/Sep22.css">
+
+<title>Lecture 6</title>
+<meta name="description" content="Lecture 6">
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Flex: Grow shrink basis
+            basis -> min width flex item
+            flex-grow -> 3 means it gets 3 times as much space
+            flex-shrink -> 3 means it gets 3 times smaller    
+        -->
+        <div class="container-item" style="order:4; flex: 1 1 100px">A</div>
+        <div class="container-item" style="order:3; flex: 1 3 100px">B</div>
+        <div class="container-item" style="order:1; flex: 3 1 100px">C</div>
+        <div class="container-item" style="order:5; flex: 1 0 100px">D</div>
+        <div class="container-item" style="order:2; flex: 1 1 100px">E</div>
+
+    </div>
+    
+    <div class="grid-container">
+
+        <div class="grid-item" style="background-color: papayawhip; grid-row: 2/span 1; grid-column: 3/span 2;">1</div>
+        <!-- 
+
+            grid-row: starting row/number of rows to span
+            grid-column: starting column/number of columns to span
+            grid-area: <row start>/<column start>/<row span>/<col span>
+
+         -->
+        <div class="grid-item" style="background-color: green; grid-area: 3/2/span 1/span 1;">2</div>
+        <div class="grid-item" style="background-color: yellow;">3</div>
+        <div class="grid-item" style="background-color: pink;">4</div>
+        <div class="grid-item" style="background-color: orange;">5</div>
+
+
+
+    </div>
+
+</body>
+
+
+</html>

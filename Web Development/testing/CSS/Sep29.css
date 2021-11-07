@@ -1,0 +1,75 @@
+
+body {
+
+    background-color:papayawhip;
+
+}
+
+.submit-button {
+
+    margin: 20px 10px;
+    padding: 10px 15px;
+    border: double;
+    font-weight: 600;
+    background: rgb(38, 109, 240);
+    color: white;
+    font-size: 100px;
+
+    /* transition <property> <time> <transit-style> <delay> */
+    transition: all 300ms linear 0s;
+}
+
+
+.submit-button:hover {
+
+    background: rgb(175, 198, 240);
+    padding: 20px 30px;
+    /* transform: translate(500px, 50px);
+    transform: scale(2.5);
+    transform: rotate(-45deg);
+    transform: skew(40deg); */
+    
+    /* Attribute that does all these transformations is matrix */
+    /* matrix(<xscale>, skewy, skewx, yscale, translatex, translatey */
+    transform:matrix(2, 0.45, 0.45, 1, 100, 50);
+    
+    
+}
+
+
+.alpha {
+
+    /* Code for animations is:
+    animation <animation-name> <duration> <timing function> <delay> <iteration count> <direction>;
+    */
+
+    animation: red-to-black 4s linear 0s infinite normal;
+
+}
+
+@keyframes red-to-black {
+
+    0% {
+        background: red;
+        transform: translate(0px, 0px);
+        transform: rotate(0deg);
+
+    }
+
+    50% {
+
+        background: yellow;
+        transform: translate(10px, 10px);
+        transform: rotate(180deg);
+
+    }
+
+    100% {
+
+        background: black;
+        transform: translate(50px, 50px);
+        transform: rotate(360deg);
+
+    }
+
+}

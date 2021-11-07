@@ -1,0 +1,69 @@
+/* Comments  */
+
+body {
+
+    background: hotpink;
+    color:greenyellow
+
+}
+
+
+p {
+
+
+    color: purple;
+
+
+}
+
+
+h1:hover { /* Applies on mouseover */
+
+    color: cornsilk;
+
+}
+
+.alpha {
+
+    color: mediumorchid;
+
+}
+
+#beta {
+
+    color:aliceblue;
+
+}
+
+li:first-child {
+    color:gray
+}
+
+li:last-child {
+    color:red
+}
+
+ul + a { /* After something */
+
+    font-size: 300%;
+}
+
+/* p tilde p every p tag that follows a p tag that has the same parent */
+
+/* every li tag that is a child of an alpha class .alpha > li */
+
+
+/* Every ol tag that is a descendent of a ul tag ul ol */
+
+/* Attribute selector tags that contain class attribute 
+value alpha 
+
+p[class="alpha"]
+
+Attribute selector: src attribute starts with ./
+img[src^="./"]
+
+Change to $= for ends with
+Change to *= for contains
+Change to tilde= contains separated by white space
+Change to |= starts with, perhaps followed by a hyphen
