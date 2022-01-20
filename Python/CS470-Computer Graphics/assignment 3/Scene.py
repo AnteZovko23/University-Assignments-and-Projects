@@ -291,7 +291,7 @@ class Scene(object):
     """
     def drawObject(self, object, selected=True):
         
-       
+        self.canvas.delete("all")
         
         lines = []
         # Iterates through each polygon in the object
@@ -304,6 +304,7 @@ class Scene(object):
             else:
                 # Draws each polygon and append the id of the drawn line
                 lines.append(self.drawPoly(poly, selected))
+                self.fill_polygon(poly, "red")
             
         return lines
         
@@ -341,7 +342,7 @@ class Scene(object):
         # Create a line between the projected points
         # If object is selected the line is red, else black
         if selected:
-            color = "red"
+            color = "black"
         else:
             color = "black"
             
@@ -590,4 +591,145 @@ class Scene(object):
         self.rotateZ(self.current_object["PointCloud"], -5)
         self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
+   # **************************************************************************
    
+   
+   # ASSIGNMENT 3
+   
+   # **************************************************************************
+   
+    def project_and_convert_to_display_coordinates(self, polygon):
+        
+        display_polygon = []
+
+        for point in polygon:
+            projected_points = self.project(point)
+            projected_points[0], projected_points[1] = self.convertToDisplayCoordinates(projected_points)
+        
+            # Make every coordinate in projected_points a rounded float
+            display_polygon.append(list(map(lambda x: float(round(x, 0)), projected_points)))
+        
+        
+        
+            
+        return display_polygon
+    
+   
+    def compute_edge_table(self, polygon):
+        
+        
+        # Sort points by y-coordinate
+        polygon.sort(key=lambda x: x[1])
+        
+        # # If points have the same y-coordinate, remove one of them
+        # for i in range(len(polygon) - 1):
+        #     if polygon[i][1] == polygon[i+1][1]:
+        #         polygon.pop(i+1)
+        
+        
+        # Define all possible edges with the smaller y-coordinate as the first point in each edge
+        edges = []
+        for i in range(len(polygon) - 1):
+            # Check which point has the smaller y-coordinate
+            if polygon[i][1] == polygon[i+1][1]:
+                continue
+            elif polygon[i][1] < polygon[i+1][1]:
+                edges.append([polygon[i], polygon[i+1]])
+            else:
+                edges.append([polygon[i+1], polygon[i]])
+        
+        # Check last and first point
+        if polygon[-1][1] < polygon[0][1]:
+            edges.append([polygon[-1], polygon[0]])
+        else:
+            edges.append([polygon[0], polygon[-1]])
+
+        print(edges)
+        # Compute the edge table
+        edge_table = {}
+
+        # For each edge, compute x_start, y_start, y_end, and dX
+        counter = 0
+        for edge in edges:
+            x_start = edge[0][0]
+            y_start = edge[0][1]
+            y_end = edge[1][1]
+            dX = (edge[1][0] - edge[0][0]) / (edge[1][1] - edge[0][1])
+            
+            # Add information to edge table
+            edge_table["Edge {}".format(counter)] = [x_start, y_start, y_end, dX]
+            
+            counter+=1
+
+        
+        return edge_table
+    
+    # print(polygon)
+    # print(edge_table)
+    
+    def fill_polygon(self, polygon, color):
+        
+        if not Matrix_Calculations.back_face_culling_algorithm(self.viewpoint, polygon):
+            return
+
+        displayPolygon = self.project_and_convert_to_display_coordinates(polygon)
+        print(displayPolygon)
+        
+        edge_table = self.compute_edge_table(displayPolygon)
+        
+        # If edge table is empty, return
+        if len(edge_table) == 0:
+            return
+        
+        # Get all Y_start values from edge table
+        y_start_values = list(map(lambda x: edge_table[x][1], edge_table))
+        
+        # Get all Y_end values from edge table
+        y_end_values = list(map(lambda x: edge_table[x][2], edge_table))
+        
+        first_fill_line = min(y_start_values)
+        last_fill_line = max(y_end_values)
+        
+
+        i, j, next_x = 0, 1, 2
+        
+        # Set first two edges' x-coordinates
+        # Get i-th edge's x-coordinate
+        current_edge_x = edge_table.get("Edge {}".format(i))[0]
+        current_edge_2_x = edge_table["Edge {}".format(j)][0]
+   
+        
+        for line_rows in range(int(first_fill_line), int(last_fill_line)):
+            
+            left_edge = None
+            right_edge = None
+            # Determine which edge is Left and which is Right
+            if current_edge_x < current_edge_2_x:
+                left_edge = current_edge_x
+                right_edge = current_edge_2_x
+                
+            else:
+                left_edge = current_edge_2_x
+                right_edge = current_edge_x
+                
+
+            # For each x from left_edge to right_edge, draw a line
+            for x in range(int(left_edge)+1, int(right_edge)+1):
+                self.canvas.create_line(x, line_rows, x + 1, line_rows, fill=color)
+                
+            # Update x-values with dX
+            current_edge_x = current_edge_x + edge_table["Edge {}".format(i)][3]
+            current_edge_2_x = current_edge_2_x + edge_table["Edge {}".format(j)][3]
+            
+            # When the bottom of an edge is reached, switch to the next edge
+            if(line_rows >= edge_table["Edge {}".format(i)][2] and line_rows < last_fill_line):
+                i = next_x
+                current_edge_x = edge_table["Edge {}".format(i)][0]
+                next_x += 1
+                
+            if(line_rows >= edge_table["Edge {}".format(j)][2] and line_rows < last_fill_line):
+                j = next_x
+                current_edge_2_x = edge_table["Edge {}".format(j)][0]
+                next_x += 1
+
+    

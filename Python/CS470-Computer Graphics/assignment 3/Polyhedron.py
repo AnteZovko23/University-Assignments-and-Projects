@@ -145,3 +145,28 @@ class Polyhedron(object):
 
         return Octahedron, OctahedronPointCloud
     
+    
+    def pyramid(self):
+        
+        # Definition  of the five underlying points
+        apex = [0,50,100, 1]
+        base1 = [50,-50,50, 1]
+        base2 = [50,-50,150, 1]
+        base3 = [-50,-50,150, 1]
+        base4 = [-50,-50,50, 1]
+
+        # Definition of the five polygon faces using the meaningful point names
+        # Polys are defined in clockwise order when viewed from the outside
+        frontpoly = [apex,base1,base4]
+        rightpoly = [apex,base2,base1]
+        backpoly = [apex,base3,base2]
+        leftpoly = [apex,base4,base3]
+        bottompoly = [base1,base2,base3,base4]
+
+        # Definition of the object
+        Pyramid = [bottompoly, frontpoly, rightpoly, backpoly, leftpoly]
+
+        # Definition of the Pyramid's underlying point cloud.  No structure, just the points.
+        PyramidPointCloud = [apex, base1, base2, base3, base4]
+
+        return Pyramid, PyramidPointCloud                

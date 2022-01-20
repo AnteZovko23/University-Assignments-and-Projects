@@ -223,6 +223,7 @@ def back_face_culling_algorithm(Viewpoint, Polygon):
     
     # Get first three vertices of the polygon
     Polygon = Polygon[:3]
+    
     # 1. Compute normal vector of the polygon and normalize it
     P, Q = get_vectors(Polygon[0], Polygon[1], Polygon[2])
     

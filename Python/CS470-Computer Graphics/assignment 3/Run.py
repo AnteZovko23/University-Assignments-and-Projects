@@ -45,14 +45,20 @@ Cube, CubePointCloud = polyhedron_maker.cube({'base1': [-100,-50,50, 1],
 # Get octahedron
 Octahedron, OctahedronPointCloud = polyhedron_maker.octahedron()
 
+# Get Pyramid
+Pyramid, PyramidPointCloud = polyhedron_maker.pyramid()
+
 # Crate the scene
 scene = Scene.Scene(canvas_width, canvas_height, viewpoint)
 
-# Add the polyhedra to the scene
-scene.add_object(Tetrahedron, TetrahedronPointCloud)
-scene.add_object(Cube, CubePointCloud)
-scene.add_object(Octahedron, OctahedronPointCloud)
+# # Add the polyhedra to the scene
+# scene.add_object(Tetrahedron, TetrahedronPointCloud)
+# scene.add_object(Cube, CubePointCloud)
+# scene.add_object(Octahedron, OctahedronPointCloud)
+scene.add_object(Pyramid, PyramidPointCloud)
 
+# for polygon in Pyramid:
+#     scene.fill_polygon(polygon, 'blue')
 
 # Start the mainloop
 scene.get_root().mainloop()
