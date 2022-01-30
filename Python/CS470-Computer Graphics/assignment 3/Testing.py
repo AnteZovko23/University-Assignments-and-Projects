@@ -75,34 +75,27 @@ def convertToDisplayCoordinates(point):
         
 #**********************************************************************#
         
-def project_and_convert_to_display_coordinates( polygon):
-    
-    display_polygon = []
-
-    for point in polygon:
-        projected_points = project(point)
-        projected_points[0], projected_points[1] = convertToDisplayCoordinates(projected_points)
-    
-        # Make every coordinate in projected_points a rounded float
-        display_polygon.append(list(map(lambda x: float(round(x, 0)), projected_points)))
-    
-    print(display_polygon)
-    
+def project_and_convert_to_display_coordinates(polygon):
         
-    return display_polygon
-
+        display_polygon = []
+        for point in polygon:
+            projected_points = project(point)
+            projected_points[0], projected_points[1] = convertToDisplayCoordinates(projected_points)
+        
+            # Make every coordinate in projected_points a rounded float except z coordinate
+            display_polygon.append([float(round(projected_points[0])), float(round(projected_points[1])), projected_points[2]])
+            # display_polygon.append(list(map(lambda x: float(round(x, 0)), projected_points)))
+            
+        
+        
+        
+        return display_polygon
+    
 
 def compute_edge_table( polygon):
+
+
     
-    
-    # # Sort points by x-coordinate and y-coordinate
-    # polygon.sort(key=lambda x: (x[0], x[1]))
-    print(polygon)
-    
-    # # If points have the same y-coordinate, remove one of them
-    # for i in range(len(polygon) - 1):
-    #     if polygon[i][1] == polygon[i+1][1]:
-    #         polygon.pop(i+1)
 
     # Define all edges with the smaller y being the first edge and skip if the edge is a horizontal line
     edges = []
@@ -119,48 +112,30 @@ def compute_edge_table( polygon):
     # Append last and first edge with the smaller y going first
     if(polygon[0][1] < polygon[len(polygon)-1][1]):
         edges.append([polygon[0],polygon[len(polygon)-1]])
-    else:
+    elif(polygon[0][1] > polygon[len(polygon)-1][1]):
         edges.append([polygon[len(polygon)-1],polygon[0]])
         
-    print(edges)
-    # print(polygon)
-    # # Define all possible edges with the smaller y-coordinate as the first point in each edge
-    # edges = []
-    # for i in range(len(polygon) - 1):
-    #     # Check which point has the smaller y-coordinate
-    #     if polygon[i][1] == polygon[i+1][1]:
-    #         continue
-    #     elif polygon[i][1] < polygon[i+1][1]:
-    #         edges.append([polygon[i], polygon[i+1]])
-    #     else:
-    #         edges.append([polygon[i+1], polygon[i]])
     
-    # # Check last and first point
-    # if polygon[-1][1] < polygon[0][1]:
-    #     edges.append([polygon[-1], polygon[0]])
-    # else:
-    #     edges.append([polygon[0], polygon[-1]])
-
-   
-    # print(edges)
     # Compute the edge table
     edge_table = {}
     # For each edge, compute x_start, y_start, y_end, and dX
     counter = 0
-    print(edges)
+    # print(edges)
     for edge in edges:
         x_start = edge[0][0]
         y_start = edge[0][1]
         y_end = edge[1][1]
+        z_start = edge[0][2]
         
         try:
             dX = (edge[1][0] - edge[0][0]) / (edge[1][1] - edge[0][1])
-        
+            dZ = (edge[1][2] - edge[0][2]) / (edge[1][1] - edge[0][1])
         except:
             dX = 0
+            dZ = 0
         
         # Add information to edge table
-        edge_table["Edge {}".format(counter)] = [x_start, y_start, y_end, dX]
+        edge_table["Edge {}".format(counter)] = [x_start, y_start, y_end, dX, z_start, dZ]
         
         counter+=1
 
@@ -182,32 +157,30 @@ def compute_edge_table( polygon):
 
     
     
-      
-    print(updated_edge_table)
+    
+    # print(updated_edge_table)
     return updated_edge_table
 
 # print(polygon)
 # print(edge_table)
 
-def fill_polygon( poly, color):
-    
-    ## Possible issues with sorting
+def fill_polygon( poly, color, z_buffer):
     polygon = copy.deepcopy(poly)
     
-    # if not Matrix_Calculations.back_face_culling_algorithm(Viewpoint, polygon):
+    # if not Matrix_Calculations.back_face_culling_algorithm(viewpoint, polygon):
     #     return
+
 
     displayPolygon = project_and_convert_to_display_coordinates(polygon)
     # print(displayPolygon)
     
     edge_table = compute_edge_table(displayPolygon)
     
-    
-    
     # If edge table is empty, return
-    if len(edge_table) == 0:
+    if len(edge_table) == 0 or len(edge_table) == 1:
         return
     
+    # print(edge_table)
     # Get all Y_start values from edge table
     y_start_values = list(map(lambda x: edge_table[x][1], edge_table))
     
@@ -216,6 +189,7 @@ def fill_polygon( poly, color):
     
     first_fill_line = min(y_start_values)
     last_fill_line = max(y_end_values)
+    
 
     i, j, next_x = 0, 1, 2
     
@@ -224,38 +198,77 @@ def fill_polygon( poly, color):
     current_edge_x = edge_table.get("Edge {}".format(i))[0]
     current_edge_2_x = edge_table["Edge {}".format(j)][0]
 
+    current_edge_z = edge_table.get("Edge {}".format(i))[4]
+    current_edge_2_z = edge_table.get("Edge {}".format(j))[4]
     
     for line_rows in range(int(first_fill_line)+1, int(last_fill_line)):
         
         left_edge = None
         right_edge = None
+        
+        left_z_edge = None
+        right_z_edge = None
+        
         # Determine which edge is Left and which is Right
         if current_edge_x < current_edge_2_x:
             left_edge = current_edge_x
             right_edge = current_edge_2_x
             
+            left_z_edge = current_edge_z
+            right_z_edge = current_edge_2_z
+            
         else:
             left_edge = current_edge_2_x
             right_edge = current_edge_x
             
+            left_z_edge = current_edge_2_z
+            right_z_edge = current_edge_z
+            
+        # The initial Z for the current fill line
+        z_value = left_z_edge
+        dZ_fill_line = 0
+        
+        # Compute dZ for the fill line. Can be 0 if line is 1 pixel long
+        if (right_z_edge - left_z_edge) != 0:
+            dZ_fill_line = (right_z_edge-left_z_edge)/(right_edge - left_edge)
+        else:
+            dZ_fill_line = 0
+
         # For each x from left_edge to right_edge, draw a line
         for x in range(int(left_edge)+1, int(right_edge)):
-            w.create_line(x, line_rows, x + 1, line_rows, fill=color)
             
-        # Update x-values with dX
+            if z_value < z_buffer[line_rows][x]:
+            
+                canvas.create_line(x, line_rows, x + 1, line_rows, fill=color)
+                z_buffer[line_rows][x] = z_value
+            z_value = z_value + dZ_fill_line
+            
+        # Update x-values and z-values with dX and Dz
         current_edge_x = current_edge_x + edge_table["Edge {}".format(i)][3]
         current_edge_2_x = current_edge_2_x + edge_table["Edge {}".format(j)][3]
-
+        
+        current_edge_z = current_edge_z + edge_table["Edge {}".format(i)][5]
+        current_edge_2_z = current_edge_2_x + edge_table["Edge {}".format(j)][5]
+        
         # When the bottom of an edge is reached, switch to the next edge
         if(line_rows >= edge_table["Edge {}".format(i)][2] and line_rows < last_fill_line):
             i = next_x
             current_edge_x = edge_table["Edge {}".format(i)][0]
+            current_edge_z = edge_table["Edge {}".format(i)][4]
             next_x += 1
             
         if(line_rows >= edge_table["Edge {}".format(j)][2] and line_rows < last_fill_line):
             j = next_x
             current_edge_2_x = edge_table["Edge {}".format(j)][0]
+            current_edge_2_z = edge_table["Edge {}".format(j)][4]
             next_x += 1
+
+    
+def get_z_buffer():
+        
+    # Create z buffer array based on canvas width and height
+    # Initialize with max distance which is 500 in this setup
+    return [[500 for x in range(canvas_width)] for y in range(canvas_height)]
 
 
 
@@ -295,7 +308,7 @@ def drawLine(start,end):
     convertToDisplayCoordinates_end = convertToDisplayCoordinates(project_end)
     
     # Create a line between the projected points
-    w.create_line(convertToDisplayCoordinates_start[0],convertToDisplayCoordinates_start[1],convertToDisplayCoordinates_end[0],convertToDisplayCoordinates_end[1])
+    canvas.create_line(convertToDisplayCoordinates_start[0],convertToDisplayCoordinates_start[1],convertToDisplayCoordinates_end[0],convertToDisplayCoordinates_end[1])
     
 
 # This function converts from 3D to 2D (+ depth) using the perspective projection technique.  Note that it
@@ -339,36 +352,37 @@ root = Tk()
 outerframe = Frame(root)
 outerframe.pack()
 
-w = Canvas(outerframe, width=canvas_width, height=canvas_height)
+canvas = Canvas(outerframe, width=canvas_width, height=canvas_height)
 
-# apex = [0,50,100]
-# base1 = [50,-50,50]
-# base2 = [50,-50,150]
-# base3 = [-50,-50,150]
-# base4 = [-50,-50,50]
+# apex = [0,-100, 100]
+# base1 = [50,-150, 50]
+# base2 = [50,-150, 150]
+# base3 = [-50,-150,150]
+# base4 = [-50,-150,50]
 
 
 # # fill_polygon(Pyramid, 'red')    
-# apex = [0,50,100, 1]
-# base1 = [40.55797877317731,-50,42.07720346948115, 1]
-# base2 = [50,-50,150, 1]
-# base3 = [-50,-50,150, 1]
-# base4 = [-57.922796530518845,-50,59.4420212268227, 1]
-base1 = [50,25.811923270530365,63.64693911811081, 1]
-base3 = [50,-73.80754653943052,72.36251347538138, 1]
-base5 = [-50,25.811923271116303,63.6469391182488, 1]
-base7 = [-50,-73.80754653943046, 72.36251347538138, 1]
-frontpoly = [base1, base3, base7, base5]
+apex = [0,50,100, 1]
+base1 = [40.55797877317731,-50,42.07720346948115, 1]
+base2 = [50,-50,150, 1]
+base3 = [-50,-50,150, 1]
+base4 = [-57.922796530518845,-50,59.4420212268227, 1]
+# base1 = [50,25.811923270530365,63.64693911811081, 1]
+# base3 = [50,-73.80754653943052,72.36251347538138, 1]
+# base5 = [-50,25.811923271116303,63.6469391182488, 1]
+# base7 = [-50,-73.80754653943046, 72.36251347538138, 1]
+# frontpoly = [base1, base3, base7, base5]
 
 # Definition of the five polygon faces using the meaningful point names
 # Polys are defined in clockwise order when viewed from the outside
-# frontpoly = [apex,base1,base4]
-# rightpoly = [apex,base2,base1]
+frontpoly = [apex,base1,base4]
+rightpoly = [apex,base2,base1]
 
 drawPoly(frontpoly)
-fill_polygon(frontpoly, "red")
 
-w.pack()
+fill_polygon(frontpoly, "red", get_z_buffer())
+
+canvas.pack()
 
 controlpanel = Frame(outerframe)
 controlpanel.pack()
