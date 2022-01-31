@@ -1,6 +1,6 @@
 """
 Author: Ante Zovko
-Date: January 12, 2022
+Date: January 31, 2022
 
 This program is allows for the creation of a 3D wire-frame tetrahedron, cube, and octahedron
 
@@ -145,7 +145,17 @@ class Polyhedron(object):
 
         return Octahedron, OctahedronPointCloud
     
+    """
+    Returns a pyramid object
     
+    The point_dictionary specifies the individual points
+    By default if will be in the center of the coordinate system
+    
+    The polygons are defined in clockwise order when viewed from the outside
+    
+    Returns a tuple of the object and the point cloud
+    
+    """    
     def pyramid(self):
         
         # Definition  of the five underlying points

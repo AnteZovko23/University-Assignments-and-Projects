@@ -2,7 +2,7 @@ import math
 
 """
 Author: Ante Zovko
-Date: January 12th, 2022
+Date: January 31th, 2022
 
 This program provides useful matrix calculation functions like matrix multiplication and
 calculating the visual center of a 3D object
@@ -153,6 +153,9 @@ Assignment 3 additions
 
 """
 
+"""
+Given 3 points, returns 2 vectors that share a common point (P0)
+"""
 def get_vectors(P0, P1, P2):
     
     # Get vectors
@@ -160,6 +163,9 @@ def get_vectors(P0, P1, P2):
     Q = [P2[0] - P0[0], P2[1] - P0[1], P2[2] - P0[2]]
     return P, Q
 
+"""
+Given a vector, returns the magnitude of the vector
+"""
 def get_magnitude(vector):
     
     # Get magnitude
@@ -167,6 +173,9 @@ def get_magnitude(vector):
     
     return magnitude
 
+"""
+Given a vector, returns the unit vector
+"""
 def get_normalized_vector(vector):
     
     # Get vector magnitude
@@ -177,6 +186,9 @@ def get_normalized_vector(vector):
     
     return vector_normalized
 
+"""
+Given two vectors, returns the cross product of the two vectors
+"""
 def get_cross_product(P, Q):
     
     # Get the first vector's x, y, and z coordinates
@@ -200,7 +212,9 @@ def get_cross_product(P, Q):
     return N
 
 
-
+"""
+Given two vectors, returns the dot product of the two vectors
+"""
 def get_dot_product(N_norm, point):
     
     # Get the normal's x, y, and z coordinates
@@ -218,7 +232,12 @@ def get_dot_product(N_norm, point):
     
     return dot_product
     
-    
+
+"""
+Given the viewpoint of the "eyeball" and a polygon, returns the if the polygon is visible from the viewpoint
+
+The backface culling algorthim is done by computing the normal vector of the polygon, checking the position of plane in the space, and checking if the dot product of the normal vector and the view point - D is negative or 0
+"""    
 def back_face_culling_algorithm(Viewpoint, Polygon):
     
     # Get first three vertices of the polygon

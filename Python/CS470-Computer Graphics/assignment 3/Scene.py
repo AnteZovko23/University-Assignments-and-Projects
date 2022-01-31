@@ -1,14 +1,12 @@
 # Tkinter scene class
-from email.policy import default
 from tkinter import *
 import copy
 import Matrix_Calculations
 import time
-import threading
 
 """
 Author: Ante Zovko
-Date: January 12, 2022
+Date: January 31, 2022
 
 Creates a tkinter scene with a canvas
 Allows for the addition of 3D objects to the scene
@@ -143,15 +141,16 @@ class Scene(object):
         # Bind right and left arrow key to canvas
         self.root.bind('<Right>', self.select_next_object)
         self.root.bind('<Left>', self.select_previous_object)    
-         # Bind right and left arrow key to canvas
+         
+        # Bind number keys to select render mode
         self.root.bind('1', self.set_render_mode)
         self.root.bind('2', self.set_render_mode)   
         self.root.bind('3', self.set_render_mode)  
         self.root.bind('4', self.set_render_mode)  
 
     
-    def update_slider_value(self, event):
-        self.render_speed = self.slider.get()
+        
+
     
     """
     Given a point cloud and the original point cloud of the created object, this function resets the object to its 
@@ -339,10 +338,8 @@ class Scene(object):
             else:
                 # Draws each polygon and append the id of the drawn line
                 lines.append(self.drawPoly(poly, selected))
-                # if(len(poly) == 4):
-                    # print(poly)
-                
                 obj = None
+                
                 for i in range(len(self.object_list)):
                     # Compare array with object array
                     if(self.object_list[i]["Polyhedron"] == object):
@@ -398,7 +395,7 @@ class Scene(object):
         
         if(self.current_render_mode != "Polygon_Fill" and self.current_render_mode != "Fill_Tracing"):
             if selected:
-                color = "yellow"
+                color = "red"
             else:
                 color = "black"
                 
@@ -481,109 +478,75 @@ class Scene(object):
     """
     def select_previous_object(self, event):
         
-        # # Delete current object with black lines
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
-          
-        # # Redraw with black lines  
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], False)
         
         # Select previous in list
         self.current_object = self.object_list[(self.object_list.index(self.current_object) - 1) % len(self.object_list)]
+        
+        # Reset z-buffer
         self.z_buffer = self.get_z_buffer()
+        
+        # Redraw canvas
         self.redraw_canvas()
-        # # Delete selected and redraw with different color lines
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
-                
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+      
+        
     
     """
     Selects the next object in the list of objects
     """
     def select_next_object(self, event):
         
-    
-        # # Delete current object with black lines
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
-          
-        # # Redraw with black lines      
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], False)
-        
-        # # Select next in list
+        # Select next in list
         self.current_object = self.object_list[(self.object_list.index(self.current_object) + 1) % len(self.object_list)]
+        
+        # Reset z-buffer
         self.z_buffer = self.get_z_buffer()
+    
+        # Redraw canvas
         self.redraw_canvas()
-        # # Delete selected and redraw with different color lines
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
-                
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        
         
 
     def reset(self):
         
+        # Wipe the canvas
         self.canvas.delete("all")
         
+        # Reset z buffer
         self.z_buffer = self.get_z_buffer()
         
-        
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
-            
+        # Reset polyhedron
         self.reset_polyhedron(self.current_object["PointCloud"], self.current_object["DefaultPointCloud"])
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
+        # Redraw canvas
         self.redraw_canvas()
 
     def larger(self):
 
-        # self.canvas.delete("all")    
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.scale(self.current_object["PointCloud"], 1.1)
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
         
     def smaller(self):
 
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.scale(self.current_object["PointCloud"], 0.9)
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def forward(self):
         
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[0,0,5])
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
@@ -592,164 +555,109 @@ class Scene(object):
         # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
-
-        # for line in self.current_object["Lines"]:
-            # for item in line:
-                # self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[0,0,-5])
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def left(self):
         
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
               
             
         self.translate(self.current_object["PointCloud"],[-5,0,0])
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def right(self):
 
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[5,0,0])
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def up(self):
 
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[0,5,0])
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def down(self):
 
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[0,-5,0])
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def xPlus(self):
         
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.rotateX(self.current_object["PointCloud"], 5)
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def xMinus(self):
 
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.rotateX(self.current_object["PointCloud"], -5)
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def yPlus(self):
         
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.rotateY(self.current_object["PointCloud"], 5)
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
         
         self.redraw_canvas()
         
     def yMinus(self):
         
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.rotateY(self.current_object["PointCloud"], -5)
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def zPlus(self):
         
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.rotateZ(self.current_object["PointCloud"], 5)
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def zMinus(self):
         
-        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        # for line in self.current_object["Lines"]:
-        #     for item in line:
-        #         self.canvas.delete(item)
             
         self.rotateZ(self.current_object["PointCloud"], -5)
-        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
@@ -759,30 +667,36 @@ class Scene(object):
    # ASSIGNMENT 3
    
    # **************************************************************************
-   
+
+    """
+    Given a polygon, it projects each point and converts X and Y to display coordinates
+    """
     def project_and_convert_to_display_coordinates(self, polygon):
         
         display_polygon = []
+        
+        # For each point in the polygon
         for point in polygon:
+            
+            # Project
             projected_points = self.project(point)
+            
+            # Convert to display coordinates
             projected_points[0], projected_points[1] = self.convertToDisplayCoordinates(projected_points)
         
-            # Make every coordinate in projected_points a rounded float
-            display_polygon.append([float(round(projected_points[0])), float(round(projected_points[1])), projected_points[2]])
-            
-            # display_polygon.append(list(map(lambda x: float(round(x, 0)), projected_points)))
-        
-        
+            # Make X and Y coordinate in projected_points a rounded float
+            display_polygon.append([float(round(projected_points[0])), float(round(projected_points[1])), projected_points[2]]) 
         
         return display_polygon
     
    
+   
+    """
+    Given a polygon, it computes an edge table that contains: [x_start, y_start, y_end, dX, z_start, dZ]
+    """
     def compute_edge_table(self, polygon):
-    
-    
-       
 
-        # Define all edges with the smaller y being the first edge and skip if the edge is a horizontal line
+        # Define all edges with the smaller y being the first edge and skip if the edge is a horizontal line (same y value)
         edges = []
         for i in range(len(polygon) - 1):
                 
@@ -802,16 +716,19 @@ class Scene(object):
             
         
         # Compute the edge table
+        
         edge_table = {}
         # For each edge, compute x_start, y_start, y_end, and dX
         counter = 0
-        # print(edges)
+        
+        # Iterate over each edge to find values for the table
         for edge in edges:
             x_start = edge[0][0]
             y_start = edge[0][1]
             y_end = edge[1][1]
             z_start = edge[0][2]
             
+            # In case of 0 in denominator
             try:
                 dX = (edge[1][0] - edge[0][0]) / (edge[1][1] - edge[0][1])
                 dZ = (edge[1][2] - edge[0][2]) / (edge[1][1] - edge[0][1])
@@ -829,52 +746,60 @@ class Scene(object):
 
         updated_edge_table = {}
         counter = 0
+        
+        
         # Rename keys of edge table dictionary based on position
         for edge_table_item in edge_table.values():
-            
-            
-            
+               
             updated_edge_table["Edge {}".format(counter)] = edge_table_item
-            
-            
-            
+    
             counter += 1
 
         
         
         
-        # print(updated_edge_table)
         return updated_edge_table
 
-    # print(polygon)
-    # print(edge_table)
+    """
+    Given a polygon and color, it uses the polygon fill algorithm described on page 65 of the textbook
+    Starting at the lowest y value, it determines the left and right edge and then for every row of pixels it paints the pixels between the edges
     
+    This algorithm uses backface culling to determine eliminate faces the "camera" cannot see and z buffering to determine if the pixel that is about to be drawn is behind another pixel that already exists
+    
+    
+    """
     def fill_polygon(self, poly, color):
+        
+        # Deep copy so the original polygon is not modified
         polygon = copy.deepcopy(poly)
         
+        # If the polygon is not visible then no need to fill it
         if not Matrix_Calculations.back_face_culling_algorithm(self.viewpoint, polygon):
             return
 
+        # Project and convert to display coordinates
         displayPolygon = self.project_and_convert_to_display_coordinates(polygon)
-        # print(displayPolygon)
-        
+
+        # Compute edge table        
         edge_table = self.compute_edge_table(displayPolygon)
         
-        # If edge table is empty, return
+        # If edge table is empty or has only one edge, return
         if len(edge_table) == 0 or len(edge_table) == 1:
             return
 
-        # print(edge_table)
         # Get all Y_start values from edge table
         y_start_values = list(map(lambda x: edge_table[x][1], edge_table))
         
         # Get all Y_end values from edge table
         y_end_values = list(map(lambda x: edge_table[x][2], edge_table))
         
+        
+        # Find smallest y_start value and largest y_end value
         first_fill_line = min(y_start_values)
         last_fill_line = max(y_end_values)
         
 
+        # Initialize counter variables
         i, j, next_x = 0, 1, 2
         
         # Set first two edges' x-coordinates
@@ -882,11 +807,14 @@ class Scene(object):
         current_edge_x = edge_table.get("Edge {}".format(i))[0]
         current_edge_2_x = edge_table["Edge {}".format(j)][0]
 
+        # Set first two edges' z-coordinates
         current_edge_z = edge_table.get("Edge {}".format(i))[4]
         current_edge_2_z = edge_table.get("Edge {}".format(j))[4]
         
+        # For each row of pixels
         for line_rows in range(int(first_fill_line), int(last_fill_line)):
             
+            # Initialize left and right edges
             left_edge = None
             right_edge = None
             
@@ -924,15 +852,14 @@ class Scene(object):
             # For each x from left_edge to right_edge, draw a line
             for x in range(int(left_edge), int(right_edge)):
                 
-                
-                # if(z_value >= self.z_buffer[line_rows][x]):
-                    # print(z_value, self.z_buffer[line_rows][x])
+                # Check the z buffer to see if the pixel is behind another pixel
                 if z_value < self.z_buffer[x][line_rows]:
-
+                    
+                    # Draw pixel
                     self.canvas.create_line(x, line_rows, x + 1, line_rows, fill=color)
                     
                     
-                    # If Fill_Tracing is enabled, pause current thread for 1 second using threading and then contine
+                    # If Fill_Tracing is enabled, pause current thread and then contine
                     if self.current_render_mode == "Fill_Tracing":
                         time.sleep(self.render_speed)
                         self.canvas.update()
@@ -962,6 +889,9 @@ class Scene(object):
                 next_x += 1
 
     
+    """
+    Generate a z buffer for the canvas with a maximum distance of 500
+    """
     def get_z_buffer(self):
         
         # Create z buffer array based on canvas width and height
@@ -972,9 +902,10 @@ class Scene(object):
     # Redraw canvas with all objects except the currently selected object
     def redraw_canvas(self):
         
+        # Wipe canvas
         self.canvas.delete("all")
         
-        # Draw the rest of the objects except the current object
+        # Draw the rest of the objects except the current object with black lines
         for object in self.object_list:
             if(object != self.current_object):
                 for line in object["Lines"]:
@@ -984,14 +915,16 @@ class Scene(object):
                     object["Lines"] = self.drawObject(object["Polyhedron"], False)
         
         
-        # Draw the current object
+        # Draw the current object with red lines
         self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
     
+    """
+    Changes render modes based on the appropriate keyboard input
+    """
     def set_render_mode(self, event):
         
-        # If 1 is pressed then the render mode is wireframe
-        
+        # If 1 is pressed then the render mode is wireframe  
         if event.char == "1":
             self.render_mode_index = 0
             self.current_render_mode = self.render_modes[self.render_mode_index]
@@ -1005,6 +938,7 @@ class Scene(object):
             self.z_buffer = self.get_z_buffer()
             self.redraw_canvas()
             
+        # If 3 is pressed then the render mode is Polygon_Fill
         elif event.char == "3":
             
             self.render_mode_index = 2
@@ -1012,6 +946,7 @@ class Scene(object):
             self.z_buffer = self.get_z_buffer()
             self.redraw_canvas()
             
+        # If 4 is pressed then the render mode is Fill_Tracing
         elif event.char == "4":
             
             self.render_mode_index = 3
@@ -1020,9 +955,8 @@ class Scene(object):
             self.redraw_canvas()
             
     
-    # def get_current_value(self):
-    #     return '{: .2f}'.format(self.slider.current_value.get())
-
-
-    # def slider_changed(event):
-    #     value_label.configure(text=get_current_value())
+    """
+    Updates the current slider value and assigns it to the global render speed variable
+    """
+    def update_slider_value(self, event):
+        self.render_speed = self.slider.get()

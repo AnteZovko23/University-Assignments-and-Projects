@@ -9,18 +9,21 @@ Name: Ante Zovko
 
 CWID: 103-55-122
 
-Date: January 11th, 2022
+Date: January 31th, 2022
 
-Assignment 2: 3D In-place Transformations and Perspective Projection
+Assignment 3: Back face culling; polygon filling; Z-buffering
 
-The program renders a Tetrahedron, Cube, and Octahedron in a 3D wire-frame viewing system and
-allows for in-place translation, scaling and rotation
+The program renders a Pyramid and two cubes in a 3D viewing system and
+with the ability to switch between Wireframe, Polygon Fill and Wireframe, and Polygon Fill modes
 
 Reference Material: Computer Graphics Lecture Notes by Dr. Mike O'Neal
 
 """
 
-# Generate a list of random colors based on the number of faces
+"""
+Generates a list of hex values for color given the number of faces in an object
+
+"""
 def generate_colors(Object_definition):
 
     # Get number of faces
@@ -33,13 +36,6 @@ def generate_colors(Object_definition):
     # Generate random hex value for color
     for i in range(number_of_faces):
         colors.append('#%02X%02X%02X' % (r(),r(),r()))
-
-    
-    
-    # For each value in colors replace the 0x with #
-    
-    # colors = list(map(lambda x: x.replace("0x", "#"), colors))
-    
     
     
     return colors
@@ -93,11 +89,12 @@ scene = Scene.Scene(canvas_width, canvas_height, viewpoint)
 PyramidColor = ["black", "red", "green", "blue", "yellow"]
 CubeColor = ["black", "#cccccc", "#999999", "#666666","#333333", "white"]
 
-# # Add the polyhedra to the scene
 
-scene.add_object(Pyramid, PyramidPointCloud, PyramidColor)
+# Add the polyhedra to the scene
+
 scene.add_object(Cube, CubePointCloud, CubeColor)
-# scene.add_object(Cube_2, CubePointCloud_2, CubeColor)
+scene.add_object(Pyramid, PyramidPointCloud, PyramidColor)
+scene.add_object(Cube_2, CubePointCloud_2, CubeColor)
 
 # scene.add_object(Tetrahedron, TetrahedronPointCloud, generate_colors(Tetrahedron))
 # scene.add_object(Octahedron, OctahedronPointCloud, generate_colors(Octahedron))
