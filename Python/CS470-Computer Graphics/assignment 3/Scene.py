@@ -469,7 +469,7 @@ class Scene(object):
         
         # Select previous in list
         self.current_object = self.object_list[(self.object_list.index(self.current_object) - 1) % len(self.object_list)]
-        
+        self.z_buffer = self.get_z_buffer()
         self.redraw_canvas()
         # # Delete selected and redraw with different color lines
         # for line in self.current_object["Lines"]:
@@ -494,6 +494,7 @@ class Scene(object):
         
         # # Select next in list
         self.current_object = self.object_list[(self.object_list.index(self.current_object) + 1) % len(self.object_list)]
+        self.z_buffer = self.get_z_buffer()
         self.redraw_canvas()
         # # Delete selected and redraw with different color lines
         # for line in self.current_object["Lines"]:
@@ -505,228 +506,228 @@ class Scene(object):
 
     def reset(self):
         
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
         
         self.z_buffer = self.get_z_buffer()
         
         
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.reset_polyhedron(self.current_object["PointCloud"], self.current_object["DefaultPointCloud"])
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def larger(self):
 
-        self.canvas.delete("all")    
+        # self.canvas.delete("all")    
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.scale(self.current_object["PointCloud"], 1.1)
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
         
     def smaller(self):
 
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.scale(self.current_object["PointCloud"], 0.9)
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def forward(self):
         
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[0,0,5])
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def backward(self):
         
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+            # for item in line:
+                # self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[0,0,-5])
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def left(self):
         
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
               
             
         self.translate(self.current_object["PointCloud"],[-5,0,0])
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def right(self):
 
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[5,0,0])
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def up(self):
 
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[0,5,0])
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def down(self):
 
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.translate(self.current_object["PointCloud"],[0,-5,0])
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def xPlus(self):
         
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.rotateX(self.current_object["PointCloud"], 5)
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def xMinus(self):
 
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.rotateX(self.current_object["PointCloud"], -5)
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def yPlus(self):
         
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.rotateY(self.current_object["PointCloud"], 5)
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
         
         self.redraw_canvas()
         
     def yMinus(self):
         
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.rotateY(self.current_object["PointCloud"], -5)
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def zPlus(self):
         
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.rotateZ(self.current_object["PointCloud"], 5)
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
     def zMinus(self):
         
-        self.canvas.delete("all")
+        # self.canvas.delete("all")
 
         self.z_buffer = self.get_z_buffer()
 
-        for line in self.current_object["Lines"]:
-            for item in line:
-                self.canvas.delete(item)
+        # for line in self.current_object["Lines"]:
+        #     for item in line:
+        #         self.canvas.delete(item)
             
         self.rotateZ(self.current_object["PointCloud"], -5)
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        # self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
 
         self.redraw_canvas()
 
@@ -904,7 +905,7 @@ class Scene(object):
                 
                 # if(z_value >= self.z_buffer[line_rows][x]):
                     # print(z_value, self.z_buffer[line_rows][x])
-                if z_value <= self.z_buffer[line_rows][x]:
+                if z_value < self.z_buffer[line_rows][x]:
 
                     self.canvas.create_line(x, line_rows, x + 1, line_rows, fill=color)
                     self.z_buffer[line_rows][x] = z_value
@@ -964,16 +965,19 @@ class Scene(object):
             
             self.render_mode_index = 0
             self.current_render_mode = self.render_modes[self.render_mode_index]
+            self.z_buffer = self.get_z_buffer()
             self.redraw_canvas()
 
         # If 2 is pressed then the render mode is Polygon_Fill_Edges
         elif event.char == "2":
             self.render_mode_index = 1
             self.current_render_mode = self.render_modes[self.render_mode_index]
+            self.z_buffer = self.get_z_buffer()
             self.redraw_canvas()
             
         elif event.char == "3":
             
             self.render_mode_index = 2
             self.current_render_mode = self.render_modes[self.render_mode_index]
+            self.z_buffer = self.get_z_buffer()
             self.redraw_canvas()
