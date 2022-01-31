@@ -506,7 +506,7 @@ class Scene(object):
 
     def reset(self):
         
-        # self.canvas.delete("all")
+        self.canvas.delete("all")
         
         self.z_buffer = self.get_z_buffer()
         
@@ -905,10 +905,10 @@ class Scene(object):
                 
                 # if(z_value >= self.z_buffer[line_rows][x]):
                     # print(z_value, self.z_buffer[line_rows][x])
-                if z_value < self.z_buffer[line_rows][x]:
+                if z_value < self.z_buffer[x][line_rows]:
 
                     self.canvas.create_line(x, line_rows, x + 1, line_rows, fill=color)
-                    self.z_buffer[line_rows][x] = z_value
+                    self.z_buffer[x][line_rows] = z_value
                 z_value = z_value + dZ_fill_line
                 
             # Update x-values and z-values with dX and Dz
@@ -916,7 +916,7 @@ class Scene(object):
             current_edge_2_x = current_edge_2_x + edge_table["Edge {}".format(j)][3]
             
             current_edge_z = current_edge_z + edge_table["Edge {}".format(i)][5]
-            current_edge_2_z = current_edge_2_x + edge_table["Edge {}".format(j)][5]
+            current_edge_2_z = current_edge_2_z + edge_table["Edge {}".format(j)][5]
             
             # When the bottom of an edge is reached, switch to the next edge
             if(line_rows >= edge_table["Edge {}".format(i)][2] and line_rows < last_fill_line):
