@@ -1,7 +1,10 @@
 # Tkinter scene class
+from email.policy import default
 from tkinter import *
 import copy
 import Matrix_Calculations
+import time
+import threading
 
 """
 Author: Ante Zovko
@@ -39,7 +42,7 @@ class Scene(object):
         self.z_buffer = self.get_z_buffer()
         
         # Render modes
-        self.render_modes = ["Wireframe", "Polygon_Fill_Edges", "Polygon_Fill"]
+        self.render_modes = ["Wireframe", "Polygon_Fill_Edges", "Polygon_Fill", "Fill_Tracing"]
         
         self.render_mode_index = 1
         
@@ -121,6 +124,21 @@ class Scene(object):
 
         zMinusButton = Button(rotationcontrols, text="Z-", command=self.zMinus)
         zMinusButton.pack(side=LEFT)
+        
+        # Add slider
+        self.render_speed = 0.005
+        
+        speed_controls_frame = Label(controlpanel, borderwidth=2, relief=RIDGE)
+        speed_controls_frame.pack(side=LEFT)
+        
+        speed_controls_label = Label(speed_controls_frame, text="Line Trace Speed")
+        speed_controls_label.pack()
+
+        
+        self.slider = Scale(speed_controls_frame, digits = 5, resolution = 0.00001, from_=0.00001, to=0.01, orient=HORIZONTAL, command=self.update_slider_value)
+        self.slider.set(self.render_speed)
+        
+        self.slider.pack(side=LEFT)
 
         # Bind right and left arrow key to canvas
         self.root.bind('<Right>', self.select_next_object)
@@ -129,7 +147,11 @@ class Scene(object):
         self.root.bind('1', self.set_render_mode)
         self.root.bind('2', self.set_render_mode)   
         self.root.bind('3', self.set_render_mode)  
+        self.root.bind('4', self.set_render_mode)  
 
+    
+    def update_slider_value(self, event):
+        self.render_speed = self.slider.get()
     
     """
     Given a point cloud and the original point cloud of the created object, this function resets the object to its 
@@ -374,7 +396,7 @@ class Scene(object):
         
         # If polygon_fill mode is not selected
         
-        if(self.current_render_mode != "Polygon_Fill"):
+        if(self.current_render_mode != "Polygon_Fill" and self.current_render_mode != "Fill_Tracing"):
             if selected:
                 color = "yellow"
             else:
@@ -908,6 +930,14 @@ class Scene(object):
                 if z_value < self.z_buffer[x][line_rows]:
 
                     self.canvas.create_line(x, line_rows, x + 1, line_rows, fill=color)
+                    
+                    
+                    # If Fill_Tracing is enabled, pause current thread for 1 second using threading and then contine
+                    if self.current_render_mode == "Fill_Tracing":
+                        time.sleep(self.render_speed)
+                        self.canvas.update()
+                        
+                    
                     self.z_buffer[x][line_rows] = z_value
                 z_value = z_value + dZ_fill_line
                 
@@ -961,8 +991,8 @@ class Scene(object):
     def set_render_mode(self, event):
         
         # If 1 is pressed then the render mode is wireframe
+        
         if event.char == "1":
-            
             self.render_mode_index = 0
             self.current_render_mode = self.render_modes[self.render_mode_index]
             self.z_buffer = self.get_z_buffer()
@@ -981,3 +1011,18 @@ class Scene(object):
             self.current_render_mode = self.render_modes[self.render_mode_index]
             self.z_buffer = self.get_z_buffer()
             self.redraw_canvas()
+            
+        elif event.char == "4":
+            
+            self.render_mode_index = 3
+            self.current_render_mode = self.render_modes[self.render_mode_index]
+            self.z_buffer = self.get_z_buffer()
+            self.redraw_canvas()
+            
+    
+    # def get_current_value(self):
+    #     return '{: .2f}'.format(self.slider.current_value.get())
+
+
+    # def slider_changed(event):
+    #     value_label.configure(text=get_current_value())
