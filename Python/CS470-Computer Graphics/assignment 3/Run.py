@@ -9,12 +9,13 @@ Name: Ante Zovko
 
 CWID: 103-55-122
 
-Date: January 31th, 2022
+Date: February 31th, 2022
 
 Assignment 3: Back face culling; polygon filling; Z-buffering
 
 The program renders a Pyramid and two cubes in a 3D viewing system and
-with the ability to switch between Wireframe, Polygon Fill and Wireframe, and Polygon Fill modes
+with the ability to switch between Wireframe, Polygon Fill and Wireframe, Polygon Fill, and Fill Tracing modes
+
 
 Reference Material: Computer Graphics Lecture Notes by Dr. Mike O'Neal
 
@@ -77,7 +78,12 @@ Cube_2, CubePointCloud_2 = polyhedron_maker.cube({'base1': [200,-50,50, 1],
 
 
 # Get octahedron
-Octahedron, OctahedronPointCloud = polyhedron_maker.octahedron()
+Octahedron, OctahedronPointCloud = polyhedron_maker.octahedron({'apex': [159.93019510416048,30.707126467728294,66.07157714430433, 1],
+                                        'apex2': [140.0698048958393,-130.70712646772844,93.92842285569596, 1],
+                                        'base1': [217.03175864852074,-64.575184240332,43.3352030207445, 1],
+                                        'base2': [188.32872406967402, -43.09626555484705,147.32939449255878, 1],
+                                        'base3': [111.67127593032583,-56.90373444515309,12.670605507441493, 1],
+                                        'base4': [82.9682413514790,-35.424815759668114,116.6647969792558, 1]})
 
 # Get Pyramid
 Pyramid, PyramidPointCloud = polyhedron_maker.pyramid()
@@ -94,10 +100,10 @@ CubeColor = ["black", "#cccccc", "#999999", "#666666","#333333", "white"]
 
 scene.add_object(Cube, CubePointCloud, CubeColor)
 scene.add_object(Pyramid, PyramidPointCloud, PyramidColor)
-scene.add_object(Cube_2, CubePointCloud_2, CubeColor)
+# scene.add_object(Cube_2, CubePointCloud_2, CubeColor)
 
 # scene.add_object(Tetrahedron, TetrahedronPointCloud, generate_colors(Tetrahedron))
-# scene.add_object(Octahedron, OctahedronPointCloud, generate_colors(Octahedron))
+scene.add_object(Octahedron, OctahedronPointCloud, generate_colors(Octahedron))
 
 
 # Start the mainloop

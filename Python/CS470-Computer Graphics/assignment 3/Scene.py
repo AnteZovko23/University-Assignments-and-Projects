@@ -35,12 +35,13 @@ class Scene(object):
         self.viewpoint = viewpoint
         self.canvas = Canvas(outerframe, width=self.canvas_width, height=self.canvas_height)
         self.canvas.pack()
+        self.drawing_mode = True
         
         # Z buffer
         self.z_buffer = self.get_z_buffer()
         
         # Render modes
-        self.render_modes = ["Wireframe", "Polygon_Fill_Edges", "Polygon_Fill", "Fill_Tracing"]
+        self.render_modes = ["Wireframe", "Polygon_Fill_Edges", "Polygon_Fill"]
         
         self.render_mode_index = 1
         
@@ -57,7 +58,7 @@ class Scene(object):
         resetcontrols = Frame(controlpanel, height=100, borderwidth=2, relief=RIDGE)
         resetcontrols.pack(side=LEFT)
 
-        resetcontrolslabel = Label(resetcontrols, text="Reset")
+        resetcontrolslabel = Label(resetcontrols, text="Controls")
         resetcontrolslabel.pack()
 
         resetButton = Button(resetcontrols, text="Reset", fg="green", command=self.reset)
@@ -148,9 +149,13 @@ class Scene(object):
         self.root.bind('3', self.set_render_mode)  
         self.root.bind('4', self.set_render_mode)  
 
-    
+        drawing_mode_btn = Button(resetcontrols, text="Drawing Mode", command=self.toggle_drawing_mode)
+        drawing_mode_btn.pack(side=LEFT)
         
-
+        # Create checkbox
+        self.is_checked = BooleanVar()
+        self.toggle_line_rendering_checkbox = Checkbutton(resetcontrols, text="Show Line\nRendering", variable=self.is_checked, command=self.toggle_line_rendering)
+        self.toggle_line_rendering_checkbox.pack(side=LEFT)
     
     """
     Given a point cloud and the original point cloud of the created object, this function resets the object to its 
@@ -328,9 +333,9 @@ class Scene(object):
         
        
         lines = []
+     
         # Iterates through each polygon in the object
         for poly in object:
-            
             # If polygon is not visible, skip it
             if not Matrix_Calculations.back_face_culling_algorithm(self.viewpoint, poly):
                 continue
@@ -374,7 +379,7 @@ class Scene(object):
     """
     Project the 3D endpoints to 2D point using a perspective projection implemented in 'project'
     Convert the projected endpoints to display coordinates via a call to 'convertToDisplayCoordinates'
-    draw the actual line using the built-in create_line method
+    draw the actual line using the built-in create_line method or bresenham's line drawing algorithm
     
     If selected is true then the line will be drawn with red lines, otherwise it will be drawn with black lines
     """
@@ -392,15 +397,255 @@ class Scene(object):
         # If object is selected the line is red, else black
         
         # If polygon_fill mode is not selected
-        
         if(self.current_render_mode != "Polygon_Fill" and self.current_render_mode != "Fill_Tracing"):
             if selected:
                 color = "red"
             else:
                 color = "black"
                 
-            return self.canvas.create_line(convertToDisplayCoordinates_start[0],convertToDisplayCoordinates_start[1],convertToDisplayCoordinates_end[0],convertToDisplayCoordinates_end[1], fill=color, width=3)
-        
+            # Redefine the variable names for clarity    
+            x1, y1 = convertToDisplayCoordinates_start[0], convertToDisplayCoordinates_start[1]
+            x2, y2 = convertToDisplayCoordinates_end[0], convertToDisplayCoordinates_end[1]
+            z1 = project_start[2]
+            z2 = project_end[2]
+
+            # Check drawing mode -> self implemented bresenham's algorithm or built-in create_line
+            if(self.drawing_mode):
+                return self.canvas.create_line(x1, y1, x2, y2, fill=color, width=2)
+            
+            else:
+                
+                """
+                Implementation of bresenham's line drawing algorithm by Ante Zovko
+                Source Material: https://www.youtube.com/watch?v=RGB-wlatStc
+                """
+                
+                # Ensure that x1 < x2 and y1 < y2
+                if y1 > y2:
+                    x1, x2 = x2, x1
+                    y1, y2 = y2, y1
+                    z1, z2 = z2, z1
+
+                
+                # Make all integers
+                x1, y1, x2, y2, z1, z2 = int(round(x1)), int(round(y1)), int(round(x2)), int(round(y2)), int(round(z1)), int(round(z2))
+
+                x = x1
+                y = y1
+                z = z1
+                
+                # Dx, Dy, Dz are the differences between x1 and x2, y1 and y2, and z1 and z2
+                dx = x2 - x1
+                dy = y2 - y1
+                dz = z2 - z1
+                
+                # If divided by 0 then set to infinity
+                try:
+                    m = dy/dx
+                except ZeroDivisionError:
+                    m = "inf"
+                    inverse_m = "inf"
+
+                try:
+                    inverse_m = dx/dy
+                except ZeroDivisionError:
+                    inverse_m = "inf"
+                    
+                try:
+                    change_z = dz/dy
+                except ZeroDivisionError:
+                    change_z = 1
+                
+                # Print debugging info
+                # print("x1: ", x1, "y1: ", y1, "x2: ", x2, "y2: ", y2, "z1: ", z1, "z2: ", z2, "dx: ", dx, "dy: ", dy, "dz: ", dz, "m: ", m, "inverse_m: ", inverse_m, "change_z: ", change_z)
+                
+                z_value = z1
+                
+                """
+                Check different cases for the slope (m or inverse_m is inf, m < 1, m > 1, and m = 1)
+                """
+                if m == "inf" or inverse_m == "inf":
+                    # Case 1: vertical line -> m = inf
+                    if m == "inf":
+                        # Iterate through y values
+                        while (y != y2):
+                            # increment or decrement y based on direction of line
+                            y = y + 1 if y1 < y2 else y - 1
+                            
+                            # Keep between canvas bounds
+                            try:
+                                # Check z buffer
+                                if z_value < self.z_buffer[x][y]:
+                                    self.canvas.create_line(x,y,x+1,y+1, fill=color, width=3)
+                                    
+                                    # Check if rendering mode is tracing
+                                    if self.is_checked.get():
+                                        time.sleep(self.render_speed)
+                                        self.canvas.update()
+                                    
+                                    # Update z buffer
+                                    self.z_buffer[x][y] = z_value
+                                    
+                                # Change z value
+                                z_value = z_value + change_z
+                            # If index out of bounds, just move on
+                            except IndexError:
+                                pass
+                    # Case 2: horizontal line -> inverse_m = inf
+                    else:
+                        # self.canvas.create_line(x,y,x+1,y+1, fill=color, width=3)
+                        # Iterate through x values
+                        while (x != x2):
+                            # Change x value depending on direction of line
+                            x = x + 1 if x2 > x1 else x - 1
+                            
+                            # Keep between canvas bounds
+                            try:
+                                # Check z buffer
+                                if z_value < self.z_buffer[x][y]:
+                                    self.canvas.create_line(x,y,x+1,y+1, fill=color, width=3)
+                                    # Check if rendering mode is tracing
+                                    if self.is_checked.get():
+                                        time.sleep(self.render_speed)
+                                        self.canvas.update()
+                                        
+                                    # Update z buffer
+                                    self.z_buffer[x][y] = z_value
+                                
+                                # Change z value
+                                z_value = z_value + change_z
+                            # If index out of bounds, just move on
+                            except IndexError:
+                                pass
+                
+
+                elif abs(m) < 1:
+                    
+                    # Calculate decision parameter
+                    p = 2 * dy - dx
+
+                    # Iterate through x values
+                    while (x != x2):
+                        
+                        # Change x value depending on direction of line
+                        if x1 > x2:
+                            x = x - 1
+                        else:
+                            x = x + 1            
+                        
+                        # Update decision parameter
+                        if (p < 0):
+                            p = p + 2 * dy   
+                        else:
+                            if m < 0:
+                                p = p + 2 * dy + 2 * dx
+                            else:
+                                p = p + 2 * dy - 2 * dx
+                             
+                            # Update y value   
+                            y = y + 1
+                        
+                        # Keep between canvas bounds
+                        try:   
+                            # print(x,y,z_value)
+                            # print(self.z_buffer[x][y])
+                            # Check z buffer
+                            if z_value < self.z_buffer[x][y]:        
+                                self.canvas.create_line(x,y,x+1,y+1, fill=color, width=3)
+                                
+                                # Check if rendering mode is tracing
+                                if self.is_checked.get():
+                                    time.sleep(self.render_speed)
+                                    self.canvas.update()
+                                    
+                                # Update z buffer
+                                self.z_buffer[x][y] = z_value
+                            
+                            # Change z value
+                            z_value = z_value + change_z
+                        # If index out of bounds, just move on
+                        except IndexError:
+                            pass 
+                            
+                elif abs(m) > 1:
+                        
+                        # Calculate decision parameter
+                        p = 2 * dx - dy
+
+                        # Iterate through y values
+                        while (y != y2):
+                        
+                            # print(p)
+                            # Change y value depending on direction of line
+                            if y1 > y2:
+                                y = y - 1
+                            else:
+                                y = y + 1    
+                            
+                            # Update decision parameter
+                            if (p < 0):
+                                if inverse_m < 0:
+                                    p = p - 2 * dx
+                                else:
+                                    p = p + 2 * dx
+                                    
+                            else:
+                                if inverse_m < 0:
+                                    p = p - 2 * dx - 2 * dy
+                                    x -= 1
+                                else:
+                                    p = p + 2 * dx - 2 * dy
+                                    x += 1
+                            
+                            # Keep between canvas bounds
+                            try:
+                                # Check z buffer
+                                if z_value < self.z_buffer[x][y]:  
+                                    self.canvas.create_line(x,y,x+1,y+1, fill=color, width=3)
+                                    # Check if rendering mode is tracing
+                                    if self.is_checked.get():
+                                        time.sleep(self.render_speed)
+                                        self.canvas.update()
+                                    # Update z buffer
+                                    self.z_buffer[x][y] = z_value
+                                # Change z value
+                                z_value = z_value + change_z
+                            # If index out of bounds, just move on
+                            except IndexError:
+                                pass
+                            
+                elif abs(m) == 1:
+                    # self.canvas.create_line(x,y,x2,y2, fill="red")
+                    # self.canvas.create_line(x,y,x+1,y+1, fill=color, width=3)
+                    
+                    # Iterate through x values
+                    while (x != x2):
+                        
+                        # Change x value depending on direction of line
+                        if m < 0:
+                            x = x - 1
+                        else:
+                            x = x + 1
+                        
+                        # Update y value
+                        y = y + 1
+                        
+                        # Keep between canvas bounds
+                        try:
+                            # Check z buffer
+                            if z_value < self.z_buffer[x][y]:
+                                self.canvas.create_line(x,y,x+1,y+1, fill=color, width=3)
+                                # Check if rendering mode is tracing
+                                if self.is_checked.get():
+                                    time.sleep(self.render_speed)
+                                    self.canvas.update()
+                                # Update z buffer
+                                self.z_buffer[x][y] = z_value
+                            # Change z value
+                            z_value = z_value + change_z
+                        # If index out of bounds, just move on
+                        except IndexError:
+                            pass
     """
     This function converts from 3D to 2D (+ depth) using the perspective projection technique.  Note that it
     will return a NEW list of points.  We will not want to keep around the projected points in our object as
@@ -853,21 +1098,27 @@ class Scene(object):
             for x in range(int(left_edge), int(right_edge)):
                 
                 # Check the z buffer to see if the pixel is behind another pixel
-                if z_value < self.z_buffer[x][line_rows]:
-                    
-                    # Draw pixel
-                    self.canvas.create_line(x, line_rows, x + 1, line_rows, fill=color)
-                    
-                    
-                    # If Fill_Tracing is enabled, pause current thread and then contine
-                    if self.current_render_mode == "Fill_Tracing":
-                        time.sleep(self.render_speed)
-                        self.canvas.update()
+                try:
+                    if z_value < self.z_buffer[x][line_rows]:
                         
+                        # Draw pixel
+                        self.canvas.create_line(x, line_rows, x + 1, line_rows, fill=color)
+                        
+                        
+                        # If Fill_Tracing is enabled, pause current thread and then contine
+                        # if self.current_render_mode == "Fill_Tracing":
+                        # If checked
+                        if self.is_checked.get():
+                            time.sleep(self.render_speed)
+                            self.canvas.update()
+                            
+                        self.z_buffer[x][line_rows] = z_value
+                    z_value = z_value + dZ_fill_line
                     
-                    self.z_buffer[x][line_rows] = z_value
-                z_value = z_value + dZ_fill_line
-                
+                # If its painting at the edge just ignore and move on 
+                except IndexError:
+                    pass
+                    
             # Update x-values and z-values with dX and Dz
             current_edge_x = current_edge_x + edge_table["Edge {}".format(i)][3]
             current_edge_2_x = current_edge_2_x + edge_table["Edge {}".format(j)][3]
@@ -896,8 +1147,12 @@ class Scene(object):
         
         # Create z buffer array based on canvas width and height
         # Initialize with max distance which is 500 in this setup
-        return [[500 for x in range(self.canvas_width)] for y in range(self.canvas_height)]
-        
+        # or 20000 for bresenham's algorithm
+        if self.drawing_mode:
+            return [[500 for x in range(self.canvas_width)] for y in range(self.canvas_height)]
+        else:
+            # Bug with increasing z values, easiest fix for now
+            return [[20000 for x in range(self.canvas_width)] for y in range(self.canvas_height)]
      
     # Redraw canvas with all objects except the currently selected object
     def redraw_canvas(self):
@@ -946,17 +1201,27 @@ class Scene(object):
             self.z_buffer = self.get_z_buffer()
             self.redraw_canvas()
             
-        # If 4 is pressed then the render mode is Fill_Tracing
-        elif event.char == "4":
-            
-            self.render_mode_index = 3
-            self.current_render_mode = self.render_modes[self.render_mode_index]
-            self.z_buffer = self.get_z_buffer()
-            self.redraw_canvas()
-            
     
     """
     Updates the current slider value and assigns it to the global render speed variable
     """
     def update_slider_value(self, event):
         self.render_speed = self.slider.get()
+        
+    
+    """
+    Changes between self implemented and built in line drawing
+    """
+    def toggle_drawing_mode(self):
+        # If the current drawing mode is built in, change to self implemented
+        self.drawing_mode = not self.drawing_mode
+        self.z_buffer = self.get_z_buffer()
+        self.redraw_canvas()
+        
+    
+    """
+    Toggles the fill tracing mode
+    """
+    def toggle_line_rendering(self):
+        self.z_buffer = self.get_z_buffer()
+        self.redraw_canvas()

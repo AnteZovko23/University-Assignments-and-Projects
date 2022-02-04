@@ -270,8 +270,60 @@ def get_z_buffer():
     # Initialize with max distance which is 500 in this setup
     return [[500 for x in range(canvas_width)] for y in range(canvas_height)]
 
-
-
+    # # Project and convert to display coordinates
+    # point1 = project(point1)
+    # point2 = project(point2)
+    
+    # point1 = convertToDisplayCoordinates(point1)
+    # point2 = convertToDisplayCoordinates(point2)
+    
+    # dx = abs(x2 - x1)
+    # dy = abs(y2 - y1)
+    # dz = abs(z2 - z1)
+    
+    # # Determine slope of line
+    # if dx >= dy and dx >= dz:
+    #     slope = dx
+    # elif dy >= dx and dy >= dz:
+    #     slope = dy
+    # else:
+    #     slope = dz
+    
+    # # Determine increment in x, y, and z
+    # x_inc = dx / slope
+    # y_inc = dy / slope
+    # z_inc = dz / slope
+    
+    # # Determine starting x, y, and z
+    # x = x1
+    # y = y1
+    # z = z1
+    
+    # # Determine which direction to increment in x, y, and z
+    # if x1 < x2:
+    #     x_dir = 1
+    # else:
+    #     x_dir = -1
+        
+    # if y1 < y2:
+    #     y_dir = 1
+    # else:
+    #     y_dir = -1
+        
+    # if z1 < z2:
+    #     z_dir = 1
+    # else:
+    #     z_dir = -1
+    
+    # # Draw line
+    # while x != x2 or y != y2 or z != z2:
+    #     canvas.create_line(x, y, x + 1, y, fill="red")
+    #     x += x_dir
+    #     y += y_dir
+    #     z += z_dir
+    
+    
+   
 
  
 
@@ -292,6 +344,24 @@ def drawPoly(poly):
         drawLine(poly[1],poly[2])
         drawLine(poly[2],poly[3])
         drawLine(poly[3],poly[0])
+        
+        
+# This function will draw a polygon by repeatedly callying drawLine on each pair of points
+# making up the object.  Remember to draw a line between the last point and the first.
+def drawPolyImprovised(poly):
+    
+    # If the polygon is a triangle, draw a line between the appropriate points
+    if(len(poly) == 3):
+        draw_line(poly[0],poly[1])
+        draw_line(poly[1],poly[2])
+        draw_line(poly[2],poly[0])
+    
+    # If the polygon is a quadrilateral, draw a line between the appropriate points
+    else:
+        draw_line(poly[0],poly[1])
+        draw_line(poly[1],poly[2])
+        draw_line(poly[2],poly[3])
+        draw_line(poly[3],poly[0])
     
 
 # Project the 3D endpoints to 2D point using a perspective projection implemented in 'project'
@@ -359,14 +429,21 @@ canvas = Canvas(outerframe, width=canvas_width, height=canvas_height)
 # base2 = [50,-150, 150]
 # base3 = [-50,-150,150]
 # base4 = [-50,-150,50]
-
+base1 = [50,-50,50, 1]
+base2 = [50,-50,150, 1]
+base3 = [-50,-50,50, 1]
+base4 = [-50,-50,150, 1]
+base5 = [50,50,50, 1]
+base6 = [50,50,150, 1]
+base7 = [-50,50,50, 1]
+base8 = [-50,50,150, 1]
 
 # # fill_polygon(Pyramid, 'red')    
-apex = [0,50,100, 1]
-base1 = [40.55797877317731,-50,42.07720346948115, 1]
-base2 = [50,-50,150, 1]
-base3 = [-50,-50,150, 1]
-base4 = [-57.922796530518845,-50,59.4420212268227, 1]
+# apex = [0,50,100, 1]
+# base1 = [40.55797877317731,-50,42.07720346948115, 1]
+# base2 = [50,-50,150, 1]
+# base3 = [-50,-50,150, 1]
+# base4 = [-57.922796530518845,-50,59.4420212268227, 1]
 # base1 = [50,25.811923270530365,63.64693911811081, 1]
 # base3 = [50,-73.80754653943052,72.36251347538138, 1]
 # base5 = [-50,25.811923271116303,63.6469391182488, 1]
@@ -375,13 +452,183 @@ base4 = [-57.922796530518845,-50,59.4420212268227, 1]
 
 # Definition of the five polygon faces using the meaningful point names
 # Polys are defined in clockwise order when viewed from the outside
-frontpoly = [apex,base1,base4]
-rightpoly = [apex,base2,base1]
+# frontpoly = [apex,base1,base4]
+# rightpoly = [apex,base2,base1]
+# backpoly = [apex,base3,base2]
 
-drawPoly(frontpoly)
+# Using bresenham's line algorithm, draw a line from point1 to point2 with perspective correction
+def draw_line(x1, y1, x2, y2):
+    canvas.create_line(x1,y1,x2,y2, fill="red")
+    print(x1,y1,x2,y2)
+    # Arrange points such that x1 < x2 and y1 < y2
+    # if y1 > y2:
+    #     y1, y2 = y2, y1
+    
+    # Ensure that x1 < x2 and y1 < y2
+    if y1 > y2:
+        x1, x2 = x2, x1
+        y1, y2 = y2, y1
 
-fill_polygon(frontpoly, "red", get_z_buffer())
+    
+    # Set the initial x and y coordinates and make them integers
+    x1, y1, x2, y2 = int(round(x1)), int(round(y1)), int(round(x2)), int(round(y2))
 
+    x = x1
+    y = y1
+    
+    print(y, y2)    
+    dx = x2 - x1
+    dy = y2 - y1
+    
+    try:
+        m = dy/dx
+    except ZeroDivisionError:
+        m = "inf"
+        inverse_m = "inf"
+
+    try:
+        inverse_m = dx/dy
+    except ZeroDivisionError:
+        inverse_m = "inf"
+    
+    print(x, y, dx, dy, m, inverse_m, x2, y2)
+    
+
+    if m == "inf" or inverse_m == "inf":
+        # Case 1: vertical line -> m = inf
+        if m == "inf":
+            canvas.create_line(x,y,x+1,y+1)
+            while (y != y2):
+                y = y + 1 if y1 < y2 else y - 1
+                canvas.create_line(x,y,x+1,y+1)
+        
+        # Case 2: horizontal line -> inverse_m = inf
+        else:
+            canvas.create_line(x,y,x+1,y+1)
+            while (x != x2):
+                x = x + 1 if x2 > x1 else x - 1
+                canvas.create_line(x,y,x+1,y+1)
+                
+
+    elif abs(m) < 1:
+        
+        
+        p = 2 * dy - dx
+        # canvas.create_line(x,y,x2,y2, fill="red")
+        canvas.create_line(x,y,x+1,y+1, width=1)
+        while (x != x2):
+            
+            if x1 > x2:
+                x = x - 1
+            else:
+                x = x + 1            
+            # print(p)
+            if (p < 0):
+                p = p + 2 * dy
+
+                
+            else:
+                if m < 0:
+                    p = p + 2 * dy + 2 * dx
+                else:
+                    p = p + 2 * dy - 2 * dx
+                    
+                y = y + 1
+                    
+            canvas.create_line(x,y,x+1,y+1)
+            
+    elif abs(m) > 1:
+            
+            p = 2 * dx - dy
+
+            canvas.create_line(x,y,x+1,y+1)
+            while (y != y2):
+            
+                # print(p)
+                if y1 > y2:
+                    y = y - 1
+                else:
+                    y = y + 1    
+                
+                if (p < 0):
+                    if inverse_m < 0:
+                        p = p - 2 * dx
+                    else:
+                        p = p + 2 * dx
+                        
+                else:
+                    if inverse_m < 0:
+                        p = p - 2 * dx - 2 * dy
+                        x -= 1
+                    else:
+                        p = p + 2 * dx - 2 * dy
+                        x += 1
+                    
+                canvas.create_line(x,y,x+1,y+1)
+                
+    elif abs(m) == 1:
+        # canvas.create_line(x,y,x2,y2, fill="red")
+        canvas.create_line(x,y,x+1,y+1)
+        while (x != x2):
+            if m < 0:
+                x = x - 1
+            else:
+                x = x + 1
+            
+            print("test")
+            y = y + 1
+            canvas.create_line(x,y,x+1,y+1)
+    
+        
+# leftpoly = [apex,base4,base3]
+# bottompoly = [base1,base2,base3,base4]
+
+# drawPolyImprovised(frontpoly)
+# drawPolyImprovised(rightpoly)
+# drawPolyImprovised(backpoly)
+# drawPolyImprovised(leftpoly)    
+# drawPolyImprovised(bottompoly)
+
+        
+# draw_line(1, 1, 8, 5)
+# point1 = project(apex)
+base1 = project(base1)
+base2 = project(base2)
+base3 = project(base3)
+base4 = project(base4)
+base5 = project(base5)
+base6 = project(base6)
+base7 = project(base7)
+base8 = project(base8)
+
+# point1 = convertToDisplayCoordinates(point1)
+base1 = convertToDisplayCoordinates(base1)
+base2 = convertToDisplayCoordinates(base2)
+base3 = convertToDisplayCoordinates(base3)
+base4 = convertToDisplayCoordinates(base4)
+base5 = convertToDisplayCoordinates(base5)
+base6 = convertToDisplayCoordinates(base6)
+base7 = convertToDisplayCoordinates(base7)
+base8 = convertToDisplayCoordinates(base8)
+
+bottompoly = [base1, base2, base4, base3]
+toppoly = [base5,base7,base8,base6]
+frontpoly = [base1, base3, base7, base5]
+rightpoly = [base1, base5, base6, base2]
+leftpoly = [base3, base4, base8, base7]
+backpoly = [base2, base6, base8, base4]
+
+polys = [bottompoly, toppoly, frontpoly, rightpoly, leftpoly, backpoly]
+
+for poly in polys:
+    for i in range(len(poly)):    
+        draw_line(poly[i][0],poly[i][1],poly[(i+1)%4][0],poly[(i+1)%4][1])
+
+
+# draw_line(point1[0],point1[1],point2[0],point2[1])
+
+# fill_polygon(frontpoly, "red", get_z_buffer())
+# draw_line(apex, base1)
 canvas.pack()
 
 controlpanel = Frame(outerframe)
