@@ -1,7 +1,6 @@
 from tkinter import *
 from traceback import print_tb
 
-from pyrsistent import v
 import Scene
 import Polyhedron
 import Scene
@@ -56,8 +55,7 @@ ambient_intensity = 0.3
 point_light_intensity = 0.7
 diffuse_constant = 0.5
 specular_constant = 0.5
-specular_index = 8
-
+specular_index = 10
 distance = 1
 
 illumination_model = Illumination_Model.Illumination_Model(view_vector=viewpoint, light_vector=light_vector, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance)
@@ -73,15 +71,15 @@ polyhedron_maker = Polyhedron.Polyhedron()
 #                                         'base3': [100,-50,150, 1],
 #                                         'base4': [100,-50,50, 1]})
 
-# # Get cube
-# Cube, CubePointCloud = polyhedron_maker.cube({'base1': [-100,-50,50, 1],
-#                                         'base2': [-100,-50,150, 1],
-#                                         'base3': [-200,-50,50, 1],
-#                                         'base4': [-200,-50,150, 1],
-#                                         'base5': [-100,50,50, 1],
-#                                         'base6': [-100,50,150, 1],
-#                                         'base7': [-200,50,50, 1],
-#                                         'base8': [-200,50,150, 1]})
+# Get cube
+Cube, CubePointCloud = polyhedron_maker.cube({'base1': [-100,-50,50, 1],
+                                        'base2': [-100,-50,150, 1],
+                                        'base3': [-200,-50,50, 1],
+                                        'base4': [-200,-50,150, 1],
+                                        'base5': [-100,50,50, 1],
+                                        'base6': [-100,50,150, 1],
+                                        'base7': [-200,50,50, 1],
+                                        'base8': [-200,50,150, 1]})
 
 # # Get cube
 # Cube_2, CubePointCloud_2 = polyhedron_maker.cube({'base1': [200,-50,50, 1],

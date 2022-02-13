@@ -965,6 +965,7 @@ class Scene(object):
     """
     def compute_edge_table(self, polygon, given_vertex_normal):
         
+        phong_vertex_normals = copy.deepcopy(given_vertex_normal)
         vertex_normal = copy.deepcopy(given_vertex_normal)
         
         if vertex_normal != None and len(polygon) != 8:
@@ -978,17 +979,17 @@ class Scene(object):
                     
                 # The smaller y goes first
                 if(polygon[i][1] < polygon[i+1][1]):
-                    edges.append([polygon[i],polygon[i+1], vertex_normal[i], vertex_normal[i+1]])
+                    edges.append([polygon[i],polygon[i+1], vertex_normal[i], vertex_normal[i+1], phong_vertex_normals[i], phong_vertex_normals[i+1]])
                 elif(polygon[i][1] > polygon[i+1][1]):
-                    edges.append([polygon[i+1],polygon[i], vertex_normal[i+1], vertex_normal[i]])
+                    edges.append([polygon[i+1],polygon[i], vertex_normal[i+1], vertex_normal[i], phong_vertex_normals[i+1], phong_vertex_normals[i]])
                 else:
                     continue
             
             # Append last and first edge with the smaller y going first
             if(polygon[0][1] < polygon[len(polygon)-1][1]):
-                edges.append([polygon[0],polygon[len(polygon)-1], vertex_normal[0], vertex_normal[len(polygon)-1]])
+                edges.append([polygon[0],polygon[len(polygon)-1], vertex_normal[0], vertex_normal[len(polygon)-1], phong_vertex_normals[0], phong_vertex_normals[len(polygon)-1]])
             elif(polygon[0][1] > polygon[len(polygon)-1][1]):
-                edges.append([polygon[len(polygon)-1],polygon[0], vertex_normal[len(polygon)-1], vertex_normal[0]])
+                edges.append([polygon[len(polygon)-1],polygon[0], vertex_normal[len(polygon)-1], vertex_normal[0], phong_vertex_normals[len(polygon)-1], phong_vertex_normals[0]])
                 
         else:
             # Define all edges with the smaller y being the first edge and skip if the edge is a horizontal line (same y value)
@@ -1028,9 +1029,16 @@ class Scene(object):
             try:
                 intensity__diffuse_start_edge = edge[2][0]
                 intensity__specular_start_edge = edge[2][1]
+                normal_start_edge_x = edge[4][0]
+                normal_start_edge_y = edge[4][1]
+                normal_start_edge_z = edge[4][2]
+                
             except:
                 intensity__diffuse_start_edge = None
                 intensity__specular_start_edge = None
+                normal_start_edge_x = None
+                normal_start_edge_y = None
+                normal_start_edge_z = None
             
             # In case of 0 in denominator
             try:
@@ -1042,13 +1050,21 @@ class Scene(object):
                 
             dIntensity_diffuse = None
             dIntensity_specular = None
+            dNormal_x = None
+            dNormal_y = None
+            dNormal_z = None
             try:
                 dIntensity_diffuse = (edge[3][0] - edge[2][0]) / (edge[1][1] - edge[0][1])
                 dIntensity_specular = (edge[3][1] - edge[2][1]) / (edge[1][1] - edge[0][1])
+                dNormal_x = (edge[5][0] - edge[4][0]) / (edge[1][1] - edge[0][1])
+                dNormal_y = (edge[5][1] - edge[4][1]) / (edge[1][1] - edge[0][1])
+                dNormal_z = (edge[5][2] - edge[4][2]) / (edge[1][1] - edge[0][1])
+
             except:
                 pass
             # Add information to edge table
-            edge_table["Edge {}".format(counter)] = [x_start, y_start, y_end, dX, z_start, dZ, intensity__diffuse_start_edge, dIntensity_diffuse, intensity__specular_start_edge, dIntensity_specular]
+            edge_table["Edge {}".format(counter)] = [x_start, y_start, y_end, dX, z_start, dZ, intensity__diffuse_start_edge, dIntensity_diffuse, intensity__specular_start_edge, dIntensity_specular
+                                                     , normal_start_edge_x, dNormal_x, normal_start_edge_y, dNormal_y, normal_start_edge_z, dNormal_z]
             
             counter+=1
 
@@ -1128,6 +1144,15 @@ class Scene(object):
         current_edge_intensity_specular = edge_table.get("Edge {}".format(i))[8]
         current_edge_2_intensity_specular = edge_table.get("Edge {}".format(j))[8]
         
+        current_edge_normal_x = edge_table.get("Edge {}".format(i))[10]
+        current_edge_2_normal_x = edge_table.get("Edge {}".format(j))[10]
+        
+        current_edge_normal_y = edge_table.get("Edge {}".format(i))[12]
+        current_edge_2_normal_y = edge_table.get("Edge {}".format(j))[12]
+        
+        current_edge_normal_z = edge_table.get("Edge {}".format(i))[14]
+        current_edge_2_normal_z = edge_table.get("Edge {}".format(j))[14]
+        
         
         # For each row of pixels
         for line_rows in range(int(first_fill_line), int(last_fill_line)):
@@ -1145,6 +1170,15 @@ class Scene(object):
             left_intensity_edge_specular = None
             right_intensity_edge_specular = None
             
+            left_normal_x_edge = None
+            right_normal_x_edge = None
+            
+            left_normal_y_edge = None
+            right_normal_y_edge = None
+            
+            left_normal_z_edge = None
+            right_normal_z_edge = None
+            
             # Determine which edge is Left and which is Right
             if current_edge_x < current_edge_2_x:
                 left_edge = current_edge_x
@@ -1159,6 +1193,15 @@ class Scene(object):
                 left_intensity_edge_specular = current_edge_intensity_specular
                 right_intensity_edge_specular = current_edge_2_intensity_specular
                 
+                left_normal_x_edge = current_edge_normal_x
+                right_normal_x_edge = current_edge_2_normal_x
+
+                left_normal_y_edge = current_edge_normal_y
+                right_normal_y_edge = current_edge_2_normal_y
+                
+                left_normal_z_edge = current_edge_normal_z
+                right_normal_z_edge = current_edge_2_normal_z
+                
             else:
                 left_edge = current_edge_2_x
                 right_edge = current_edge_x
@@ -1172,6 +1215,15 @@ class Scene(object):
                 left_intensity_edge_specular = current_edge_2_intensity_specular
                 right_intensity_edge_specular = current_edge_intensity_specular
                 
+                left_normal_x_edge = current_edge_2_normal_x
+                right_normal_x_edge = current_edge_normal_x
+                
+                left_normal_y_edge = current_edge_2_normal_y
+                right_normal_y_edge = current_edge_normal_y
+                
+                left_normal_z_edge = current_edge_2_normal_z
+                right_normal_z_edge = current_edge_normal_z
+                
             # The initial Z for the current fill line
             z_value = left_z_edge
             dZ_fill_line = 0
@@ -1183,6 +1235,15 @@ class Scene(object):
             intensity_value_specular = left_intensity_edge_specular
             dIntensity_fill_line_specular = 0
             
+            normal_x_value = left_normal_x_edge
+            dNormal_x_fill_line = 0
+            
+            normal_y_value = left_normal_y_edge
+            dNormal_y_fill_line = 0
+            
+            normal_z_value = left_normal_z_edge
+            dNormal_z_fill_line = 0
+            
             # Compute dZ for the fill line. Can be 0 if line is 1 pixel long
             if (right_z_edge - left_z_edge) != 0:
                 try:
@@ -1191,6 +1252,8 @@ class Scene(object):
                     dZ_fill_line = 0
             else:
                 dZ_fill_line = 0
+            
+            
             
             try:    
                 # Compute dIntensity for the fill line. Can be 0 if line is 1 pixel long
@@ -1213,6 +1276,48 @@ class Scene(object):
                     dIntensity_fill_line_specular = 0
             except:
                 pass
+            
+            
+            
+            try:
+                
+                # Compute dNormal_x for the fill line. Can be 0 if line is 1 pixel long
+                if (right_normal_x_edge - left_normal_x_edge) != 0:
+                    try:
+                        dNormal_x_fill_line = (right_normal_x_edge-left_normal_x_edge)/(right_edge - left_edge)
+                        
+                    except:
+                        dNormal_x_fill_line = 0
+                        
+                else:
+                    dNormal_x_fill_line = 0
+                    
+                # Compute dNormal_y for the fill line. Can be 0 if line is 1 pixel long
+                if (right_normal_y_edge - left_normal_y_edge) != 0:
+                    try:
+                        dNormal_y_fill_line = (right_normal_y_edge-left_normal_y_edge)/(right_edge - left_edge)
+                        
+                    except:
+                        dNormal_y_fill_line = 0
+                        
+                else:
+                    
+                    dNormal_y_fill_line = 0
+                    
+                # Compute dNormal_z for the fill line. Can be 0 if line is 1 pixel long
+                if (right_normal_z_edge - left_normal_z_edge) != 0:
+                    try:
+                        dNormal_z_fill_line = (right_normal_z_edge-left_normal_z_edge)/(right_edge - left_edge)
+                        
+                    except:
+                        dNormal_z_fill_line = 0
+                        
+                else:
+                    dNormal_z_fill_line = 0
+                    
+            except:
+                pass
+            
                 
             
 
@@ -1237,7 +1342,23 @@ class Scene(object):
                                 illumination_color = self.illumination_model.get_hexcode()
                             else:
                                 illumination_color = self.illumination_model.get_hexcode_intensity(self.illumination_model.get_ambient_component(), intensity_value_diffuse, intensity_value_specular)
-                                         
+                        
+                        elif(self.current_render_mode == "Phong Shading"):
+                            # Get color based on current intensity
+                            if(len(poly) == 8):
+                                self.illumination_model.set_surface_normal(Matrix_Calculations.get_surface_normal(poly))
+                                illumination_color = self.illumination_model.get_hexcode()
+                                
+                            else:
+                                # Get surface normal based on interpolated values
+                                current_normal = [normal_x_value, normal_y_value, normal_z_value]
+                                
+                                # Update illumination model
+                                self.illumination_model.set_surface_normal(current_normal)
+                                
+                                illumination_color = self.illumination_model.get_hexcode()
+                                
+                                 
                         # Draw pixel
                         self.canvas.create_line(x, line_rows, x + 1, line_rows, fill=illumination_color)
                         
@@ -1254,6 +1375,11 @@ class Scene(object):
                     try:
                         intensity_value_diffuse = intensity_value_diffuse + dIntensity_fill_line_diffuse
                         intensity_value_specular = intensity_value_specular + dIntensity_fill_line_specular
+                        
+                        normal_x_value = normal_x_value + dNormal_x_fill_line
+                        normal_y_value = normal_y_value + dNormal_y_fill_line
+                        normal_z_value = normal_z_value + dNormal_z_fill_line
+                        
                     except:
                         pass
                 # If its painting at the edge just ignore and move on 
@@ -1273,6 +1399,15 @@ class Scene(object):
             
                 current_edge_intensity_specular = current_edge_intensity_specular + edge_table["Edge {}".format(i)][9]
                 current_edge_2_intensity_specular = current_edge_2_intensity_specular + edge_table["Edge {}".format(j)][9]
+                
+                current_edge_normal_x = current_edge_normal_x + edge_table["Edge {}".format(i)][11]
+                current_edge_2_normal_x = current_edge_2_normal_x + edge_table["Edge {}".format(j)][11]
+                
+                current_edge_normal_y = current_edge_normal_y + edge_table["Edge {}".format(i)][13]
+                current_edge_2_normal_y = current_edge_2_normal_y + edge_table["Edge {}".format(j)][13]
+                
+                current_edge_normal_z = current_edge_normal_z + edge_table["Edge {}".format(i)][15]
+                current_edge_2_normal_z = current_edge_2_normal_z + edge_table["Edge {}".format(j)][15]
             except:
                 pass
             # When the bottom of an edge is reached, switch to the next edge
@@ -1282,6 +1417,10 @@ class Scene(object):
                 current_edge_z = edge_table["Edge {}".format(i)][4]
                 current_edge_intensity_diffuse = edge_table["Edge {}".format(i)][6]
                 current_edge_intensity_specular = edge_table["Edge {}".format(i)][8]
+                
+                current_edge_normal_x = edge_table["Edge {}".format(i)][10]
+                current_edge_normal_y = edge_table["Edge {}".format(i)][12]
+                current_edge_normal_z = edge_table["Edge {}".format(i)][14]
                 next_x += 1
                 
             if(line_rows >= edge_table["Edge {}".format(j)][2] and line_rows < last_fill_line):
@@ -1290,6 +1429,10 @@ class Scene(object):
                 current_edge_2_z = edge_table["Edge {}".format(j)][4]
                 current_edge_2_intensity_diffuse = edge_table["Edge {}".format(j)][6]
                 current_edge_2_intensity_specular = edge_table["Edge {}".format(j)][8]
+
+                current_edge_2_normal_x = edge_table["Edge {}".format(j)][10]
+                current_edge_2_normal_y = edge_table["Edge {}".format(j)][12]
+                current_edge_2_normal_z = edge_table["Edge {}".format(j)][14]
                 next_x += 1
 
     

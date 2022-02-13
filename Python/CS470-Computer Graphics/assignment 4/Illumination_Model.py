@@ -107,7 +107,6 @@ class Illumination_Model(object):
 
         combinedColorCode = self.colorHexCode(ambient + diffuse + specular)
         specularColorCode = self.colorHexCode(specular)
-        print(specularColorCode)
         colorString = "#" + specularColorCode + combinedColorCode + specularColorCode
         return colorString
 
