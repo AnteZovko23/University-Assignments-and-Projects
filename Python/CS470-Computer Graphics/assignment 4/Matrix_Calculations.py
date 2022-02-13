@@ -333,3 +333,50 @@ def subtract(matrix_1, matrix_2):
             difference_matrix[i].append(matrix_1[i][j] - matrix_2[i][j])
             
     return difference_matrix[0]
+
+
+
+
+"""
+Precomputes vertex normals of a cylinder
+"""
+def calculate_vertex_normals(Object_definition):
+    # Poly 9 and 10 are the base and top of the cylinder
+    poly_8 = Object_definition[8]
+    poly_9 = Object_definition[9]
+    
+    poly_8_normal = get_surface_normal(poly_8)
+    poly_9_normal = get_surface_normal(poly_9)
+    
+    poly_8_normal = get_normalized_vector(poly_8_normal)
+    poly_9_normal = get_normalized_vector(poly_9_normal)
+    
+    # Get first 8 polygons
+    Object_definition = Object_definition[:8]
+    surface_normals = []
+    # Calculate surface normals for each polygon
+    for poly in Object_definition:
+        surface_normals.append(get_surface_normal(poly))
+        
+    # Calculate vertex normals by adding surface normals
+    vertex_normals = []
+    # Perform addition between two adjacent surface normals
+    for i in range(len(surface_normals)):
+        vertex_normals.append(add(surface_normals[i], surface_normals[(i+1)%len(surface_normals)]))
+        
+    
+    for i in range(len(vertex_normals)):
+        vertex_normals[i] = get_normalized_vector(vertex_normals[i])
+        
+    # Group vertex normals as previous and next vertex normals starting at 1
+    vertex_normals_grouped = {}
+
+    for i in range(len(vertex_normals)):
+        vertex_normals_grouped[f"{i}"] = [vertex_normals[(i-1)%len(vertex_normals)],vertex_normals[(i-1)%len(vertex_normals)], vertex_normals[i], vertex_normals[i]]
+
+    # Assign polygon 9 and 10
+    vertex_normals_grouped["8"] = [poly_8_normal]
+    vertex_normals_grouped["9"] = [poly_9_normal]
+    
+    return vertex_normals_grouped
+        

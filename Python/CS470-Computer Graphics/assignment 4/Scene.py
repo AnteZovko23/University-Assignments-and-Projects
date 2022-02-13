@@ -41,7 +41,7 @@ class Scene(object):
         self.z_buffer = self.get_z_buffer()
         
         # Render modes
-        self.render_modes = ["Wireframe", "Polygon_Fill_Edges", "Polygon_Fill"]
+        self.render_modes = ["Wireframe", "Polygon_Fill_Edges", "Polygon_Fill", "Flat Shading", "Gouraud Shading", "Phong Shading"]
         self.render_mode_index = 1
         self.current_render_mode = self.render_modes[self.render_mode_index]
         
@@ -149,7 +149,9 @@ class Scene(object):
         self.root.bind('2', self.set_render_mode)   
         self.root.bind('3', self.set_render_mode)  
         self.root.bind('4', self.set_render_mode)  
-
+        self.root.bind('5', self.set_render_mode)
+        self.root.bind('6', self.set_render_mode)
+        
         drawing_mode_btn = Button(resetcontrols, text="Change Line\nAlgorithm", command=self.toggle_drawing_mode)
         drawing_mode_btn.pack(side=LEFT)
         
@@ -333,16 +335,19 @@ class Scene(object):
     This function will draw an object by repeatedly callying drawPoly on each polygon in the object
     If selected is true then the object will be drawn with red lines, otherwise it will be drawn with black lines
     """
-    def drawObject(self, object, selected=True):
+    def drawObject(self, object, selected=True, vertex_normal=None):
         
        
         lines = []
-     
+        poly_counter = 0
         # Iterates through each polygon in the object
         for poly in object:
+            
             # If polygon is not visible, skip it
             if not Matrix_Calculations.back_face_culling_algorithm(self.viewpoint, poly):
+                poly_counter += 1
                 continue
+            
                 
             else:
                 # Draws each polygon and append the id of the drawn line
@@ -360,7 +365,18 @@ class Scene(object):
                 
                 # If fill polygon modes are selected
                 if(self.current_render_mode != "Wireframe"):
-                    self.fill_polygon(poly, obj["Colors"][index])
+                    vertex_normal_list = None
+                    if vertex_normal is not None:
+                        # Check if dictionary key is equal to polygon index
+                        for key in vertex_normal.keys():
+                            if(key == str(poly_counter)):
+                                vertex_normal_list = vertex_normal[key]
+                                break
+   
+                    self.fill_polygon(poly, obj["Colors"][index], vertex_normal_list)
+                    
+            poly_counter += 1
+                    
                     
         return lines
     
@@ -401,7 +417,7 @@ class Scene(object):
         # If object is selected the line is red, else black
         
         # If polygon_fill mode is not selected
-        if(self.current_render_mode != "Polygon_Fill" and self.current_render_mode != "Fill_Tracing"):
+        if(self.current_render_mode != "Polygon_Fill" and self.current_render_mode != "Fill_Tracing" and self.current_render_mode != "Flat Shading" and self.current_render_mode != "Gouraud Shading" and self.current_render_mode != "Phong Shading"):
             if selected:
                 color = "red"
             else:
@@ -704,18 +720,22 @@ class Scene(object):
                     self.canvas.delete(item)
           
             # Redraw with black lines      
-            self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], False)
+            self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], False, self.current_object["Vertex_Normals"])
+        
         
         # Append to the list of objects
         self.object_list.append({"Polyhedron": polyhedron, "PointCloud": point_cloud, "DefaultPointCloud": copy.deepcopy(point_cloud), "Lines": [], "Colors": colors, "Vertex_Normals": vertex_normals})
-        
         # Current object is the last one added
         self.current_object = self.object_list[-1]
+        try:
+            current_vertex_normals = Matrix_Calculations.calculate_vertex_normals(self.current_object["Polyhedron"])
+            self.current_object["Vertex_Normals"] = current_vertex_normals
+        except:
+            pass
         
         # Draw the current object with red lines
-        current_lines = self.drawObject(self.current_object["Polyhedron"], True)
+        current_lines = self.drawObject(self.current_object["Polyhedron"], True, self.current_object["Vertex_Normals"])
         self.current_object["Lines"] = current_lines
-        
         # Update canvas
         self.canvas.update()
     
@@ -943,39 +963,74 @@ class Scene(object):
     """
     Given a polygon, it computes an edge table that contains: [x_start, y_start, y_end, dX, z_start, dZ]
     """
-    def compute_edge_table(self, polygon):
-
-        # Define all edges with the smaller y being the first edge and skip if the edge is a horizontal line (same y value)
-        edges = []
-        for i in range(len(polygon) - 1):
-                
-            # The smaller y goes first
-            if(polygon[i][1] < polygon[i+1][1]):
-                edges.append([polygon[i],polygon[i+1]])
-            elif(polygon[i][1] > polygon[i+1][1]):
-                edges.append([polygon[i+1],polygon[i]])
-            else:
-                continue
+    def compute_edge_table(self, polygon, given_vertex_normal):
         
-        # Append last and first edge with the smaller y going first
-        if(polygon[0][1] < polygon[len(polygon)-1][1]):
-            edges.append([polygon[0],polygon[len(polygon)-1]])
-        elif(polygon[0][1] > polygon[len(polygon)-1][1]):
-            edges.append([polygon[len(polygon)-1],polygon[0]])
+        vertex_normal = copy.deepcopy(given_vertex_normal)
+        
+        if vertex_normal != None and len(polygon) != 8:
+            # Convert vertex normals to intensities
+            for i in range(len(vertex_normal)):
+                self.illumination_model.set_surface_normal(vertex_normal[i])
+                vertex_normal[i] = [self.illumination_model.get_diffuse_component(), self.illumination_model.get_specular_component()]
+            # Define all edges with the smaller y being the first edge and skip if the edge is a horizontal line (same y value)
+            edges = []
+            for i in range(len(polygon) - 1):
+                    
+                # The smaller y goes first
+                if(polygon[i][1] < polygon[i+1][1]):
+                    edges.append([polygon[i],polygon[i+1], vertex_normal[i], vertex_normal[i+1]])
+                elif(polygon[i][1] > polygon[i+1][1]):
+                    edges.append([polygon[i+1],polygon[i], vertex_normal[i+1], vertex_normal[i]])
+                else:
+                    continue
             
+            # Append last and first edge with the smaller y going first
+            if(polygon[0][1] < polygon[len(polygon)-1][1]):
+                edges.append([polygon[0],polygon[len(polygon)-1], vertex_normal[0], vertex_normal[len(polygon)-1]])
+            elif(polygon[0][1] > polygon[len(polygon)-1][1]):
+                edges.append([polygon[len(polygon)-1],polygon[0], vertex_normal[len(polygon)-1], vertex_normal[0]])
+                
+        else:
+            # Define all edges with the smaller y being the first edge and skip if the edge is a horizontal line (same y value)
+            edges = []
+            for i in range(len(polygon) - 1):
+                    
+                # The smaller y goes first
+                if(polygon[i][1] < polygon[i+1][1]):
+                    edges.append([polygon[i],polygon[i+1]])
+                elif(polygon[i][1] > polygon[i+1][1]):
+                    edges.append([polygon[i+1],polygon[i]])
+                else:
+                    continue
+            
+            # Append last and first edge with the smaller y going first
+            if(polygon[0][1] < polygon[len(polygon)-1][1]):
+                edges.append([polygon[0],polygon[len(polygon)-1]])
+            elif(polygon[0][1] > polygon[len(polygon)-1][1]):
+                edges.append([polygon[len(polygon)-1],polygon[0]])
+            
+        
         
         # Compute the edge table
         
         edge_table = {}
         # For each edge, compute x_start, y_start, y_end, and dX
         counter = 0
-        
+        # print()
+        # print(edges)       
+
         # Iterate over each edge to find values for the table
         for edge in edges:
             x_start = edge[0][0]
             y_start = edge[0][1]
             y_end = edge[1][1]
             z_start = edge[0][2]
+            try:
+                intensity__diffuse_start_edge = edge[2][0]
+                intensity__specular_start_edge = edge[2][1]
+            except:
+                intensity__diffuse_start_edge = None
+                intensity__specular_start_edge = None
             
             # In case of 0 in denominator
             try:
@@ -984,9 +1039,16 @@ class Scene(object):
             except:
                 dX = 0
                 dZ = 0
-            
+                
+            dIntensity_diffuse = None
+            dIntensity_specular = None
+            try:
+                dIntensity_diffuse = (edge[3][0] - edge[2][0]) / (edge[1][1] - edge[0][1])
+                dIntensity_specular = (edge[3][1] - edge[2][1]) / (edge[1][1] - edge[0][1])
+            except:
+                pass
             # Add information to edge table
-            edge_table["Edge {}".format(counter)] = [x_start, y_start, y_end, dX, z_start, dZ]
+            edge_table["Edge {}".format(counter)] = [x_start, y_start, y_end, dX, z_start, dZ, intensity__diffuse_start_edge, dIntensity_diffuse, intensity__specular_start_edge, dIntensity_specular]
             
             counter+=1
 
@@ -1017,8 +1079,8 @@ class Scene(object):
     
     
     """
-    def fill_polygon(self, poly, color):
-        
+    def fill_polygon(self, poly, color, vertex_normals):
+        illumination_color = color
         # Deep copy so the original polygon is not modified
         polygon = copy.deepcopy(poly)
         
@@ -1030,7 +1092,7 @@ class Scene(object):
         displayPolygon = self.project_and_convert_to_display_coordinates(polygon)
 
         # Compute edge table        
-        edge_table = self.compute_edge_table(displayPolygon)
+        edge_table = self.compute_edge_table(displayPolygon, vertex_normals)
         
         # If edge table is empty or has only one edge, return
         if len(edge_table) == 0 or len(edge_table) == 1:
@@ -1060,6 +1122,13 @@ class Scene(object):
         current_edge_z = edge_table.get("Edge {}".format(i))[4]
         current_edge_2_z = edge_table.get("Edge {}".format(j))[4]
         
+        current_edge_intensity_diffuse = edge_table.get("Edge {}".format(i))[6]
+        current_edge_2_intensity_diffuse = edge_table.get("Edge {}".format(j))[6]
+        
+        current_edge_intensity_specular = edge_table.get("Edge {}".format(i))[8]
+        current_edge_2_intensity_specular = edge_table.get("Edge {}".format(j))[8]
+        
+        
         # For each row of pixels
         for line_rows in range(int(first_fill_line), int(last_fill_line)):
             
@@ -1070,6 +1139,12 @@ class Scene(object):
             left_z_edge = None
             right_z_edge = None
             
+            left_intensity_edge_diffuse = None
+            right_intensity_edge_diffuse = None
+            
+            left_intensity_edge_specular = None
+            right_intensity_edge_specular = None
+            
             # Determine which edge is Left and which is Right
             if current_edge_x < current_edge_2_x:
                 left_edge = current_edge_x
@@ -1078,6 +1153,12 @@ class Scene(object):
                 left_z_edge = current_edge_z
                 right_z_edge = current_edge_2_z
                 
+                left_intensity_edge_diffuse = current_edge_intensity_diffuse
+                right_intensity_edge_diffuse = current_edge_2_intensity_diffuse
+
+                left_intensity_edge_specular = current_edge_intensity_specular
+                right_intensity_edge_specular = current_edge_2_intensity_specular
+                
             else:
                 left_edge = current_edge_2_x
                 right_edge = current_edge_x
@@ -1085,9 +1166,22 @@ class Scene(object):
                 left_z_edge = current_edge_2_z
                 right_z_edge = current_edge_z
                 
+                left_intensity_edge_diffuse = current_edge_2_intensity_diffuse
+                right_intensity_edge_diffuse = current_edge_intensity_diffuse
+                
+                left_intensity_edge_specular = current_edge_2_intensity_specular
+                right_intensity_edge_specular = current_edge_intensity_specular
+                
             # The initial Z for the current fill line
             z_value = left_z_edge
             dZ_fill_line = 0
+            
+            # The initial intensity for the current fill line
+            intensity_value_diffuse = left_intensity_edge_diffuse
+            dIntensity_fill_line_diffuse = 0
+            
+            intensity_value_specular = left_intensity_edge_specular
+            dIntensity_fill_line_specular = 0
             
             # Compute dZ for the fill line. Can be 0 if line is 1 pixel long
             if (right_z_edge - left_z_edge) != 0:
@@ -1097,6 +1191,30 @@ class Scene(object):
                     dZ_fill_line = 0
             else:
                 dZ_fill_line = 0
+            
+            try:    
+                # Compute dIntensity for the fill line. Can be 0 if line is 1 pixel long
+                if (right_intensity_edge_diffuse - left_intensity_edge_diffuse) != 0:
+                    try:
+                        dIntensity_fill_line_diffuse = (right_intensity_edge_diffuse-left_intensity_edge_diffuse)/(right_edge - left_edge)
+                    except:
+                        dIntensity_fill_line_diffuse = 0
+                else:
+                    dIntensity_fill_line_diffuse = 0
+                    
+                if (right_intensity_edge_specular - left_intensity_edge_specular) != 0:
+                    try:
+                        dIntensity_fill_line_specular = (right_intensity_edge_specular-left_intensity_edge_specular)/(right_edge - left_edge)
+                        
+                    except:
+                        dIntensity_fill_line_specular = 0
+                        
+                else:
+                    dIntensity_fill_line_specular = 0
+            except:
+                pass
+                
+            
 
             # For each x from left_edge to right_edge, draw a line
             for x in range(int(left_edge), int(right_edge)):
@@ -1105,12 +1223,21 @@ class Scene(object):
                 try:
                     if z_value < self.z_buffer[x][line_rows]:
                         
-                        # Update surface normal in the illumination model
-                        self.illumination_model.set_surface_normal(Matrix_Calculations.get_surface_normal(poly))
+                        if(self.current_render_mode == "Flat Shading"):
+                            # Update surface normal in the illumination model
+                            self.illumination_model.set_surface_normal(Matrix_Calculations.get_surface_normal(poly))
+                            
+                            # Get illumination color
+                            illumination_color = self.illumination_model.get_hexcode()
                         
-                        # Get illumination color
-                        illumination_color = self.illumination_model.get_hexcode()
-                                                
+                        elif(self.current_render_mode == "Gouraud Shading"):
+                            # Get color based on current intensity
+                            if(len(poly) == 8):
+                                self.illumination_model.set_surface_normal(Matrix_Calculations.get_surface_normal(poly))
+                                illumination_color = self.illumination_model.get_hexcode()
+                            else:
+                                illumination_color = self.illumination_model.get_hexcode_intensity(self.illumination_model.get_ambient_component(), intensity_value_diffuse, intensity_value_specular)
+                                         
                         # Draw pixel
                         self.canvas.create_line(x, line_rows, x + 1, line_rows, fill=illumination_color)
                         
@@ -1124,7 +1251,11 @@ class Scene(object):
                             
                         self.z_buffer[x][line_rows] = z_value
                     z_value = z_value + dZ_fill_line
-                    
+                    try:
+                        intensity_value_diffuse = intensity_value_diffuse + dIntensity_fill_line_diffuse
+                        intensity_value_specular = intensity_value_specular + dIntensity_fill_line_specular
+                    except:
+                        pass
                 # If its painting at the edge just ignore and move on 
                 except IndexError:
                     pass
@@ -1136,17 +1267,29 @@ class Scene(object):
             current_edge_z = current_edge_z + edge_table["Edge {}".format(i)][5]
             current_edge_2_z = current_edge_2_z + edge_table["Edge {}".format(j)][5]
             
+            try:
+                current_edge_intensity_diffuse = current_edge_intensity_diffuse + edge_table["Edge {}".format(i)][7]
+                current_edge_2_intensity_diffuse = current_edge_2_intensity_diffuse + edge_table["Edge {}".format(j)][7]
+            
+                current_edge_intensity_specular = current_edge_intensity_specular + edge_table["Edge {}".format(i)][9]
+                current_edge_2_intensity_specular = current_edge_2_intensity_specular + edge_table["Edge {}".format(j)][9]
+            except:
+                pass
             # When the bottom of an edge is reached, switch to the next edge
             if(line_rows >= edge_table["Edge {}".format(i)][2] and line_rows < last_fill_line):
                 i = next_x
                 current_edge_x = edge_table["Edge {}".format(i)][0]
                 current_edge_z = edge_table["Edge {}".format(i)][4]
+                current_edge_intensity_diffuse = edge_table["Edge {}".format(i)][6]
+                current_edge_intensity_specular = edge_table["Edge {}".format(i)][8]
                 next_x += 1
                 
             if(line_rows >= edge_table["Edge {}".format(j)][2] and line_rows < last_fill_line):
                 j = next_x
                 current_edge_2_x = edge_table["Edge {}".format(j)][0]
                 current_edge_2_z = edge_table["Edge {}".format(j)][4]
+                current_edge_2_intensity_diffuse = edge_table["Edge {}".format(j)][6]
+                current_edge_2_intensity_specular = edge_table["Edge {}".format(j)][8]
                 next_x += 1
 
     
@@ -1177,12 +1320,18 @@ class Scene(object):
                     for item in line:
                         self.canvas.delete(item)
                     
-                    object["Lines"] = self.drawObject(object["Polyhedron"], False)
+                    object["Lines"] = self.drawObject(object["Polyhedron"], False, object["Vertex_Normals"])
         
         
         # Draw the current object with red lines
-        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True)
+        self.current_object["Lines"] = self.drawObject(self.current_object["Polyhedron"], True, object["Vertex_Normals"])
 
+        # Compute the vertex normals if applicable
+        try:
+            current_vertex_normals = Matrix_Calculations.calculate_vertex_normals(self.current_object["Polyhedron"])
+            self.current_object["Vertex_Normals"] = current_vertex_normals
+        except:
+            pass
     
     """
     Changes render modes based on the appropriate keyboard input
@@ -1211,7 +1360,30 @@ class Scene(object):
             self.z_buffer = self.get_z_buffer()
             self.redraw_canvas()
             
-    
+        # If 4 is pressed then the render mode is Flat Shading
+        elif event.char == "4":
+            
+            self.render_mode_index = 3
+            self.current_render_mode = self.render_modes[self.render_mode_index]
+            self.z_buffer = self.get_z_buffer()
+            self.redraw_canvas()
+            
+        # If 5 is pressed then the render mode is Gouraud Shading
+        elif event.char == "5":
+            
+            self.render_mode_index = 4
+            self.current_render_mode = self.render_modes[self.render_mode_index]
+            self.z_buffer = self.get_z_buffer()
+            self.redraw_canvas()
+        
+        
+        # If 6 is pressed then the render mode is Phong Shading        
+        elif event.char == "6":
+            
+            self.render_mode_index = 5
+            self.current_render_mode = self.render_modes[self.render_mode_index]
+            self.z_buffer = self.get_z_buffer()
+            self.redraw_canvas()
     """
     Updates the current slider value and assigns it to the global render speed variable
     """

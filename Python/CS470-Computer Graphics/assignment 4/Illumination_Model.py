@@ -101,6 +101,15 @@ class Illumination_Model(object):
         specularColorCode = self.colorHexCode(specular)
         colorString = "#" + specularColorCode + combinedColorCode + specularColorCode
         return colorString
+    
+    # generate a color hex code string from the illumination components
+    def get_hexcode_intensity(self, ambient, diffuse, specular):
+
+        combinedColorCode = self.colorHexCode(ambient + diffuse + specular)
+        specularColorCode = self.colorHexCode(specular)
+        print(specularColorCode)
+        colorString = "#" + specularColorCode + combinedColorCode + specularColorCode
+        return colorString
 
     def colorHexCode(self, intensity):
         hexString = str(hex(round(255* intensity)))
@@ -113,8 +122,6 @@ class Illumination_Model(object):
             if len(trimmedHexString) == 1: trimmedHexString = "0" + trimmedHexString
             # we will use the green color component to display our monochrome illumination results
         return trimmedHexString
-    
-    
     
     def recalculate_components(self):
         # Calculated Components
@@ -212,7 +219,8 @@ class Illumination_Model(object):
     def get_specular_component(self):
         return self.specular_component
     
-
+    def get_intensity(self):
+        return self.ambient_component + self.diffuse_component + self.specular_component
 
 
     

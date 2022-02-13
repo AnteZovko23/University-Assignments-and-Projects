@@ -110,58 +110,12 @@ CubeColor = ["black", "#cccccc", "#999999", "#666666","#333333", "white"]
 # Crate the scene
 scene = Scene.Scene(canvas_width, canvas_height, viewpoint, illumination_model)
 
-"""
-Precomputes vertex normals of a cylinder
-"""
-def calculate_vertex_normals(Object_definition):
-    # Poly 9 and 10 are the base and top of the cylinder
-    poly_8 = Object_definition[8]
-    poly_9 = Object_definition[9]
-    
-    poly_8_normal = Matrix_Calculations.get_surface_normal(poly_8)
-    poly_9_normal = Matrix_Calculations.get_surface_normal(poly_9)
-    
-    poly_8_normal = Matrix_Calculations.get_normalized_vector(poly_8_normal)
-    poly_9_normal = Matrix_Calculations.get_normalized_vector(poly_9_normal)
-    
-    # Get first 8 polygons
-    Object_definition = Object_definition[:8]
-    surface_normals = []
-    # Calculate surface normals for each polygon
-    for poly in Object_definition:
-        surface_normals.append(Matrix_Calculations.get_surface_normal(poly))
-        
-    # Calculate vertex normals by adding surface normals
-    vertex_normals = []
-    # Perform addition between two adjacent surface normals
-    for i in range(len(surface_normals)):
-        vertex_normals.append(Matrix_Calculations.add(surface_normals[i], surface_normals[(i+1)%len(surface_normals)]))
-        
-    
-    for i in range(len(vertex_normals)):
-        vertex_normals[i] = Matrix_Calculations.get_normalized_vector(vertex_normals[i])
-        
-    # Group vertex normals as previous and next vertex normals starting at 1
-    vertex_normals_grouped = {}
-
-    for i in range(0, len(vertex_normals)):
-        vertex_normals_grouped[f"Polygon {i}"] = [vertex_normals[(i-1)%len(vertex_normals)], vertex_normals[i]]
-
-    # Assign polygon 9 and 10
-    vertex_normals_grouped["Polygon 8"] = [poly_8_normal]
-    vertex_normals_grouped["Polygon 9"] = [poly_9_normal]
-    
-    return vertex_normals_grouped
-        
-    
-
 
 
 
 
 Cylinder, CylinderPointCloud = polyhedron_maker.cylinder()
-vertex_normals = calculate_vertex_normals(Cylinder)
-scene.add_object(Cylinder, CylinderPointCloud, generate_colors(Cylinder), vertex_normals=vertex_normals)
+scene.add_object(Cylinder, CylinderPointCloud, generate_colors(Cylinder))
 
 # scene.add_object(Cube, CubePointCloud, CubeColor)
 # scene.add_object(Pyramid, PyramidPointCloud, PyramidColor)
