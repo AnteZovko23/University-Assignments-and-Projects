@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<!--
+
+    Name: Ante Zovko
+    Date: October 20
+    Course Number: 499 001
+    Quarter: Fall
+
+    Assignment 7
+
+-->
+
+<html>
+
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="description" content="Assignment 7">
+
+        <title>Assignment 7</title>
+        <link rel="stylesheet" href="a7.css">
+
+    </head>
+
+
+
+    <body>
+
+        <div id="form-div">
+            
+            <input required class="input" id="first-name" name="first-name" type="text" placeholder="First Name">
+            
+            <br>
+            <br>
+            
+            <input required class="input" id="last-name" name="last-name" type="text" placeholder="Last Name">
+            
+            <br>
+            <br>
+            
+            <input checked class="input_radio" id="radio_male" name="gender" type="radio" value="Male">
+            <label for="radio_male">Male</label> 
+            
+            <input class="input_radio" id="radio_female" name="gender" type="radio" value="Female">
+            <label for="radio_female">Female</label> 
+            
+            <br>
+            <br>
+
+            <select class="input" id="dropdown-menu" name="dropdown-menu">
+
+                <option value="Freshman">Freshman</option>
+                <option value="Sophomore">Sophomore</option>
+                <option value="Junior">Junior</option>
+                <option value="Senior">Senior</option>
+
+            </select>
+
+            <br>
+            <br>
+
+        </div>
+        <div id="buttons">
+            <button class="buttons" type="submit" id="submit_btn" value="Submit" >Submit</button>
+        
+        <button class="buttons" type="delete" id="delete_btn" value="Delete" onClick="deleteAll()">Delete</button>
+    </div>
+
+    <br>
+
+    <hr>
+
+    <br>
+    
+    <table id="table">
+
+        <tr>
+
+            <th>FIRST NAME</th>
+            <th>LAST NAME</th>
+            <th>GENDER</th>
+            <th>YEAR</th>
+
+        </tr>
+
+    </table>
+
+    </body>
+
+    <script src="a7.js"></script>
+
+</html>

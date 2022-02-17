@@ -1,0 +1,92 @@
+body {
+
+    background-image: url("restaurant.jpg");
+    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-size: cover;
+    
+}
+
+.container {
+
+    text-align: center;
+    color: white;
+    background-color: rgba(44, 37, 21, 0.774);
+    border: 2px solid black;
+
+}
+
+#title {
+
+    font-family: 'Parisienne', cursive;
+    font-size:4em;
+    width: 80%;
+    margin: auto;
+   
+
+}
+
+
+#subtitle {
+
+    font-family: 'Italianno', cursive;
+
+    font-size:3em;
+    width: 60%;
+    margin: auto;
+
+}
+
+
+#menu {
+
+    font-family: 'Parisienne', cursive;
+    font-size: 3em;
+    width: 30%;
+    margin: auto;
+
+}
+
+
+#location-hours {
+
+    font-family: 'Italianno', cursive;
+    font-size: 3em;
+    width: 70%;
+    margin: auto;
+
+}
+
+#ad {
+
+    height:400px;
+    font-family: 'Italianno', cursive;
+    font-size: 3em;
+    width: 70%;
+    margin: auto;
+    transition: height 2s linear 0.1s;
+
+    animation: shake 1s infinite alternate;
+
+
+}
+
+#ad:hover {
+
+    background-image:url('burger.jpg');
+    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-size: cover;
+    height: 800px;
+
+}
+
+@keyframes shake {
+    0% {
+      transform: skewY(3deg);
+    }
+    100% {
+      transform: skewY(-3deg);
+    }
+  }
+  

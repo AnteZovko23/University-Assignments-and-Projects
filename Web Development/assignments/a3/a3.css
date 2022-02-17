@@ -1,0 +1,19 @@
+body {
+	background-color: gray;
+}
+
+.grid-container {
+	background-color: steelblue;
+	border: solid;
+	margin: 20px;
+	height: 600px;
+	display: grid; /* Activate grid */
+	grid-template-columns: auto auto auto;
+	grid-template-rows: auto auto auto auto;
+}
+
+.grid-item {
+	font-size: 25px;
+	text-align: center;
+	margin: 10px;
+}

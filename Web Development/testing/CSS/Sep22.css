@@ -1,0 +1,53 @@
+body {
+
+    background-color:darkgoldenrod;
+
+
+}
+
+
+.container {
+    background-color:fuchsia;
+    border:solid;
+    margin: 20px;
+    height: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* Justify content: flex start end, space around between, center
+    /* Row and column and reverse
+*/
+    align-items: baseline;
+}
+
+.container-item {
+
+    background-color: green;
+    color:aliceblue;
+    width:70px;
+    font-size: 25px;
+    text-align:center;
+    margin: 10px;
+
+}
+
+.grid-container {
+
+    background-color:lavender;
+    border:solid;
+    margin: 20px;
+    height: 300px;
+    display: grid;
+
+}
+
+.grid-item {
+
+
+    color: black;
+    width:70px;
+    font-size: 25px;
+    text-align:center;
+    margin: 10px;
+
+}

@@ -1,0 +1,618 @@
+Comments are /* */
+
+Lesson 2.1 Intro to prolog
+
+Programming in prolog consists of:
+
+Declaring facts
+Define rules
+Ask questions
+
+Write a small prolog AI program so that we can ask it who are Ben Solo's grandparents
+
+
+parent(anakin, luke).
+
+parent(anakin, leia).
+
+parent(padme, luke).
+
+parent(padme, leia).
+
+parent(leia, ben).
+
+parent(han, ben).
+
+grandparent(X, Y) :- parent(X, Z), parent(Z, Y).
+
+?- parent(anakin, leia).
+true.
+
+?- parent(craig, cole).
+false.
+
+?- parent(H, ben).
+H = leia ;
+H = han.
+
+
+?- grandparent(P, ben).
+P = anakin 
+
+Consult -> reload
+
+
+Lecture notes
+
+    - Every statement in prolog ends with period
+    - The command to quit the compiler - halt
+
+    The command to load a .pl file ['<filename>']
+    consult
+
+    Terms are the fundamental building blocks of prolog programs
+    The following is a introduction to types of prolog terms
+
+        NUMBERS
+
+        ATOMS/CONSTANTS/LITERALS
+        sequence of letters, numbers, underscores that 
+        begin with a lowercase letter
+        Any sequence of characters within single quotes
+        Sequence of special chars like =, _,
+        
+        VARIABLES
+        Sequence of letters, numbers, underscores that begin with an uppercase letter
+
+        COMPOUND TERMS has the form:
+            <atom/functor>(<terms separated by commas>)
+            
+            Ex.  parent(anakin, luke).
+            
+            The "arity" of a compound term is the number of arguments
+            In either written or normal text we reference compound term as :
+            <functor>/<arity>
+            The compound term parent is referenced as parent/2
+
+            
+Lesson 2.2 Prolog unification
+
+- Numbers
+- Atoms/Literals/Constants: Start with lowercase letter
+- Variables start with uppercase letter
+- Compound terms:
+<Atom/functor>(<List of terms separated by comma>)
+Unification is the primary action that prolog does when executing programs
+
+The prolog infix operator for unification/matching is -
+
+The prolog operator for and is the commas
+
+The following is a description of how prolog unifies terms
+They unify if they are the same from left to right
+chris = chris, likes(ante,chess) = likes(ante, chess).
+
+Unbound variable and a term that is not a variable always unify and 
+the variable is bound to the term, instantiation
+
+likes(a, chess) = likes(a, Y)
+Y = chess 
+Variables with capital 
+
+No global scope 
+
+Two unbound variables always unify and are bound to each other
+
+X = jason, X = Y
+X = Y, Y = jason
+
+A bound variable is treated to the value to which it is bound
+
+Any other combination of terms fails to unify
+
+RESERVED WORDS
+
+true : Always succeeds
+false : always fails
+
+
+
+Lesson 2.2 - Prolog Goals and Predicates
+
+parent(anakin, luke).
+
+parent(anakin, leia).
+
+parent(padme, luke).
+
+parent(padme, leia).
+
+parent(leia, ben).
+
+parent(han, ben).
+
+grandparent(X, Y) :- parent(X, Z),parent(Z, Y).
+
+1. Define facts
+
+2. Define rules
+
+3. Ask questions(After we compile code)
+Then we type goals into the interpreter to see if they fail
+
+After compiling the code above, trace through the following prolog goals
+
+1. parent(padme, leia).
+prolog unified this goal with the code line above and said true
+
+2. parent(padme, X)
+X = luke ;
+X = leia.
+Prolog unified with line 10. Then the semicolon made it go on to unify again
+
+3. parent(han, Y).
+Y = ben.
+
+4. grandparent(A, ben).
+Prolog goes through the facts and it tries to unify
+The first match occurs and a binding happens -> grandparent(A, ben) :- parent(A, Z), parent(Z, ben)
+
+Prolog will try to match unify all the goals after ("if" :-)
+If the goals on the rhs, then the goals before the :- succeeds
+
+
+parent(A, Z), parent(Z, ben)
+The trace of the rhs goals:
+First match: A = anakin, Z = luke -> parent(anakin, luke), parent(luke, ben)
+But parent(luke, ben) fails
+
+Now BACKTRACKS: Try to unify Parent(A, Z) again because more facts match
+parent(anakin, leia), parent(leia, ben)
+succeeds -> A = anakin 
+semicolon forces a fail 
+
+parent(padme, luke), parent(luke, ben)
+parent(padme, leia), parent(leia, ben)
+
+
+PREDICATES
+Predicates in prolog are the functions. They evaluate to either true or false. 
+We have built in predicates, and we will write our own predicates
+Every predicate evaluates to true or false
+
+Built in predicates
+halt/0
+Exits the compiler, <functor>/<arity>
+
+consult/1
+Loads file 
+
+write/1
+Writes the term argument to the output stream
+Always succeeds except on backtracking 
+
+
+nl/0
+Writes new line
+Used for debugging with nl, write
+
+Ex. We want to print the successful intermediate parent binding between grandparent and grandchild 
+during execution 
+grandparent(X, Y) :- parent(X, Z), write(Z), nl, parent(Z, Y).
+
+Write only successes
+
+Flowchart for goal satisfying algorithm in prolog
+Start -> Are there more goals? -> If no then True
+                               -> If yes then evaluate next goal, then ask if there are more goals
+                               
+                               -> On fail of eval next goal ask if there are previous goals
+                                    -> If no then then fail
+                                    -> If yes Reevaluate the previous goal
+                                        -> If fail go back to are there any previous goals
+                                        -> If true ask are there any more goals
+
+
+Ex. Add a prolog rule to the database. Write the predicate isParent/1 that succeeds
+when the argument is the parent of someone in the database and fails otherwise
+?- isParent(ben).
+false
+?- isParent(padme).
+true
+
+isParent(X) :- parent(X, Y).
+
+Singleton variable warning means that the rule has a variable that
+is never used
+There is a wildcard variable, _
+isParent(X) :- parent(X, _)
+
+Predicate areSiblings/2 which succeeds when the arguments
+have at least one parent in common
+
+areSiblings(X,Y) :- parent(Z, X), parent(Z, Y).
+
+father/2, mother/2, male/1, female/1 different/2
+
+Write rules using the predicates given
+1) isFather/1
+isFather(X) :- father(X, _)
+
+areSiblings(X,Y) :- parent(Z, Y), parent(Z, X), different(X, Y). 
+
+parent(X, Y) :- father(X, Y).
+parent(X, Y) :- mother(X, Y).
+
+aunt/2 and one cannot be an aunt of oneself and gender matters
+
+aunt(X, Y) :- female(X), areSiblings(X, Z), parent(Z, Y), different(X,Y).
+
+BOSS Programming
+Prolog read a database with faculty info in it
+
+A sample with entries in the database are:
+course(
+    csc330, 
+    day(mwf),
+    time(1100, 1215),
+    instructor(terry, jason),
+    room(iesb224)).
+
+course(
+    math242,
+    day(mwf),
+    time(1230, 1345),
+    instructor(terry, jason),
+    room(iesb212)).
+
+getInstructor/2
+the first argument is a class, second argument is 
+matched with the instructor
+
+Lesson 2.3
+
+
+New Built-in predicate
+Name/Functor: op/3
+Syntax: op(Precedence, Type, Name)
+Descrip: Used to define operators
+    Precedence is a numerical value. The lower the number
+    the higher the precedence. Prolog uses this to decide
+    if it needs to make a decision
+
+    Type is the literal that describes the type
+    yfx means infix, and left associative
+    fy means unary prefix, associative
+    yf means unary postfix, associative
+
+likes(ante, cs).
+
+?- op(150, yfx, likes).
+likes(ante, cs).
+
+ante likes cs.
+true
+
+
+Name: =
+Type: infix
+Syntax: <TERM1>=<TERM2>
+Descrip: succeeds when term 1 unifies with term 2
+=(ante, cole).
+false
+
+Name: \=
+Type: infix
+Syntax: <Term1> \= <Term2>
+Descrip: When term1 not unify with term two it succeeds
+
+
+Name: ==
+Type: infix
+Syntax: <Term1>==<Term2>
+Descrip: succeeds when term1 is literally the same as term2
+
+Built in arithmetic
+List out standard number operators
++
+-
+*
+/
+//
+
+^ exp
+** exp
+abs/1 absolute val
+cos/1 cosine
+sin/1 sine
+max/2 maximum of two numbers
+min/2 minimum of 2 numbers
+sqrt/1 square root
+pi constant
+
+These are not predicates
+
+
+Name: is
+Type: infix
+Syntax: <term> is <ArithExpression>
+Descrip: ArithExpression must be an arithmetic expression
+
+< less than
+> is greater than
+>=  is greater or equal
+=< is equal or less than
+=:= is equal
+=\=    is not equal
+These are predicates
+
+
+
+Logic operators
+, and
+; or
+not  not
+When writing prolog rules, the ; is usually not necessary because 
+you can just write an addition rule on another line
+
+Ex. parent(X,Y) :- father(X, Y); mother(X,Y).
+parent(X,Y) :- father(X,Y).
+parent(X,Y) :- mother(X, Y).
+
+Suppose prolog has read the database:
+inOffice(trump, 2017, 2020).
+inOffice(obama, 2009, 2016).
+inOffice(bush43, 2001, 2008).
+inOffice(clinton, 1993, 2001).
+
+prez(X,Y) :- inOffice(X,A,B), Y >= A, Y =< 
+
+inOffice(obama, 2010, 2016).
+false
+
+
+
+Lesson 2.4 - Prolog Rules
+When we want to write functions that do tasks that have output
+It is custom to write a predicate with an additional arguments that is unified with the output we want 
+
+Write a predicate named myFun/2 where the first argument is the input of the function
+f(x) = 3x + 1 and the second argument is matched with the output
+
+Rev in ML the code looks like
+fun myfun(x) = 3*x + 1;
+
+myFun(x, A) :- A is 3 * x + 1.
+
+
+Suppose we have a database for city temps in the form:
+temperature(ruston, 50).
+temperature(monroe, 55).
+
+Write a predicate to convert temps from F to celsius
+temperature(ruston, 50).
+temperature(monroe, 55).
+
+
+convFtoC(F, C) :- C is (F - 32) * (5/9).
+
+cityC(City, Cel) :- temperature(City, Y), convFtoC(Y, Cel).
+
+
+Write a predicate even/1 if its argument is an even number
+isEven(N) :- 0 is rem(N, 2).
+
+isEven2(N) :- M is N//2, 2*M =:= N.
+
+Error prevention
+Built in predicate Integer/1 that succeeds if its argument is an integer
+
+
+Fail prevention from previous example
+
+
+Write a predicate that computes the factorial using recursion 
+
+in ML 
+fun factorial(0) = 1
+| factorial(n) = n * factorial(n - 1);
+
+
+factorial(0, 1).
+factorial(n, R) :- integer(n), n > 0, N1 is n - 1, factorial(N1, R1), R is N * R1.
+
+
+Write a predicate that will compute the choose of two inputs
+
+
+Rev:
+In ML two ways to construct lists
+1. [1,2,3];
+2. x::xs
+In prolog  a list is a sequence of terms in brackets separated by commas
+[jason, 3.4, likes(cole, chairs)]
+
+another way to construct lists is to use the cons operator
+[H | T]
+H can be matched with the first term of a list, letter T can be matched with the rest of the list
+
+[X, Y] = [a,b, jason].
+false
+
+H = a,
+T = [[jason, likes, cs], []].
+
+Programming with lists
+Write a recursive predicate named myLength/2 where the first argument is a list
+and second argument is number of elements in the list
+
+?- myLength([a,b,c,d,e], R).
+R = 5
+?- myLength([], R).
+R= 0
+myLength([[a,b,c], jason], R)
+R = 2
+
+rev: The ML code is 
+fun myLength([]) = 0 |
+myLength(x::xs)) = 1 + myLength(xs);
+
+myLength([], 0).
+myLength([_|T], R) :- myLength(T, R2), R is R2 + 1.
+
+Ex. Predicate that succeeds when the element is in the list
+isInList/2 which succeeds when the object in the second
+argument appears in the list given in the first argument
+
+?- isInList([a,b,c,d], c).
+true
+
+
+isInList([H|T], R) :- H = C; isInList(T, R).
+
+isInList([C|_], C).
+isInList([H,T], C) :- H \= C,isInList(T,C).
+
+Write a recursive predicate named myAppend/3 where the first two arguments are lists and the third
+argument is matched the concatination of the list
+
+?- myAppend([a,b], [c,d,e], R).
+R = [a,b,c,d,e]
+
+myAppend([], L, L).
+myAppend([H|T], L, R) :- myAppend(T, L, R2), R = [H|R2].
+
+Write a predicate named sum/2 where the first argument is a list of numbers and the second argument is matched
+with the sum of all the integers in the list
+
+sum([], 0).
+sum([H|T], R) :- sum(T, R2), R is H + R2.
+
+Write a recursive prolog predicate named myRemove/3 where the first argument is an element of a list, the second is a list, third will
+be matched after the elements have been removed
+
+?- myRemove(b, [a,b,c,d,e], R).
+R = [a, c, a].
+
+myRemove(_, [], []).
+myRemove(C, [C|T], R) :- myRemove(C, T, R).
+myRemove(C, [H|T], [H|R2]) :- H \= C, myRemove(C, T, R2).
+
+
+Write a recursive predicate myMax/2 where the first argument is a list of integers and 
+the second argument is matched with the largest integer
+in the list
+
+myMax([N], N).
+myMax([H|T], R) = myMax(T, R2), R is max(H, R2).
+
+
+[1, 3, 5, 2, 6].
+
+
+Lecture 2.6 Prolog IO
+Built in PREDICATES for TERM IO
+
+NAME: write/1
+SYNTAX: write(<Term>)
+DESC: Writes the term to the output stream
+
+NAME: writeq/1 
+SYNTAX: writeq(<Term>)
+DESC: Acts like write except that atoms that need quotes input are output with quotes
+
+
+NAME: nl/0
+DESC: New line
+
+NAME: read/1 
+SYNTAX: read(<Term>)
+DESC: Reads a term from the input stream
+
+Demo of launching a prolog program using read
+Custom to make up an atom for a "starting goal" whose only purpose is to execute a series of prolog 
+goals to begin a program
+
+
+go :- write('What is your name'),nl , read(Name), greet(Name).
+greet(Y) :- Y \= chance, write('Hi '), write(Y), write('. You are not as cool').
+greet(chance) :- write('You are cool'), nl.
+
+
+Name: put/1
+Syntax: put(<IntegerTerm>)
+Descrip: Writers the character corresponding to the ASCII value of <IntegerTerm>
+to the output stream 
+
+Name: get0/1
+      get0(term)
+      Reads a single char from the input stream, the char must be followed by return
+      The ASCII value of the char
+
+
+Name: get/1
+      Read a single non whitespace char
+
+
+Example. Write a recursive prolog program that will read a series of chars with *
+         from the terminal and prints their ASCII values to the terminal
+
+
+go2 :- write('Type in a series of chars ending with *: '), execute.
+
+execute :- get0(X), process(X).
+
+process(Y) :- Y \= 42, write(Y), nl, execute.
+
+
+
+Ex. Write a recursive prolog predicate named go3/1 that will
+prompt the user to input a series of characters ending with * to
+the terminal and will unify its argument with the number of
+chars provided
+
+go3(R) :- write('Type in a series of chars ending with a *'), count(0,R).
+count(M, R) :- get0(X), process2(X, M, R).
+process2(42, M, M). 
+process2(X, M, R) :- X \= 42, M1 is M + 1, count(M1, R).
+
+
+Prolog I/O
+All reading and writing predicates that were covered in Part 1 are
+used again when reading and writing to files
+
+Built-in predicates for input/output streams
+
+NAME: seeing/1
+    seeing(<Term1>)
+    Unifies the term with the name of the current input stream
+
+NAME: telling/1
+    telling(<Term>)
+    Unifies the term with the output stream
+
+NAME: see/1
+    see(<Term1>)
+    Changes input stream
+
+NAME: seen/0
+    Closes the input stream, resets to default
+
+NAME: tell/1
+Changes the output stream to the file represented
+
+NAME: told/0
+    Closes output stream
+
+Example of writing lines of text to a file
+
+go :- tell('output.txt'), write('Hello world '), told().
+Takes file names as arguments, reads 4 terms and writes those 
+terms to the output file 
+go2(Filename, Outfile) :- see(Filename), tell(Outfile), read(X), write(X), nl, read(X2), write(X2), seen, told. 
+
+Encountering the end of the file, the reading commands will unify with a specific result
+X will unify with end_of_file
+get(X) will unify with -1
+
+Prolog program that will read integers and will contain the result to the terminal

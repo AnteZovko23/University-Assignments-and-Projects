@@ -1,0 +1,37 @@
+body {
+
+    background-color:blanchedalmond;
+
+}
+
+#form-div {
+
+    background-color: white;
+    border: 1px solid black;
+    display: table;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+
+ 
+#button {
+
+    background-color: black;
+    width: 234px;
+
+    display: table;
+    margin: 0 auto;
+
+}
+
+.button{
+    width: 234px;
+    height: 45px;
+    display: table;
+    margin: 0 auto;
+    
+
+}
+
+

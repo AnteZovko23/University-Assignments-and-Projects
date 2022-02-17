@@ -1,0 +1,62 @@
+body {
+    background-color:steelblue;
+    transition:background-color 0.7s;
+}
+
+h1,h2 {
+    text-align: center;
+    transition: all 600ms linear 0s;
+
+}
+
+.button {
+
+    padding: 20px;
+
+}
+
+.btn-div {
+
+    margin:0 auto;
+    display: table;
+}
+
+
+
+
+@keyframes red-to-black {
+
+    0% {
+        background: red;
+        transform: translate(0px, 0px);
+        transform: rotate(0deg);
+
+    }
+    25% {
+
+        transform: translate(0px, 500px);
+        
+
+    }
+    50% {
+
+        background: yellow;
+        transform: rotate(180deg);
+
+    }
+
+    75% {
+
+        transform: translate(0px, -200px);
+
+
+    }
+
+    100% {
+
+        background: black;
+        transform: rotate(360deg);
+
+    }
+
+}

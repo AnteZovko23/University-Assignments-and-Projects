@@ -1,0 +1,19 @@
+body {
+
+    background-color: steelblue;
+    align-items: center;
+}
+
+#form_div {
+
+    border: 3px solid black;
+
+    background-color: darkturquoise;
+    display: inline-block;
+}
+
+#submit_btn {
+
+    padding: 15px;
+
+}
