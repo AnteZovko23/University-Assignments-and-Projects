@@ -1767,6 +1767,24 @@ class Scene(object):
             
         return return_color
             
+      
     
-    
-    
+    def render_image(self):
+        
+        light_vector = self.illumination_model.get_light_vector()
+        illumination_saturation_counter = 0
+        top = round(self.canvas_height/2)
+        bottom = round(-self.canvas_height/2)
+        left = round(-self.canvas_width/2)
+        right = round(self.canvas_width/2)
+        
+        for y in range(top, bottom, -1):
+            for x in range(left, right, 1):
+                
+                ray = Matrix_Calculations.computer_unit_vector(self.center_of_projection, [x, y, 0])
+                color = self.trace_ray(self.center_of_projection, ray, 4)
+                
+                self.canvas.create_line(right+x, top-y, right+x+1, top-y, fill=self.illumination_model.get_RGB_color_hexcode(color))
+        
+        oversaturation = illumination_saturation_counter / (self.canvas_width * self.canvas_height) * 100
+        print(illumination_saturation_counter)

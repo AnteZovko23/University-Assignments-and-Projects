@@ -20,6 +20,12 @@ class checkerboard(object):
         else:
             return [255 * self.illumination_model.get_intensity(), 255 * self.illumination_model.get_intensity(), 255 * self.illumination_model.get_intensity()]
         
+    # def get_color_from_colorflag(self, colorflag):
+    
+    #     if colorflag:
+    #         return [255 , 0, 0]
+    #     else:
+    #         return [255 , 255 , 255 ]
 
     def generate_checkerboard(self):
         x_start = self.x_start
@@ -81,7 +87,5 @@ class checkerboard(object):
                 color = self.get_color_from_colorflag(colorflag)
                 
                 color_hex = "#%02X%02X%02X" % (int(color[0]), int(color[1]), int(color[2]))
-                # print(color_hex)
                 # Project the point onto the screen
-                color = self.scene.illumination_model.get_hexcode()
                 self.scene.canvas.create_line(display_coordinates_point[0], display_coordinates_point[1], display_coordinates_point[0] + 1, display_coordinates_point[1], fill=color_hex)
