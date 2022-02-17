@@ -23,7 +23,7 @@ class Scene(object):
     
     Takes canvas width, height, and viewer's distance from the screen 
     """
-    def __init__(self, canvas_width, canvas_height, viewpoint, illumination_model):
+    def __init__(self, canvas_width, canvas_height, viewpoint, illumination_model, sky_box_color):
         
         # Initialize the canvas
         self.root = Tk()
@@ -45,12 +45,14 @@ class Scene(object):
         # self.render_mode_index = 1
         # self.current_render_mode = self.render_modes[self.render_mode_index]
         
-        # # Illumination Model
-        # self.illumination_model = illumination_model
+        # Illumination Model
+        self.illumination_model = illumination_model
         
         # # Initialize the current object
-        # self.object_list = []
+        self.object_list = []
         # self.current_object = None
+        
+        self.sky_box_color = sky_box_color
         
         # # Initialize all of the buttons and their functions
         # controlpanel = Frame(outerframe)
@@ -172,7 +174,7 @@ class Scene(object):
         # self.toggle_line_rendering_checkbox = Checkbutton(resetcontrols, text="Show Line\nRendering", variable=self.is_checked, command=self.toggle_line_rendering)
         # self.toggle_line_rendering_checkbox.pack(side=LEFT)
 
-        self.generate_checkerboard()
+        # self.generate_checkerboard()
         # self.generate_checkerboard_from_rectangle()
         
     """
@@ -1723,72 +1725,48 @@ class Scene(object):
     def update_slider_value(self, event):
         self.render_speed = self.slider.get()
 
-    def get_color_from_colorflag(self, colorflag):
-        
-        if colorflag:
-            return "Red"
-        else:
-            return "White"
     
-    #### Assignment 5 ####
-    def generate_checkerboard(self):
-        x_start = -800
-        y_value = -200
-        z_start = 0
+    def trace_ray(self, start_point, ray, depth):
         
-        x_end = 800
-        z_end = 600
+        # Black if no intersection    
+        if depth == 0: return [0, 0, 0]
         
-        start_point = [x_start, y_value, z_start]
-        end_point = [x_end, y_value, z_end]
+        t_min = 999999 # Set to a large number
         
-        # # # Project points
-        projected_start_point = self.project(start_point)
-        projected_end_point = self.project(end_point)
-        
-        
-        # # Convert to display coordinates
-        display_start_point = self.convertToDisplayCoordinates(projected_start_point)
-        display_end_point = self.convertToDisplayCoordinates(projected_end_point)
-        sky_box_color = [0.53 * 255, 0.81 * 255, 0.92 * 255]
-        # Convert sky_box_color values to hex   
-        sky_box_color_hex = "#%02X%02X%02X" % (int(sky_box_color[0]), int(sky_box_color[1]), int(sky_box_color[2]))
-
-        # Paint sky box
-        for y in range(0, 300):
-            for x in range(0, 800):
-                self.canvas.create_line(x, y, x+1, y+1, fill=sky_box_color_hex)
-        
-        color = None
-        # For each row starting at z_start and ending at z_end
-        for z in range(z_start, z_end*2):
+        for object in self.object_list:
             
-            # For each column starting at x_start and ending at x_end
-            for x in range(int(round(display_start_point[0])), int(round(display_end_point[0]))):
-                # Determine if the color is red or white
-                if x >= 0:
-                    colorflag = True
-                else:
-                    colorflag = False
+            if object.intersect(start_point, ray) != []:
+                if object.get_t() < t_min:
+                    t_min = object.get_t()
+                    nearest_object = object
                     
-                if abs(x) % 200 > 100:
-                    colorflag = not colorflag
-                    
-                if abs(z) % 200 > 100:
-                    colorflag = not colorflag
-
-                current_point = [x, y_value, z]
-                
-                
-                # Project the point
-                projected_point = self.project(current_point)
-                
-                # Convert to display coordinates
-                display_coordinates_point = self.convertToDisplayCoordinates(projected_point)
-                
-                # Get color
-                color = self.get_color_from_colorflag(colorflag)
-                
-                # Project the point onto the screen
-
-                self.canvas.create_line(display_coordinates_point[0], display_coordinates_point[1], display_coordinates_point[0] + 1, display_coordinates_point[1], fill=color)
+        # Return sky color if no intersection
+        if t_min == 999999: return self.sky_box_color
+        
+        # Determine the local color and the weight of the object
+        color = nearest_object.get_local_color()
+        
+        intensity = nearest_object.illumination_model.get_intensity()
+        
+        # if self.in_shadow(nearest_object, nearest_object.get_intersection_point()):
+        #     intensity *= 0.25
+            
+        local_color = [color[0] * intensity * 2, color[1] * intensity * 2, color[2] * intensity * 2]
+        
+        local_weight = nearest_object.get_weight()
+        
+        # Color returned from the ray
+        reflection_weight = nearest_object.get_reflection_weight()
+        
+        reflection_color = self.trace_ray(nearest_object.get_intersection_point(), nearest_object.get_reflection_ray(), depth - 1)
+        
+        return_color = [0, 0, 0]
+        
+        for i in range(3):
+            return_color[i] = local_color[i] * local_weight + reflection_color[i] * reflection_weight  
+            
+        return return_color
+            
+    
+    
+    
