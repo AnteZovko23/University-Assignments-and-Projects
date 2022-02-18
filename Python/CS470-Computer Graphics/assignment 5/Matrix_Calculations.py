@@ -229,6 +229,7 @@ def get_dot_product(N_norm, point):
     Py = point[1]
     Pz = point[2]
     
+    
     # Calculate the dot product
     dot_product = Nx_norm * Px + Ny_norm * Py + Nz_norm * Pz
     
@@ -381,4 +382,14 @@ def calculate_vertex_normals(Object_definition):
     vertex_normals_grouped["9"] = [poly_9_normal]
     
     return vertex_normals_grouped
-        
+
+
+def compute_unit_vector(center_of_projection, anchor_point):
+    
+    i = anchor_point[0] - center_of_projection[0]
+    j = anchor_point[1] - center_of_projection[1]
+    k = anchor_point[2] - center_of_projection[2]
+    
+    vector = get_normalized_vector([i,j,k])
+    
+    return vector

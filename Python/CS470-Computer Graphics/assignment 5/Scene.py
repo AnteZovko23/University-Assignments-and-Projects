@@ -3,6 +3,7 @@ from tkinter import *
 import copy
 import Matrix_Calculations
 import time
+from Checkerboard import checkerboard
 
 """
 Author: Ante Zovko
@@ -23,7 +24,7 @@ class Scene(object):
     
     Takes canvas width, height, and viewer's distance from the screen 
     """
-    def __init__(self, canvas_width, canvas_height, viewpoint, illumination_model, sky_box_color):
+    def __init__(self, canvas_width, canvas_height, viewpoint, sky_box_color):
         
         # Initialize the canvas
         self.root = Tk()
@@ -46,13 +47,15 @@ class Scene(object):
         # self.current_render_mode = self.render_modes[self.render_mode_index]
         
         # Illumination Model
-        self.illumination_model = illumination_model
+        # self.illumination_model = illumination_model
         
         # # Initialize the current object
         self.object_list = []
         # self.current_object = None
         
         self.sky_box_color = sky_box_color
+        
+        self.checkerboard = checkerboard(scene=self, sky_box_color=sky_box_color)
         
         # # Initialize all of the buttons and their functions
         # controlpanel = Frame(outerframe)
@@ -758,7 +761,11 @@ class Scene(object):
     
     # **************************************************************************
     # Everything below this point implements the interface
-      
+    
+    def ray_tracing_add_object(self, object):
+        
+        self.object_list.append(object)
+    
     """
     Selects the previous object in the list of objects
     """
@@ -1725,6 +1732,8 @@ class Scene(object):
     def update_slider_value(self, event):
         self.render_speed = self.slider.get()
 
+    def get_checkerboard(self):
+        return self.checkerboard
     
     def trace_ray(self, start_point, ray, depth):
         
@@ -1735,9 +1744,12 @@ class Scene(object):
         
         for object in self.object_list:
             
-            if object.intersect(start_point, ray) != []:
-                if object.get_t() < t_min:
-                    t_min = object.get_t()
+            if object.get_intersection(start_point, ray) != []:
+                # print()
+                # print('a')
+                # print()
+                if object.get_t_value() < t_min:
+                    t_min = object.get_t_value()
                     nearest_object = object
                     
         # Return sky color if no intersection
@@ -1745,7 +1757,6 @@ class Scene(object):
         
         # Determine the local color and the weight of the object
         color = nearest_object.get_local_color()
-        
         intensity = nearest_object.illumination_model.get_intensity()
         
         # if self.in_shadow(nearest_object, nearest_object.get_intersection_point()):
@@ -1757,7 +1768,6 @@ class Scene(object):
         
         # Color returned from the ray
         reflection_weight = nearest_object.get_reflection_weight()
-        
         reflection_color = self.trace_ray(nearest_object.get_intersection_point(), nearest_object.get_reflection_ray(), depth - 1)
         
         return_color = [0, 0, 0]
@@ -1767,11 +1777,14 @@ class Scene(object):
             
         return return_color
             
-      
+    def get_RGB_color_hexcode(self, color):
+        print(color)
+        print("#%02X%02X%02X" % (int(color[0]), int(color[1]), int(color[2])))
+        return "#%02X%02X%02X" % (int(color[0]), int(color[1]), int(color[2]))  
     
     def render_image(self):
         
-        light_vector = self.illumination_model.get_light_vector()
+        # light_vector = self.illumination_model.get_light_vector()
         illumination_saturation_counter = 0
         top = round(self.canvas_height/2)
         bottom = round(-self.canvas_height/2)
@@ -1780,11 +1793,10 @@ class Scene(object):
         
         for y in range(top, bottom, -1):
             for x in range(left, right, 1):
-                
-                ray = Matrix_Calculations.computer_unit_vector(self.center_of_projection, [x, y, 0])
-                color = self.trace_ray(self.center_of_projection, ray, 4)
-                
-                self.canvas.create_line(right+x, top-y, right+x+1, top-y, fill=self.illumination_model.get_RGB_color_hexcode(color))
+                # print("a")
+                ray = Matrix_Calculations.compute_unit_vector(self.viewpoint, [x, y, 0])
+                color = self.trace_ray(self.viewpoint, ray, 4)
+                self.canvas.create_line(right+x, top-y, right+x+1, top-y, fill=self.get_RGB_color_hexcode(color))
         
         oversaturation = illumination_saturation_counter / (self.canvas_width * self.canvas_height) * 100
-        print(illumination_saturation_counter)
+        print(oversaturation)

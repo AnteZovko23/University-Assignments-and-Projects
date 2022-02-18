@@ -10,7 +10,7 @@ This program implements the phong illumination model with real-time updates once
 
 class Illumination_Model(object):
 
-    def __init__(self, surface_normal=None,  point_light_intensity=0.7, ambient_intensity=0.3, diffuse_constant=0.5, specular_constant=0.5, specular_index=2, light_vector=[1, 1, -1], view_vector=[0, 0, -1], distance=1):
+    def __init__(self, light_vector, surface_normal=None,  point_light_intensity=0.7, ambient_intensity=0.3, diffuse_constant=0.5, specular_constant=0.5, specular_index=2, view_vector=[0, 0, -1], distance=1):
 
         # Given Constants
         if surface_normal == None:
@@ -107,6 +107,32 @@ class Illumination_Model(object):
                 
         return Matrix_Calculations.get_normalized_vector(R)
 
+    def ray_tracing_calculate_reflection_vector(self, traced_ray):
+        # Check if the surface normal has been set
+        if self.surface_normal == None:
+            return None
+        
+        R = []
+        # Normalize N and L
+        N = Matrix_Calculations.get_normalized_vector(self.surface_normal)
+        L = Matrix_Calculations.get_normalized_vector(traced_ray)
+        
+        twoCosPhi = 2 * (N[0] * -L[0] + N[1] * -L[1] + N[2] * -L[2])
+        
+        # Check angle between N and L
+        if twoCosPhi > 0:
+            for i in range(3):
+                R.append(N[i] + (L[i] / twoCosPhi))
+        elif twoCosPhi == 0:
+            for i in range(3):
+                R.append(L[i])
+        else:
+            raise Exception("Error: The angle between the surface normal and the ray is greater than 90 degrees.")
+            # for i in range(3):
+            #     R.append(-N[i] - (L[i] / twoCosPhi))
+                            
+        return Matrix_Calculations.get_normalized_vector(R)
+        
     
     # generate a color hex code string from the illumination components
     def get_hexcode(self):
@@ -119,6 +145,8 @@ class Illumination_Model(object):
         specularColorCode = self.colorHexCode(specular)
         colorString = "#" + combinedColorCode + specularColorCode + specularColorCode
         return colorString
+    
+
     
     # generate a color hex code string from the illumination components
     def get_hexcode_intensity(self, ambient, diffuse, specular):
