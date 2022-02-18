@@ -128,9 +128,7 @@ class Illumination_Model(object):
         colorString = "#" + specularColorCode + combinedColorCode + specularColorCode
         return colorString
     
-    def get_RGB_color_hexcode(self, color):
-        
-        return "#%02X%02X%02X" % (int(color[0]), int(color[1]), int(color[2]))
+   
         
 
     """
