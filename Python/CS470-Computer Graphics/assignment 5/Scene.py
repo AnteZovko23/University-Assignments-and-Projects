@@ -55,7 +55,7 @@ class Scene(object):
         
         self.sky_box_color = sky_box_color
         
-        self.checkerboard = checkerboard(scene=self, sky_box_color=sky_box_color)
+        # self.checkerboard = checkerboard(scene=self, sky_box_color=sky_box_color)
         
         # # Initialize all of the buttons and their functions
         # controlpanel = Frame(outerframe)
@@ -1732,8 +1732,8 @@ class Scene(object):
     def update_slider_value(self, event):
         self.render_speed = self.slider.get()
 
-    def get_checkerboard(self):
-        return self.checkerboard
+    # def get_checkerboard(self):
+    #     return self.checkerboard
     
     def trace_ray(self, start_point, ray, depth):
         # Black if no intersection    
@@ -1743,7 +1743,7 @@ class Scene(object):
         
         for object in self.object_list:
             
-            if object.get_intersection(start_point, ray) != []:
+            if object.get_intersection(start_point=start_point, ray=ray) != []:
                 if object.get_t_value() < t_min:
                     t_min = object.get_t_value()
                     nearest_object = object
@@ -1760,12 +1760,19 @@ class Scene(object):
         
         nearest_object.illumination_model.set_light_vector(light_vector)
         
+        try:
+            # Get surface normal of a sphere based on a point and center
+            surface_normal = Matrix_Calculations.compute_unit_vector(nearest_object.get_center_point(), intersection_point)
+            nearest_object.set_surface_normal(surface_normal)
+        except AttributeError:
+            pass
+        
         intensity = nearest_object.illumination_model.get_intensity()
         # print(intensity)
-        # if self.in_shadow(nearest_object, nearest_object.get_intersection_point()):
-        #     intensity *= 0.25
+        if self.in_shadow(nearest_object, nearest_object.get_intersection_point(), nearest_object.illumination_model.get_point_light_source()):
+            intensity *= 0.25
             
-        local_color = [color[0] * intensity * 1.4, color[1] * intensity * 1.4, color[2] * intensity * 1.4]
+        local_color = [color[0] * intensity * 2, color[1] * intensity * 2, color[2] * intensity * 2]
         # local_color = [color[0] * intensity, color[1] * intensity, color[2] * intensity]
         
         local_weight = nearest_object.get_weight()
@@ -1811,6 +1818,15 @@ class Scene(object):
         B_combinedColorCode = self.RGBcolorHexCode(color[2])
         colorString = "#" + R_combinedColorCode + G_combinedColorCode + B_combinedColorCode
         return colorString
+    
+    def in_shadow(self, start_object, start_point, light_source):
+        ray = Matrix_Calculations.compute_unit_vector(start_point, light_source)
+        
+        for object in self.object_list:
+            if object != start_object and object.get_intersection(start_point, ray) != []:
+                return True
+            
+        return False
     
     def render_image(self):
         

@@ -129,9 +129,9 @@ class Illumination_Model(object):
             for i in range(3):
                 R.append(L[i])
         else:
-            raise Exception("Error: The angle between the surface normal and the ray is greater than 90 degrees.")
-            # for i in range(3):
-            #     R.append(-N[i] - (L[i] / twoCosPhi))
+            # raise Exception("Error: The angle between the surface normal and the ray is greater than 90 degrees.")
+            for i in range(3):
+                R.append(-N[i] - (L[i] / twoCosPhi))
                             
         return Matrix_Calculations.get_normalized_vector(R)
         
