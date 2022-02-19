@@ -36,13 +36,20 @@ class checkerboard(object):
     #     else:
     #         return [255 , 255 , 255 ]
     
+    # def get_color_from_colorflag(self, colorflag):
+
+    #     if colorflag:
+    #         return [1 * 255, 0, 0]
+    #     else:
+    #         return [1 * 255 , 1 * 255 , 1 * 255 ]
+    
     def get_color_from_colorflag(self, colorflag):
 
         if colorflag:
-            return [1 * 255, 0, 0]
+            return [1, 0, 0]
         else:
-            return [1 * 255 , 1 * 255 , 1 * 255 ]
-
+            return [1 , 1 , 1 ]
+    
     def generate_checkerboard(self):
         x_start = self.x_start
         y_value = self.y_value
@@ -133,7 +140,6 @@ class checkerboard(object):
         if t <= 0.001:
             return []
         
-        print(t)
         self.set_t_value(t)
         
         # Intersection point
@@ -141,7 +147,7 @@ class checkerboard(object):
         Y = start_point[1] + t * ray[1]
         Z = start_point[2] + t * ray[2]
         
-        if Z > self.z_end:
+        if Z > self.z_end or Z < 0:
             return []
         
         self.intersection_point = [X, Y, Z]
@@ -166,9 +172,9 @@ class checkerboard(object):
     def set_t_value(self, value):
         self.t_value = value
         
-    def set_reflection_constants(self, view_vector, light_vector, ambient_intensity, point_light_intensity, diffuse_constant, specular_constant, specular_index, distance, weight_local, weight_for_reflections):
+    def set_reflection_constants(self, view_vector, ambient_intensity, point_light_intensity, diffuse_constant, specular_constant, specular_index, distance, weight_local, weight_for_reflections, point_light_source=None, light_vector=None):
         
-        self.illumination_model = Illumination_Model.Illumination_Model(view_vector=view_vector, light_vector=light_vector, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance)
+        self.illumination_model = Illumination_Model.Illumination_Model(view_vector=view_vector, point_light_source=point_light_source, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance)
         self.illumination_model.set_surface_normal(self.get_surface_normal())
         self.weight_local = weight_local
         self.weight_for_reflections = weight_for_reflections

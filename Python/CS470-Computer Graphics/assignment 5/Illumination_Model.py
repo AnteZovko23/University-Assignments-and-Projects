@@ -10,7 +10,7 @@ This program implements the phong illumination model with real-time updates once
 
 class Illumination_Model(object):
 
-    def __init__(self, light_vector, surface_normal=None,  point_light_intensity=0.7, ambient_intensity=0.3, diffuse_constant=0.5, specular_constant=0.5, specular_index=2, view_vector=[0, 0, -1], distance=1):
+    def __init__(self, light_vector = None, point_light_source = None, surface_normal=None,  point_light_intensity=0.7, ambient_intensity=0.3, diffuse_constant=0.5, specular_constant=0.5, specular_index=2, view_vector=[0, 0, -1], distance=1):
 
         # Given Constants
         if surface_normal == None:
@@ -18,7 +18,9 @@ class Illumination_Model(object):
         else:
             self.surface_normal = Matrix_Calculations.get_normalized_vector(surface_normal)
         
-        self.light_vector = Matrix_Calculations.get_normalized_vector(light_vector)
+        self.light_vector = light_vector
+        self.point_light_source = point_light_source
+        # self.light_vector = Matrix_Calculations.get_normalized_vector(light_vector)
         self.view_vector = Matrix_Calculations.get_normalized_vector(view_vector)    
             
         self.point_light_intensity = point_light_intensity
@@ -51,7 +53,7 @@ class Illumination_Model(object):
     """
     def calculate_diffuse_component(self):
         
-        if self.surface_normal == None:
+        if self.surface_normal == None or self.light_vector == None:
             # print("Surface normal has not been set. Please set the surface normal before calculating the diffuse component.")
             return None
         
@@ -83,7 +85,7 @@ class Illumination_Model(object):
     """
     def calculate_reflection_vector(self):
         # Check if the surface normal has been set
-        if self.surface_normal == None:
+        if self.surface_normal == None or self.light_vector == None:
             return None
         
         R = []
@@ -155,6 +157,7 @@ class Illumination_Model(object):
         specularColorCode = self.colorHexCode(specular)
         colorString = "#" + specularColorCode + combinedColorCode + specularColorCode
         return colorString
+    
 
     """
     Generate hex code string from intensity
@@ -273,5 +276,6 @@ class Illumination_Model(object):
     def get_intensity(self):
         return self.ambient_component + self.diffuse_component + self.specular_component
 
-
+    def get_point_light_source(self):
+        return self.point_light_source
     

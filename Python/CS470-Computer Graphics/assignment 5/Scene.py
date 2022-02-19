@@ -1736,7 +1736,6 @@ class Scene(object):
         return self.checkerboard
     
     def trace_ray(self, start_point, ray, depth):
-        
         # Black if no intersection    
         if depth == 0: return [0, 0, 0]
         
@@ -1745,9 +1744,6 @@ class Scene(object):
         for object in self.object_list:
             
             if object.get_intersection(start_point, ray) != []:
-                # print()
-                # print('a')
-                # print()
                 if object.get_t_value() < t_min:
                     t_min = object.get_t_value()
                     nearest_object = object
@@ -1757,17 +1753,26 @@ class Scene(object):
         
         # Determine the local color and the weight of the object
         color = nearest_object.get_local_color()
-        intensity = nearest_object.illumination_model.get_intensity()
+        intersection_point = nearest_object.get_intersection_point()
+        point_light_source = nearest_object.illumination_model.get_point_light_source()
         
+        light_vector = Matrix_Calculations.compute_unit_vector(intersection_point, point_light_source)
+        
+        nearest_object.illumination_model.set_light_vector(light_vector)
+        
+        intensity = nearest_object.illumination_model.get_intensity()
+        # print(intensity)
         # if self.in_shadow(nearest_object, nearest_object.get_intersection_point()):
         #     intensity *= 0.25
             
-        local_color = [color[0] * intensity * 2, color[1] * intensity * 2, color[2] * intensity * 2]
+        local_color = [color[0] * intensity * 1.4, color[1] * intensity * 1.4, color[2] * intensity * 1.4]
+        # local_color = [color[0] * intensity, color[1] * intensity, color[2] * intensity]
         
         local_weight = nearest_object.get_weight()
         
         # Color returned from the ray
         reflection_weight = nearest_object.get_reflection_weight()
+        # print(local_weight)
         reflection_color = self.trace_ray(nearest_object.get_intersection_point(), nearest_object.get_reflection_ray(), depth - 1)
         
         return_color = [0, 0, 0]
@@ -1778,9 +1783,34 @@ class Scene(object):
         return return_color
             
     def get_RGB_color_hexcode(self, color):
-        print(color)
-        print("#%02X%02X%02X" % (int(color[0]), int(color[1]), int(color[2])))
+        # print(color)
+        # print("#%02X%02X%02X" % (int(color[0]), int(color[1]), int(color[2])))
         return "#%02X%02X%02X" % (int(color[0]), int(color[1]), int(color[2]))  
+    
+    """
+    Generate hex code string from intensity
+    """
+    def RGBcolorHexCode(self, intensity):
+        hexString = str(hex(round(255* intensity)))
+        if hexString[0] == "-": # illumination intensity should not be negative
+            # print("illumination instensity is Negative. Setting to 00. Did you check for negative NdotL?")
+            trimmedHexString = "00"
+        else:
+            trimmedHexString = hexString[2:] # get rid of "0x" at beginning of hex strings
+            # convert single digit hex strings to two digit hex strings
+            if len(trimmedHexString) == 1: trimmedHexString = "0" + trimmedHexString
+            # we will use the green color component to display our monochrome illumination results
+        return trimmedHexString
+    
+        
+    # generate a color hex code string from the illumination components
+    def get_hexcode_intensity(self, color):
+
+        R_combinedColorCode = self.RGBcolorHexCode(color[0])
+        G_combinedColorCode = self.RGBcolorHexCode(color[1])
+        B_combinedColorCode = self.RGBcolorHexCode(color[2])
+        colorString = "#" + R_combinedColorCode + G_combinedColorCode + B_combinedColorCode
+        return colorString
     
     def render_image(self):
         
@@ -1796,7 +1826,7 @@ class Scene(object):
                 # print("a")
                 ray = Matrix_Calculations.compute_unit_vector(self.viewpoint, [x, y, 0])
                 color = self.trace_ray(self.viewpoint, ray, 4)
-                self.canvas.create_line(right+x, top-y, right+x+1, top-y, fill=self.get_RGB_color_hexcode(color))
+                self.canvas.create_line(right+x, top-y, right+x+1, top-y, fill=self.get_hexcode_intensity(color))
         
         oversaturation = illumination_saturation_counter / (self.canvas_width * self.canvas_height) * 100
         print(oversaturation)

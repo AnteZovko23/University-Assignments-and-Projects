@@ -384,11 +384,11 @@ def calculate_vertex_normals(Object_definition):
     return vertex_normals_grouped
 
 
-def compute_unit_vector(center_of_projection, anchor_point):
+def compute_unit_vector(start, end):
     
-    i = anchor_point[0] - center_of_projection[0]
-    j = anchor_point[1] - center_of_projection[1]
-    k = anchor_point[2] - center_of_projection[2]
+    i = end[0] - start[0]
+    j = end[1] - start[1]
+    k = end[2] - start[2]
     
     vector = get_normalized_vector([i,j,k])
     
