@@ -65,8 +65,8 @@ diffuse_constant = 1
 specular_constant = 1
 specular_index = 16
 distance = 1
-weight_local = .5
-weight_for_reflections = .5
+weight_local = .45
+weight_for_reflections = .55
 sphere_instance = Sphere.Sphere(center_point=[200, -100, 300], radius=100, local_color=[1, 0.5, 0.5])
 sphere_instance.set_reflection_constants(view_vector=viewpoint, point_light_source=lightSource, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance, weight_local=weight_local, weight_for_reflections=weight_for_reflections)
 scene.ray_tracing_add_object(sphere_instance)
@@ -75,8 +75,8 @@ diffuse_constant = 1
 specular_constant = 1
 specular_index = 5
 distance = 1
-weight_local = .3
-weight_for_reflections = .7
+weight_local = .2
+weight_for_reflections = .8
 sphere_instance = Sphere.Sphere(center_point=[-200, -50, 250], radius=150, local_color=[0.5, 1, 0.5])
 sphere_instance.set_reflection_constants(view_vector=viewpoint, point_light_source=lightSource, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance, weight_local=weight_local, weight_for_reflections=weight_for_reflections)
 scene.ray_tracing_add_object(sphere_instance)
