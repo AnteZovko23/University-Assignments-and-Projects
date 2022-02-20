@@ -1807,6 +1807,8 @@ class Scene(object):
             # convert single digit hex strings to two digit hex strings
             if len(trimmedHexString) == 1: trimmedHexString = "0" + trimmedHexString
             # we will use the green color component to display our monochrome illumination results
+            # If it is 3 digits, set to FF
+            if len(trimmedHexString) == 3: trimmedHexString = "FF"
         return trimmedHexString
     
         
