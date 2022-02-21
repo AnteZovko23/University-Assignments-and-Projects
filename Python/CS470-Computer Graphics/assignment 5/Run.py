@@ -1,7 +1,6 @@
 from tkinter import *
 from Checkerboard import checkerboard
 import Scene
-import Scene
 import Sphere
 
 """
