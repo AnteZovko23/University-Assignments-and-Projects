@@ -3,7 +3,7 @@ import math
 
 """
 Author: Ante Zovko
-Date: February 15th, 2022
+Date: February 21st, 2022
 
 This program implements the phong illumination model with real-time updates once a parameter is changed
 """
@@ -22,7 +22,6 @@ class Illumination_Model(object):
         self.point_light_source = point_light_source
         self.medium_density = medium_density
         self.object_density = object_density
-        # self.light_vector = Matrix_Calculations.get_normalized_vector(light_vector)
         self.view_vector = Matrix_Calculations.get_normalized_vector(view_vector)    
             
         self.point_light_intensity = point_light_intensity
@@ -111,6 +110,9 @@ class Illumination_Model(object):
                 
         return Matrix_Calculations.get_normalized_vector(R)
 
+    """
+    Calculates the reflection vector based on the surface normal and an incoming ray
+    """
     def ray_tracing_calculate_reflection_vector(self, traced_ray):
         # Check if the surface normal has been set
         if self.surface_normal == None:
@@ -137,7 +139,9 @@ class Illumination_Model(object):
                             
         return Matrix_Calculations.get_normalized_vector(R)
         
-    
+    """
+    Calculates the refraction vector based on the surface normal and an incoming ray
+    """
     def ray_tracing_calculate_refraction_vector(self, traced_ray):
         if self.surface_normal == None:
             return None
@@ -147,11 +151,14 @@ class Illumination_Model(object):
         N = Matrix_Calculations.get_normalized_vector(self.surface_normal)
         L = Matrix_Calculations.get_normalized_vector(traced_ray)
         
+        # Density ratio
         d = self.object_density/self.medium_density
             
         # X component
         X = (1/d) * L[0] - ((math.sqrt(1 - (1/d**2) * (1 - (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])**2))) - (1/d) * (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])) * N[0]
+        # Y component
         Y = (1/d) * L[1] - ((math.sqrt(1 - (1/d**2) * (1 - (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])**2))) - (1/d) * (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])) * N[1]
+        # Z component
         Z = (1/d) * L[2] - ((math.sqrt(1 - (1/d**2) * (1 - (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])**2))) - (1/d) * (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])) * N[2]
         
         

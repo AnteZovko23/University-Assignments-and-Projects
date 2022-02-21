@@ -2,7 +2,7 @@ import math
 
 """
 Author: Ante Zovko
-Date: January 31st, 2022
+Date: February 21st, 2022
 
 This program provides useful matrix calculation functions like matrix multiplication and
 calculating the visual center of a 3D object
@@ -383,7 +383,9 @@ def calculate_vertex_normals(Object_definition):
     
     return vertex_normals_grouped
 
-
+"""
+Calculates a unit vector based on two points
+"""
 def compute_unit_vector(start, end):
     
     i = end[0] - start[0]

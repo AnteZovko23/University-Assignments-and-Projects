@@ -1,7 +1,13 @@
 import Illumination_Model
+
+"""
+Author: Ante Zovko
+Date: February 21st, 2022
+
+This program models a checkerboard with the ability to trace rays from the viewpoint to the checkerboard 
+"""
 class checkerboard(object):
     def __init__(self, x_start=-800, y_value=-200, z_start=0, x_end=800, z_end=1000):
-        # self.scene = scene
         self.illumination_model = None
         self.x_start = x_start
         self.y_value = y_value
@@ -9,6 +15,8 @@ class checkerboard(object):
         self.x_end = x_end
         self.z_end = z_end
         self.anchor_point = [0, self.y_value, 0]
+        
+        # Illumination Constants
         self.t_value = None
         self.diffuse_constant = None
         self.specular_constant = None
@@ -18,10 +26,10 @@ class checkerboard(object):
         self.local_color = None
         self.intersection_point = None
         self.current_ray = None
-        
-    #### Assignment 5 ####
     
-    
+    """
+    Returns red if true, white if false
+    """
     def get_color_from_colorflag(self, colorflag):
 
         if colorflag:
@@ -29,11 +37,14 @@ class checkerboard(object):
         else:
             return [1 , 1 , 1 ]
 
-    
+    """
+    Calculates the intersection between a ray and the checkerboard if it exists
+    """
     def get_intersection(self, start_point, ray):
         
         self.current_ray = ray
         
+        # Get surface normal and a known point
         surface_normal = self.get_surface_normal()
         anchor_point = self.get_anchor_point()
         
@@ -61,6 +72,7 @@ class checkerboard(object):
         Y = start_point[1] + t * ray[1]
         Z = start_point[2] + t * ray[2]
         
+        # If the intersection is above the horizon or below the floor, return []
         if Z > self.z_end or Z < 0:
             return []
         
@@ -70,9 +82,6 @@ class checkerboard(object):
         
         
     #### Getters and Setters ####
-    """
-    Returns an anchor point, which in this case is the point where it touches the viewing plane. (0, -150, 0) by default.
-    """
     def get_anchor_point(self):
             
         return self.anchor_point
@@ -93,6 +102,9 @@ class checkerboard(object):
         self.weight_local = weight_local
         self.weight_for_reflections = weight_for_reflections
     
+    """
+    Sets local color based on the intersection point
+    """
     def set_local_color(self):
         
         x, y, z = self.intersection_point[0], self.intersection_point[1], self.intersection_point[2]

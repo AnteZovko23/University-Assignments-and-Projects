@@ -1,5 +1,13 @@
 import Illumination_Model
 import math
+
+"""
+Author: Ante Zovko
+Date: February 21st, 2022
+
+This program models a sphere with the ability to trace rays from the viewpoint to the sphere 
+"""
+
 class Sphere(object):
     def __init__(self, center_point, radius, local_color):        
 
@@ -7,7 +15,7 @@ class Sphere(object):
         self.radius = radius
         self.local_color = local_color
 
-
+        # Set up constants
         self.illumination_model = None
         self.t_value = None
         self.diffuse_constant = None
@@ -20,17 +28,16 @@ class Sphere(object):
         self.weight_for_refractions = None
         
         
-    
+    """
+    Calculates the intersection point of the ray with the sphere if it exists
+    """
     def get_intersection(self, start_point, ray):
         
         self.current_ray = ray
        
         # Ray-sphere intersection equation
-        
         a = ray[0]**2 + ray[1]**2 + ray[2]**2
-        
         b = 2 * ray[0] * (start_point[0] - self.center_point[0]) + 2 * ray[1] * (start_point[1] - self.center_point[1]) + 2 * ray[2] * (start_point[2] - self.center_point[2])
-        
         c = self.center_point[0]**2 + self.center_point[1]**2 + self.center_point[2]**2 + start_point[0]**2 + start_point[1]**2 + start_point[2]**2 + 2 * (-self.center_point[0] * start_point[0] - self.center_point[1] * start_point[1] - self.center_point[2] * start_point[2]) - self.radius**2
         
         # Solve quadratic equation
@@ -38,6 +45,7 @@ class Sphere(object):
         
         t = 0
         
+        # Check how many roots there are
         if discriminant < 0:
             return []
         
@@ -53,7 +61,8 @@ class Sphere(object):
                 t = t1
             else:
                 t = t2
-        
+
+        # If t is negative, there is no intersection
         if t < 0.001:
             return []
         
@@ -61,11 +70,11 @@ class Sphere(object):
         self.set_t_value(t)
 
         # Get the intersection point
-        # Intersection point
         X = start_point[0] + t * ray[0]
         Y = start_point[1] + t * ray[1]
         Z = start_point[2] + t * ray[2]
 
+        # If the intersection point is above the horizon, there is no intersection
         if Z > 1000 or Z < 0:
             return []
 
