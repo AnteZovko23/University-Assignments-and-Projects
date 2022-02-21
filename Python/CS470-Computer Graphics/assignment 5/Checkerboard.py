@@ -118,6 +118,9 @@ class checkerboard(object):
     def get_reflection_weight(self):
         return self.weight_for_reflections
     
+    def get_refraction_weight(self):
+        return 0
+    
     def get_weight(self):
         return self.weight_local
     
@@ -126,6 +129,9 @@ class checkerboard(object):
     
     def get_reflection_ray(self):
         return self.illumination_model.ray_tracing_calculate_reflection_vector(self.current_ray)
+    
+    def get_refraction_ray(self):
+        return [0, 0, 0]
     
     def set_anchor_point(self, value):
         self.anchor_point = value

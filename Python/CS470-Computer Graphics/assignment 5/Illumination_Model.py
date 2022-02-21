@@ -1,5 +1,5 @@
 import Matrix_Calculations
-
+import math
 
 """
 Author: Ante Zovko
@@ -10,7 +10,7 @@ This program implements the phong illumination model with real-time updates once
 
 class Illumination_Model(object):
 
-    def __init__(self, light_vector = None, point_light_source = None, surface_normal=None,  point_light_intensity=0.7, ambient_intensity=0.3, diffuse_constant=0.5, specular_constant=0.5, specular_index=2, view_vector=[0, 0, -1], distance=1):
+    def __init__(self, light_vector = None, point_light_source = None, surface_normal=None,  point_light_intensity=0.7, ambient_intensity=0.3, diffuse_constant=0.5, specular_constant=0.5, specular_index=2, view_vector=[0, 0, -1], distance=1, medium_density=1, object_density=2):
 
         # Given Constants
         if surface_normal == None:
@@ -20,6 +20,8 @@ class Illumination_Model(object):
         
         self.light_vector = light_vector
         self.point_light_source = point_light_source
+        self.medium_density = medium_density
+        self.object_density = object_density
         # self.light_vector = Matrix_Calculations.get_normalized_vector(light_vector)
         self.view_vector = Matrix_Calculations.get_normalized_vector(view_vector)    
             
@@ -135,6 +137,26 @@ class Illumination_Model(object):
                             
         return Matrix_Calculations.get_normalized_vector(R)
         
+    
+    def ray_tracing_calculate_refraction_vector(self, traced_ray):
+        if self.surface_normal == None:
+            return None
+        
+        R = []
+        # Normalize N and L
+        N = Matrix_Calculations.get_normalized_vector(self.surface_normal)
+        L = Matrix_Calculations.get_normalized_vector(traced_ray)
+        
+        d = self.object_density/self.medium_density
+            
+        # X component
+        X = (1/d) * L[0] - ((math.sqrt(1 - (1/d**2) * (1 - (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])**2))) - (1/d) * (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])) * N[0]
+        Y = (1/d) * L[1] - ((math.sqrt(1 - (1/d**2) * (1 - (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])**2))) - (1/d) * (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])) * N[1]
+        Z = (1/d) * L[2] - ((math.sqrt(1 - (1/d**2) * (1 - (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])**2))) - (1/d) * (-L[0] * N[0] - L[1] * N[1] - L[2] * N[2])) * N[2]
+        
+        
+        R = [X, Y, Z]
+        return Matrix_Calculations.get_normalized_vector(R)
     
     # generate a color hex code string from the illumination components
     def get_hexcode(self):

@@ -11,7 +11,7 @@ canvas_height = 300
 # Constants for the illumination model
 viewpoint = [0, 0, -500]
 light_vector = [1, 1, 0]
-
+lightSource = [500,500,0]
 ambient_intensity = 1
 point_light_intensity = 1
 
@@ -20,17 +20,18 @@ point_light_intensity = 1
 
 
 # Crate the scene
-diffuse_constant = 0.5
-specular_constant = 0.5
-specular_index = 8
+diffuse_constant = 1
+specular_constant = .2
+specular_index = 5
 distance = 1
-weight_local = 0.5
-weight_for_reflections = 0.5
-sphere = Sphere.Sphere(radius=100, center_point=[0, -300, 300], local_color=[1, 0, 0])
-ray = Matrix_Calculations.compute_unit_vector(viewpoint, [0, -200, 0])
-X, Y, Z = sphere.get_intersection(viewpoint, ray)
-import math
-radius = 100
+weight_local = .7
+weight_for_reflections = .3
+sphere_instance = Sphere.Sphere(center_point=[-300, -150, 100], radius=50, local_color=[0.5, 0.5, 1])
+sphere_instance.set_reflection_constants(view_vector=viewpoint, point_light_source=lightSource, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance, weight_local=weight_local, weight_for_reflections=weight_for_reflections)
+sphere_instance.illumination_model.set_surface_normal([0, 1, 0])
+
+
+
 # Calculate z using the equation z = sqrt(radius^2 - x^2 - y^2) if not negative
 
 # checkerboard.set_reflection_constants(view_vector=viewpoint, light_vector=light_vector, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance, weight_local=weight_local, weight_for_reflections=weight_for_reflections)

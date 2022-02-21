@@ -42,8 +42,9 @@ point_light_intensity = .9
 polyhedron_maker = Polyhedron.Polyhedron()
 
 
-sky_box_color = [0.53, 0.81, 0.92]
-# sky_box_color = [0.55, 0.8, 0.996]
+# sky_box_color = [0.66, 0.81, 0.92]
+sky_box_color = [0.55, 0.8, 0.996]
+# sky_box_color = [0.65, 0.69, 0.698]
 
 # Convert sky_box_color values to hex   
 # sky_box_color_hex = "#%02X%02X%02X" % (int(sky_box_color[0]), int(sky_box_color[1]), int(sky_box_color[2]))
@@ -67,7 +68,7 @@ specular_index = 16
 distance = 1
 weight_local = .45
 weight_for_reflections = .55
-sphere_instance = Sphere.Sphere(center_point=[200, -100, 300], radius=100, local_color=[1, 0.5, 0.5])
+sphere_instance = Sphere.Sphere(center_point=[250, -100, 400], radius=100, local_color=[1, 0.5, 0.5])
 sphere_instance.set_reflection_constants(view_vector=viewpoint, point_light_source=lightSource, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance, weight_local=weight_local, weight_for_reflections=weight_for_reflections)
 scene.ray_tracing_add_object(sphere_instance)
 
@@ -77,7 +78,7 @@ specular_index = 5
 distance = 1
 weight_local = .2
 weight_for_reflections = .8
-sphere_instance = Sphere.Sphere(center_point=[-200, -50, 250], radius=150, local_color=[0.5, 1, 0.5])
+sphere_instance = Sphere.Sphere(center_point=[-210, -50, 600], radius=150, local_color=[0.5, 1, 0.5])
 sphere_instance.set_reflection_constants(view_vector=viewpoint, point_light_source=lightSource, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance, weight_local=weight_local, weight_for_reflections=weight_for_reflections)
 scene.ray_tracing_add_object(sphere_instance)
 
@@ -87,8 +88,30 @@ specular_index = 5
 distance = 1
 weight_local = .7
 weight_for_reflections = .3
-sphere_instance = Sphere.Sphere(center_point=[40, -150, 100], radius=50, local_color=[0.5, 0.5, 1])
+sphere_instance = Sphere.Sphere(center_point=[-450, -150, 600], radius=50, local_color=[0.5, 0.5, 1])
 sphere_instance.set_reflection_constants(view_vector=viewpoint, point_light_source=lightSource, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance, weight_local=weight_local, weight_for_reflections=weight_for_reflections)
+scene.ray_tracing_add_object(sphere_instance)
+
+diffuse_constant = 1
+specular_constant = .2
+specular_index = 5
+distance = 1
+weight_local = .25
+weight_for_reflections = 0
+weight_for_refractions = .75
+sphere_instance = Sphere.Sphere(center_point=[-210, -150, 60], radius=50, local_color=[1, 1, 1])
+sphere_instance.set_reflection_constants(view_vector=viewpoint, point_light_source=lightSource, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance, weight_local=weight_local, weight_for_reflections=weight_for_reflections, weight_for_refractions=weight_for_refractions)
+scene.ray_tracing_add_object(sphere_instance)
+
+diffuse_constant = 1
+specular_constant = 1
+specular_index = 5
+distance = 1
+weight_local = .25
+weight_for_reflections = 0
+weight_for_refractions = .75
+sphere_instance = Sphere.Sphere(center_point=[100, -150, 90], radius=50, local_color=[1, 1, 1])
+sphere_instance.set_reflection_constants(view_vector=viewpoint, point_light_source=lightSource, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance, weight_local=weight_local, weight_for_reflections=weight_for_reflections, weight_for_refractions=weight_for_refractions)
 scene.ray_tracing_add_object(sphere_instance)
 
 scene.render_image()

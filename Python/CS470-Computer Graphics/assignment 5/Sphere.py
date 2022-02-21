@@ -17,6 +17,7 @@ class Sphere(object):
         self.weight_for_reflections = None
         self.intersection_point = None
         self.current_ray = None
+        self.weight_for_refractions = None
         
         
     
@@ -81,11 +82,12 @@ class Sphere(object):
     def set_t_value(self, value):
         self.t_value = value
         
-    def set_reflection_constants(self, view_vector, ambient_intensity, point_light_intensity, diffuse_constant, specular_constant, specular_index, distance, weight_local, weight_for_reflections, point_light_source=None, light_vector=None):
+    def set_reflection_constants(self, view_vector, ambient_intensity, point_light_intensity, diffuse_constant, specular_constant, specular_index, distance, weight_local, weight_for_reflections, weight_for_refractions=0, point_light_source=None, light_vector=None):
         
         self.illumination_model = Illumination_Model.Illumination_Model(view_vector=view_vector, point_light_source=point_light_source, ambient_intensity=ambient_intensity, point_light_intensity=point_light_intensity, diffuse_constant=diffuse_constant, specular_constant=specular_constant, specular_index=specular_index, distance=distance)
         self.weight_local = weight_local
         self.weight_for_reflections = weight_for_reflections
+        self.weight_for_refractions = weight_for_refractions
     
     def set_surface_normal(self, normal):
         self.illumination_model.set_surface_normal(normal)
@@ -111,6 +113,9 @@ class Sphere(object):
     def get_reflection_weight(self):
         return self.weight_for_reflections
     
+    def get_refraction_weight(self):
+        return self.weight_for_refractions
+    
     def get_weight(self):
         return self.weight_local
     
@@ -119,3 +124,6 @@ class Sphere(object):
     
     def get_reflection_ray(self):
         return self.illumination_model.ray_tracing_calculate_reflection_vector(self.current_ray)
+
+    def get_refraction_ray(self):
+        return self.illumination_model.ray_tracing_calculate_refraction_vector(self.current_ray)

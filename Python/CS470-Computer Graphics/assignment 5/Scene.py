@@ -1780,12 +1780,23 @@ class Scene(object):
         # Color returned from the ray
         reflection_weight = nearest_object.get_reflection_weight()
         # print(local_weight)
-        reflection_color = self.trace_ray(nearest_object.get_intersection_point(), nearest_object.get_reflection_ray(), depth - 1)
+        reflection_color = [0, 0, 0]
+        if(nearest_object.get_reflection_weight() > 0):
+            reflection_color = self.trace_ray(nearest_object.get_intersection_point(), nearest_object.get_reflection_ray(), depth - 1)
+
+        # Refraction color
+        refraction_weight = nearest_object.get_refraction_weight()
+
+        refraction_color = [0, 0, 0]
+        if refraction_weight == 0:
+            refraction_color = [0, 0, 0]
+        else:
+            refraction_color = self.trace_ray(nearest_object.get_intersection_point(), nearest_object.get_refraction_ray(), depth - 1)
         
         return_color = [0, 0, 0]
         
         for i in range(3):
-            return_color[i] = local_color[i] * local_weight + reflection_color[i] * reflection_weight  
+            return_color[i] = local_color[i] * local_weight  + reflection_color[i] * reflection_weight + refraction_color[i] * refraction_weight
             
         return return_color
             
