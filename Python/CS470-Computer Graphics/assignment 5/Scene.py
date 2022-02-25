@@ -24,6 +24,7 @@ class Scene(object):
         
         # Initialize the canvas
         self.root = Tk()
+        self.root.title("Ante Zovko - Ray Tracing - February 22nd, 2022")
         outerframe = Frame(self.root)
         outerframe.pack()
         

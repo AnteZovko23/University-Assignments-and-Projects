@@ -108,6 +108,7 @@ scene.ray_tracing_add_object(sphere_instance)
 # Start ray tracing
 scene.render_image()
 
+# Window name
 
 # Start the mainloop
 scene.get_root().mainloop()
